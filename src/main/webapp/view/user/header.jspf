@@ -1,0 +1,31 @@
+<br>
+<div class="topnav sticky">
+    <center>
+        <h2><fmt:message key="timeToTravel"/></h2></center>
+
+    <a href="allProduct?page=1">
+        <fmt:message key="tours" />
+    </a>
+    <a href="myOrders?page=1">
+        <fmt:message key="myOrders" />
+    </a>
+    <a href="myMessages?page=1">
+        <fmt:message key="messageUs" />
+    </a>
+    <a href="profile">
+        <fmt:message key="profile" />
+    </a>
+    <c:if test="${sessionScope.user != null}">
+        <a href="logout">
+            <fmt:message key="logout" />
+        </a>
+    </c:if>
+    <c:if test="${sessionScope.user == null}">
+        <a href="login">
+            <fmt:message key="login" />
+        </a>
+    </c:if>
+    <a href="setLocale?locale=ru">RU</a>
+    <a href="setLocale?locale=en">EN</a>
+</div>
+<br>
