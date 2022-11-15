@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.controller.listener;
 
-import edu.elpeanuto.tms.controller.user.AllProductServlet;
 import edu.elpeanuto.tms.servies.dao.factory.DAOFactory;
 import edu.elpeanuto.tms.servies.dao.factory.factoryImpl.DAOFactoryImpl;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- * Listener that configure context of program
+ * Listener that configure context of program.
  */
 @WebListener
 public class ContextListener implements ServletContextListener {

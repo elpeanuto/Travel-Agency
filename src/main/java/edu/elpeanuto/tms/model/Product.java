@@ -4,9 +4,6 @@ import edu.elpeanuto.tms.model.enums.Bool;
 import edu.elpeanuto.tms.model.enums.HotelType;
 import edu.elpeanuto.tms.model.enums.ProductCategory;
 import edu.elpeanuto.tms.model.enums.ProductType;
-import edu.elpeanuto.tms.servies.exception.EnumParseException;
-
-import java.util.Arrays;
 
 /**
  * Product model class, contains information about tour
@@ -15,20 +12,20 @@ public class Product extends Entity<Product> {
     private Long id;
     private String name;
     private String description;
-    private String category;
-    private String type;
+    private ProductCategory category;
+    private ProductType type;
     private Integer price;
-    private String active;
+    private Bool active;
     private String hotelName;
-    private String hotelType;
+    private HotelType hotelType;
     private String arrivalDate;
     private String departureDate;
     private String arrivalPlace;
     private String departurePlace;
     private String country;
     private String city;
-    private String foodInPrice;
-    private String flightInPrice;
+    private Bool foodInPrice;
+    private Bool flightInPrice;
     private Integer amountOfDays;
     private Integer numberOfTourists;
 
@@ -36,54 +33,28 @@ public class Product extends Entity<Product> {
 
     }
 
-    public Product(Long id, String name, String description, String category, String type, Integer price, String active,
-                   String hotelName, String hotelType, String arrivalDate, String departureDate, String arrivalPlace,
-                   String departurePlace, String country, String city, String foodInPrice, String flightInPrice,
-                   Integer amountOfDays, Integer numberOfTourists) throws EnumParseException {
+    public Product(Long id, String name, String description, ProductCategory category, ProductType type, Integer price,
+                   Bool active, String hotelName, HotelType hotelType, String arrivalDate, String departureDate, String arrivalPlace,
+                   String departurePlace, String country, String city, Bool foodInPrice, Bool flightInPrice, Integer amountOfDays, Integer numberOfTourists) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.category = category;
+        this.type = type;
         this.price = price;
+        this.active = active;
         this.hotelName = hotelName;
+        this.hotelType = hotelType;
         this.arrivalDate = arrivalDate;
         this.departureDate = departureDate;
         this.arrivalPlace = arrivalPlace;
         this.departurePlace = departurePlace;
         this.country = country;
         this.city = city;
+        this.foodInPrice = foodInPrice;
+        this.flightInPrice = flightInPrice;
         this.amountOfDays = amountOfDays;
         this.numberOfTourists = numberOfTourists;
-
-        if (isCategoryCorrect(category)) {
-            this.category = category;
-        } else {
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        }
-        if (isTypeCorrect(type)) {
-            this.type = type;
-        } else {
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        }
-        if (isHotelTypeCorrect(hotelType)) {
-            this.hotelType = hotelType;
-        } else {
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        }
-        if (isBooleanCorrect(active)) {
-            this.active = active;
-        } else {
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        }
-        if (isBooleanCorrect(foodInPrice)) {
-            this.foodInPrice = foodInPrice;
-        } else {
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        }
-        if (isBooleanCorrect(flightInPrice)) {
-            this.flightInPrice = flightInPrice;
-        } else {
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        }
     }
 
     public Long getId() {
@@ -110,19 +81,19 @@ public class Product extends Entity<Product> {
         this.description = description;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
-    public String getType() {
+    public ProductType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ProductType type) {
         this.type = type;
     }
 
@@ -134,11 +105,11 @@ public class Product extends Entity<Product> {
         this.price = price;
     }
 
-    public String getActive() {
+    public Bool getActive() {
         return active;
     }
 
-    public void setActive(String active) {
+    public void setActive(Bool active) {
         this.active = active;
     }
 
@@ -150,11 +121,11 @@ public class Product extends Entity<Product> {
         this.hotelName = hotelName;
     }
 
-    public String getHotelType() {
+    public HotelType getHotelType() {
         return hotelType;
     }
 
-    public void setHotelType(String hotelType) {
+    public void setHotelType(HotelType hotelType) {
         this.hotelType = hotelType;
     }
 
@@ -206,19 +177,19 @@ public class Product extends Entity<Product> {
         this.city = city;
     }
 
-    public String getFoodInPrice() {
+    public Bool getFoodInPrice() {
         return foodInPrice;
     }
 
-    public void setFoodInPrice(String foodInPrice) {
+    public void setFoodInPrice(Bool foodInPrice) {
         this.foodInPrice = foodInPrice;
     }
 
-    public String getFlightInPrice() {
+    public Bool getFlightInPrice() {
         return flightInPrice;
     }
 
-    public void setFlightInPrice(String flightInPrice) {
+    public void setFlightInPrice(Bool flightInPrice) {
         this.flightInPrice = flightInPrice;
     }
 
@@ -238,42 +209,26 @@ public class Product extends Entity<Product> {
         this.numberOfTourists = numberOfTourists;
     }
 
-    private boolean isHotelTypeCorrect(String str) {
-        return Arrays.stream(HotelType.values()).anyMatch(v -> v.name().equals(str));
-    }
-
-    private boolean isCategoryCorrect(String str) {
-        return Arrays.stream(ProductCategory.values()).anyMatch(v -> v.name().equals(str));
-    }
-
-    private boolean isTypeCorrect(String str) {
-        return Arrays.stream(ProductType.values()).anyMatch(v -> v.name().equals(str));
-    }
-
-    private boolean isBooleanCorrect(String str) {
-        return Arrays.stream(Bool.values()).anyMatch(v -> v.name().equals(str));
-    }
-
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
-                ", type='" + type + '\'' +
+                ", category=" + category +
+                ", type=" + type +
                 ", price=" + price +
-                ", active='" + active + '\'' +
+                ", active=" + active +
                 ", hotelName='" + hotelName + '\'' +
-                ", hotelType='" + hotelType + '\'' +
+                ", hotelType=" + hotelType +
                 ", arrivalDate='" + arrivalDate + '\'' +
                 ", departureDate='" + departureDate + '\'' +
                 ", arrivalPlace='" + arrivalPlace + '\'' +
                 ", departurePlace='" + departurePlace + '\'' +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
-                ", foodInPrice='" + foodInPrice + '\'' +
-                ", flightInPrice='" + flightInPrice + '\'' +
+                ", foodInPrice=" + foodInPrice +
+                ", flightInPrice=" + flightInPrice +
                 ", amountOfDays=" + amountOfDays +
                 ", numberOfTourists=" + numberOfTourists +
                 '}';
@@ -281,6 +236,6 @@ public class Product extends Entity<Product> {
 
     @Override
     public int compareTo(Product o) {
-        return this.type.length() - o.getType().length();
+        return this.type.name().length() - o.getType().name().length();
     }
 }

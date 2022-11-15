@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.controller.user;
 
-import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
@@ -20,7 +19,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Cancel order controller
+ * Cancel order controller.
  */
 @WebServlet("/cancelOrder")
 public class CancelOrderServlet extends HttpServlet {
@@ -47,7 +46,7 @@ public class CancelOrderServlet extends HttpServlet {
             Optional<Product> optionalProduct = productDAO.get(orderDAO.get(orderId).orElseThrow(NoEntityException::new).getProductId());
 
             req.setAttribute("orderId", orderId);
-            req.setAttribute("product", optionalProduct.get());
+            req.setAttribute("product", optionalProduct.isPresent());
         } catch (DAOException e) {
             logger.error(e.getMessage());
             throw new RuntimeException(e);
@@ -63,8 +62,8 @@ public class CancelOrderServlet extends HttpServlet {
         long orderId = Long.parseLong(req.getParameter("id"));
 
         try {
-            if (orderDAO.get(orderId).orElseThrow(NoEntityException::new).getStatus().equals(OrderStatus.Registered.name()))
-                orderDAO.changeStatus(orderId, OrderStatus.Canceled.name());
+            if (orderDAO.get(orderId).orElseThrow(NoEntityException::new).getStatus().equals(OrderStatus.Registered))
+                orderDAO.changeStatus(orderId, OrderStatus.Canceled);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             throw new RuntimeException(e);

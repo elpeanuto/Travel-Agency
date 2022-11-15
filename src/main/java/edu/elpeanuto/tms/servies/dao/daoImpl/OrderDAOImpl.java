@@ -1,6 +1,7 @@
 package edu.elpeanuto.tms.servies.dao.daoImpl;
 
 import edu.elpeanuto.tms.model.Order;
+import edu.elpeanuto.tms.model.enums.Gender;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.db.DBConnection;
@@ -34,7 +35,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
     @Override
     public Optional<Order> get(Long id) throws DAOException {
-        String getPattern = "SELECT * FROM booking WHERE id=?";
+        String getPattern = "SELECT * FROM orders WHERE id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(getPattern)
@@ -44,11 +45,12 @@ public class OrderDAOImpl implements OrderDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return Optional.of(new Order(id, rs.getLong("userId"), rs.getLong("productId"), rs.getString("status"), rs.getString("date"),
-                        rs.getString("name"), rs.getString("phoneNumber"), rs.getString("email"),
-                        rs.getString("realName"), rs.getString("realSurName"), rs.getString("gender"),
-                        rs.getString("dateOfBirth"), rs.getString("citizenship"), rs.getString("passportSerial"),
-                        rs.getString("passportNumber"), rs.getString("passportValidDate"), rs.getInt("totalPrice")));
+                return Optional.of(new Order(id, rs.getLong("user_id"), rs.getLong("product_id"),
+                        OrderStatus.valueOf(rs.getString("status")), rs.getString("date"),
+                        rs.getString("name"), rs.getString("phone_number"), rs.getString("email"),
+                        rs.getString("real_name"), rs.getString("real_surname"), Gender.valueOf(rs.getString("gender")),
+                        rs.getString("date_of_birth"), rs.getString("nationality"), rs.getString("passport_serial"),
+                        rs.getString("passport_number"), rs.getString("passport_valid_date"), rs.getInt("total_price")));
             }
 
             return Optional.empty();
@@ -59,13 +61,13 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean changeStatus(Long id, String status) throws DAOException {
-        String changeStatusPattern = "UPDATE booking SET status = ? WHERE id = ?";
+    public boolean changeStatus(Long id, OrderStatus status) throws DAOException {
+        String changeStatusPattern = "UPDATE orders SET status = ? WHERE id = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(changeStatusPattern)
         ) {
-            stmt.setString(1, status);
+            stmt.setString(1, status.name());
             stmt.setLong(2, id);
 
             int rowCounter = stmt.executeUpdate();
@@ -78,7 +80,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public Optional<Integer> numOfRegisteredOrders(Long userId) throws DAOException {
-        String numRegisteredOrders = "SELECT count(*) FROM booking WHERE userId=? AND status=?";
+        String numRegisteredOrders = "SELECT count(*) FROM orders WHERE user_id=? AND status=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(numRegisteredOrders)
@@ -101,7 +103,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> getPaginationByUserId(Integer start, Integer numOfStrings, Long userId) throws DAOException {
-        String getPattern = "SELECT * FROM booking WHERE userId = ? LIMIT ?, ?;";
+        String getPattern = "SELECT * FROM orders WHERE user_id = ? LIMIT ?, ?;";
 
         List<Order> orderList = new ArrayList<>();
 
@@ -128,7 +130,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> getPaginationNotProceeded(Integer start, Integer numOfStrings) throws DAOException {
-        String getPattern = "SELECT * FROM booking WHERE status = ? or status = ? LIMIT ?, ?;";
+        String getPattern = "SELECT * FROM orders WHERE status = ? or status = ? LIMIT ?, ?;";
 
         List<Order> orderList = new ArrayList<>();
 
@@ -156,7 +158,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public Optional<Integer> getNumberOfNotesNotProceeded() throws DAOException {
-        String numRegisteredOrders = "SELECT COUNT(*) FROM booking WHERE status = ? or status = ?;";
+        String numRegisteredOrders = "SELECT COUNT(*) FROM orders WHERE status = ? or status = ?;";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(numRegisteredOrders)
@@ -179,7 +181,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public Optional<Integer> getNumberOfNotesByUserId(Long userId) throws DAOException {
-        String numRegisteredOrders = "SELECT count(*) FROM booking WHERE userId=?";
+        String numRegisteredOrders = "SELECT count(*) FROM orders WHERE user_id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(numRegisteredOrders)
@@ -201,7 +203,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> getAll() throws DAOException {
-        String getALlPattern = "SELECT * FROM booking";
+        String getALlPattern = "SELECT * FROM orders";
 
         List<Order> orderList = new ArrayList<>();
 
@@ -223,22 +225,22 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean save(Order order) throws DAOException {
-        String savePattern = "INSERT INTO booking(userID, productId, status , date, name, phoneNumber, email, " +
-                "realName, realSurName, gender,dateOfBirth,citizenship,passportSerial,passportNumber,passportValidDate, totalPrice) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String savePattern = "INSERT INTO orders(user_id, product_id, status , date, name, phone_number, email, " +
+                "real_name, real_surname, gender,date_of_birth, nationality, passport_serial,passport_number,passport_valid_date, total_price) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(savePattern, Statement.RETURN_GENERATED_KEYS)
         ) {
             stmt.setLong(1, order.getUserId());
             stmt.setLong(2, order.getProductId());
-            stmt.setString(3, order.getStatus());
+            stmt.setString(3, order.getStatus().name());
             stmt.setString(4, order.getDate());
             stmt.setString(5, order.getName());
             stmt.setString(6, order.getPhoneNumber());
             stmt.setString(7, order.getEmail());
             stmt.setString(8, order.getRealName());
             stmt.setString(9, order.getRealSurName());
-            stmt.setString(10, order.getGender());
+            stmt.setString(10, order.getGender().name());
             stmt.setString(11, order.getDateOfBirth());
             stmt.setString(12, order.getCitizenship());
             stmt.setString(13, order.getPassportSerial());
@@ -270,22 +272,32 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     private Order setOrder(ResultSet rs) throws SQLException {
-        return new Order(rs.getLong("id"), rs.getLong("userId"),
-                rs.getLong("productId"),
-                rs.getString("status"),
+        return new Order(rs.getLong("id"), rs.getLong("user_id"),
+                rs.getLong("product_id"),
+                OrderStatus.valueOf(rs.getString("status")),
                 rs.getString("date"),
                 rs.getString("name"),
-                rs.getString("phoneNumber"),
+                rs.getString("phone_number"),
                 rs.getString("email"),
-                rs.getString("realName"),
-                rs.getString("realSurName"),
-                rs.getString("gender"),
-                rs.getString("dateOfBirth"),
-                rs.getString("citizenship"),
-                rs.getString("passportSerial"),
-                rs.getString("passportNumber"),
-                rs.getString("passportValidDate"),
-                rs.getInt("totalPrice")
+                rs.getString("real_name"),
+                rs.getString("real_surname"),
+                Gender.valueOf(rs.getString("gender")),
+                rs.getString("date_of_birth"),
+                rs.getString("nationality"),
+                rs.getString("passport_serial"),
+                rs.getString("passport_number"),
+                rs.getString("passport_valid_date"),
+                rs.getInt("total_price")
         );
+    }
+
+    @Override
+    public Optional<Integer> getNumberOfNotes() throws DAOException {
+        return getNumberOfNotesNotProceeded();
+    }
+
+    @Override
+    public List<Order> getPagination(Integer start, Integer numOfStrings) throws DAOException {
+        return  getPaginationNotProceeded(start, numOfStrings);
     }
 }

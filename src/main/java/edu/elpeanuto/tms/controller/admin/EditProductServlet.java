@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Tour change controller
+ * Tour change controller.
  */
 @WebServlet("/editProduct")
 public class EditProductServlet extends HttpServlet {

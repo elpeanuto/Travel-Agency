@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Admin homepage controller
+ * Admin homepage controller.
  */
 @WebServlet("/adminHome")
 public class AdminHomeServlet extends HttpServlet {

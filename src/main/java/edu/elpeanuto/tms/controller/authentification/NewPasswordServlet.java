@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Controller which sets new password for client
+ * Controller which sets new password for client.
  */
 @WebServlet("/newPassword")
 public class NewPasswordServlet extends HttpServlet {

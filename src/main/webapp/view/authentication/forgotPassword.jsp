@@ -74,8 +74,8 @@
                         <label for="email-for-pass"><fmt:message key="enterYourEmail"/></label>
                         <input class="form-control" type="text" name="email" id="email-for-pass" required
                                pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50"><small>
-                            class="form-text text-muted"><fmt:message key="enterRegisteredEmail"/>. <fmt:message key="thenweEmail"/>.</small>
-                    </div>
+                            <small class="form-text text-muted"><fmt:message key="enterRegisteredEmail"/>. <fmt:message key="thenweEmail"/>.</small>
+                    </small></div>
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-success" type="submit"><fmt:message key="getNewPassword"/>

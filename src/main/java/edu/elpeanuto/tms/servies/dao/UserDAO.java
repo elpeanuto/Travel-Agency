@@ -1,6 +1,7 @@
 package edu.elpeanuto.tms.servies.dao;
 
 import edu.elpeanuto.tms.model.User;
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 
 import java.util.List;
@@ -17,12 +18,12 @@ public interface UserDAO extends BaseDAO<Long, User> {
 
     boolean resetPassword(String email, String password) throws DAOException;
 
-    boolean promote(Long id, String status) throws DAOException;
+    boolean promote(Long id, UserStatus status) throws DAOException;
 
     Optional<User> get(String email) throws DAOException;
 
-    List<User> getPaginationByStatus(Integer start, Integer numOfStrings, String status)  throws DAOException;
+    List<User> getPaginationByStatus(Integer start, Integer numOfStrings, UserStatus status)  throws DAOException;
 
-    Optional<Integer> getNumberOfNotesByStatus(String status) throws DAOException;
+    Optional<Integer> getNumberOfNotesByStatus(UserStatus status) throws DAOException;
 }
 

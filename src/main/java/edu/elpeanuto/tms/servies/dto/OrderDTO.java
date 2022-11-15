@@ -64,10 +64,6 @@ public class OrderDTO {
         this.totalPrice = totalPrice;
     }
 
-    public String getOrderStatus(){
-        return order.getStatus();
-    }
-
     public Long getOrderId(){
         return order.getId();
     }

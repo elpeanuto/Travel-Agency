@@ -1,11 +1,10 @@
 package edu.elpeanuto.tms.controller.user;
 
+import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
-import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
-import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
 
@@ -20,7 +19,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Bill genarate controller
+ * Bill genarate controller.
  */
 @WebServlet("/bill")
 public class BillServlet extends HttpServlet {

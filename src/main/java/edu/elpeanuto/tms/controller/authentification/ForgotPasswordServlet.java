@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Controller which send generated OTP to clients email
+ * Controller which send generated OTP to clients email.
  */
 @WebServlet("/forgotPassword")
 public class ForgotPasswordServlet extends HttpServlet {

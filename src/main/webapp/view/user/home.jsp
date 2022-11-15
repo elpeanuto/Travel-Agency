@@ -143,7 +143,7 @@
         </thead>
         <tbody>
 
-        <c:forEach var="product" items="${productList}">
+        <c:forEach var="product" items="${requestScope.productList}">
 
             <tr>
                 <elp:productTag product="${product}" />
@@ -163,7 +163,7 @@
     <c:if test="${requestScope.positionList != null}">
         <div class="pagination">
             <c:forEach var="position" items="${requestScope.positionList}">
-                <a href="allProduct?page=${position}&category=${filter.category}&hotelType=${filter.hotelType}&minPrice=${filter.minPrice}&maxPrice=${filter.maxPrice}&numberOfTourists=${filter.numberOfTourists}&search=${filter.searchPattern}">${position}</a>
+                <a href="allProduct?page=${position}&category=${requestScope.filter.category}&hotelType=${requestScope.filter.hotelType}&minPrice=${requestScope.filter.minPrice}&maxPrice=${requestScope.filter.maxPrice}&numberOfTourists=${requestScope.filter.numberOfTourists}&search=${requestScope.filter.searchPattern}">${position}</a>
             </c:forEach>
         </div>
     </c:if>

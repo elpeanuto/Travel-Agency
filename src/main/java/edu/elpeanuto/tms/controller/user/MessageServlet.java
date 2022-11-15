@@ -17,10 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Message send controller
+ * Message send controller.
  */
 @WebServlet("/message")
 public class MessageServlet extends HttpServlet {
@@ -67,7 +68,8 @@ public class MessageServlet extends HttpServlet {
         UserDTO userDto = (UserDTO) session.getAttribute("user");
 
         try {
-            messagesDAO.save(new Message(null, null, userDto.getId(), email, name, category, message, (new Date()).toString()));
+            messagesDAO.save(new Message(null, null, userDto.getId(), email, name, category, message,
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         } catch (DAOException e) {
             logger.error(e.getMessage());
             throw new RuntimeException(e);

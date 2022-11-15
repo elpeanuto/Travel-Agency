@@ -75,7 +75,7 @@
     <body>
     <form method="post" action="${pageContext.request.contextPath}/message">
 
-        <input name="name" type="text" class="feedback-input" placeholder="<fmt:message key="name"/>" value="${requestScope.user.name}" required pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20"/>
+        <input name="name" type="text" class="feedback-input" placeholder="<fmt:message key="name"/>" value="${requestScope.user.name}" required pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="3" maxlength="20"/>
         <input readonly name="email" type="text" class="feedback-input" placeholder="<fmt:message key="email"/>" value="${requestScope.user.email}"  required pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50"/>
         <select name="category" class="feedback-input">
             <option value="websiteProblem">

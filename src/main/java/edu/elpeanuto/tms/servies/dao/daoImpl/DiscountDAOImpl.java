@@ -59,9 +59,9 @@ public class DiscountDAOImpl implements DiscountDAO {
 
     @Override
     public List<Discount> getAll() throws DAOException {
-        String getAllPattern = "SELECT * FROM product";
+        String getAllPattern = "SELECT * FROM discount";
 
-        List<Discount> productList = new ArrayList<>();
+        List<Discount> list = new ArrayList<>();
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(getAllPattern)
@@ -69,10 +69,10 @@ public class DiscountDAOImpl implements DiscountDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                productList.add(new Discount(null, rs.getInt("step"), rs.getInt("max")));
+                list.add(new Discount(null, rs.getInt("step"), rs.getInt("max")));
             }
 
-            return productList;
+            return list;
         } catch (SQLException e) {
             throw new DAOException("SQLException in getAll");
         }

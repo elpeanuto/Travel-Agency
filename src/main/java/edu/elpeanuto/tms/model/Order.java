@@ -1,8 +1,7 @@
 package edu.elpeanuto.tms.model;
 
+import edu.elpeanuto.tms.model.enums.Gender;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
-import edu.elpeanuto.tms.servies.exception.EnumParseException;
-import java.util.Arrays;
 
 /**
  * Order model class, contains information about order
@@ -11,14 +10,14 @@ public class Order extends Entity<Order> {
     Long id;
     Long userId;
     Long productId;
-    String status;
+    OrderStatus status;
     String date;
     String name;
     String phoneNumber;
     String email;
     String realName;
     String realSurName;
-    String gender;
+    Gender gender;
     String dateOfBirth;
     String citizenship;
     String passportSerial;
@@ -26,12 +25,13 @@ public class Order extends Entity<Order> {
     String passportValidDate;
     Integer totalPrice;
 
-    public Order(Long id, Long userId, Long productId, String status, String date, String name, String phoneNumber,
-                 String email, String realName, String realSurName, String gender, String dateOfBirth, String citizenship,
+    public Order(Long id, Long userId, Long productId, OrderStatus status, String date, String name, String phoneNumber,
+                 String email, String realName, String realSurName, Gender gender, String dateOfBirth, String citizenship,
                  String passportSerial, String passportNumber, String passportValidDate, Integer totalPrice) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
+        this.status = status;
         this.date = date;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -45,19 +45,6 @@ public class Order extends Entity<Order> {
         this.passportNumber = passportNumber;
         this.passportValidDate = passportValidDate;
         this.totalPrice = totalPrice;
-
-        if (isStatusCorrect(status))
-            this.status = status;
-        else
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Long getId() {
@@ -82,6 +69,14 @@ public class Order extends Entity<Order> {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public String getDate() {
@@ -132,11 +127,11 @@ public class Order extends Entity<Order> {
         this.realSurName = realSurName;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -194,24 +189,21 @@ public class Order extends Entity<Order> {
                 "id=" + id +
                 ", userId=" + userId +
                 ", productId=" + productId +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", date='" + date + '\'' +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", realName='" + realName + '\'' +
                 ", realSurName='" + realSurName + '\'' +
-                ", gender='" + gender + '\'' +
+                ", gender=" + gender +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", citizenship='" + citizenship + '\'' +
-                ", passportSerial=" + passportSerial +
-                ", passportNumber=" + passportNumber +
+                ", passportSerial='" + passportSerial + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
                 ", passportValidDate='" + passportValidDate + '\'' +
+                ", totalPrice=" + totalPrice +
                 '}';
-    }
-
-    private boolean isStatusCorrect(String status) {
-        return Arrays.stream(OrderStatus.values()).anyMatch(v -> v.name().equals(status));
     }
 
     @Override

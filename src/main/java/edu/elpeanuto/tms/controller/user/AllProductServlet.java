@@ -1,8 +1,8 @@
 package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Product;
-import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.model.enums.ProductType;
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.dto.ProductFilterDTO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * Output tour controller
+ * Output tour controller.
  */
 @WebServlet("/allProduct")
 public class AllProductServlet extends HttpServlet {
@@ -46,13 +46,13 @@ public class AllProductServlet extends HttpServlet {
         UserDTO user = (UserDTO) req.getSession().getAttribute("user");
 
         if (user != null)
-            req.setAttribute("status", User.STATUS.Client.name());
+            req.setAttribute("status", UserStatus.Client.name());
 
         try {
             ProductFilterDTO filter = getProductFilterFromRequest(req);
             req.setAttribute("filter", filter);
 
-            paginationWithFilter(req, filter, numOfStringOnPage, productDAO);
+            paginationWithFilter(req, filter, numOfStringOnPage);
 
         } catch (DAOException e) {
             logger.error(e.getMessage());
@@ -64,6 +64,13 @@ public class AllProductServlet extends HttpServlet {
         req.getRequestDispatcher("view/user/home.jsp").include(req, resp);
     }
 
+    /**
+     * Create ProductFilterDTO use data from request
+     * @param req HttpServletRequest req
+     * @return new ProductFilterDTO
+     * @throws DAOException is thrown when there are problems in DAO objects
+     * @throws NoEntityException is thrown when fields in the database have not been modified, added or deleted
+     */
     private ProductFilterDTO getProductFilterFromRequest(HttpServletRequest req) throws DAOException, NoEntityException {
         String searchPattern = req.getParameter("search");
         String numberOfTourists = req.getParameter("numberOfTourists");
@@ -73,22 +80,30 @@ public class AllProductServlet extends HttpServlet {
         String hotelType = req.getParameter("hotelType");
 
         return new ProductFilterDTO(
-                category != null ? category : ProductFilterDTO.CATEGORY.All.name(),
-                hotelType != null ? hotelType : ProductFilterDTO.HOTEL_TYPE.All.name(),
+                category != null ? ProductFilterDTO.CATEGORY.valueOf(category) : ProductFilterDTO.CATEGORY.All,
+                hotelType != null ? ProductFilterDTO.HOTEL_TYPE.valueOf(hotelType) : ProductFilterDTO.HOTEL_TYPE.All,
                 searchPattern != null && !searchPattern.equals("") ? req.getParameter("search") : null,
                 numberOfTourists != null && !numberOfTourists.equals("") ? Integer.parseInt(req.getParameter("numberOfTourists")) : null,
                 minPrice != null && !minPrice.equals("") ? Integer.parseInt(req.getParameter("minPrice")) : productDAO.minPrice().orElseThrow(NoEntityException::new),
                 maxPrice != null && !maxPrice.equals("") ? Integer.parseInt(req.getParameter("maxPrice")) : productDAO.maxPrice().orElseThrow(NoEntityException::new));
     }
 
-    private void paginationWithFilter(HttpServletRequest request, ProductFilterDTO filter, Integer numOfStrings, ProductDAO dao) throws DAOException, NoEntityException {
+    /**
+     * Get data by pieces from db
+     * @param request Http Servlet Request
+     * @param filter user filter
+     * @param numOfStrings number of string on one page
+     * @throws DAOException Exception: {@link edu.elpeanuto.tms.servies.exception.DAOException check}
+     * @throws NoEntityException Exception: {@link edu.elpeanuto.tms.servies.exception.NoEntityException check}
+     */
+    private void paginationWithFilter(HttpServletRequest request, ProductFilterDTO filter, Integer numOfStrings) throws DAOException, NoEntityException {
         int pageNum = Integer.parseInt(request.getParameter("page"));
-        int numOfNotes = dao.getNumberOfNotes(filter).orElseThrow(NoEntityException::new);
+        int numOfNotes = productDAO.getNumberOfNotes(filter).orElseThrow(NoEntityException::new);
         int numOfPages = (int) Math.ceil(numOfNotes / (double) numOfStrings);
 
         List<Integer> pagesList = Stream.iterate(1, n -> n + 1).limit(numOfPages).toList();
 
-        List<Product> listHotProducts = dao.search(filter, pageNum * numOfStrings - numOfStrings, numOfStrings, "Hot");
+        List<Product> listHotProducts = productDAO.search(filter, pageNum * numOfStrings - numOfStrings, numOfStrings, ProductType.Hot);
 
         request.setAttribute("currentPosition", 1);
         request.setAttribute("positionList", pagesList.size() != 1 ? pagesList : null);
@@ -98,13 +113,13 @@ public class AllProductServlet extends HttpServlet {
         } else if (listHotProducts.size() != 0) {
             int numOfMissingLines = numOfStrings - listHotProducts.size();
 
-            listHotProducts.addAll(dao.search(filter, 0, numOfMissingLines, ProductType.Ordinary.name()));
+            listHotProducts.addAll(productDAO.search(filter, 0, numOfMissingLines, ProductType.Ordinary));
 
             request.setAttribute("productList", listHotProducts);
         } else {
-            filter.setType(ProductType.Hot.name());
-            int numOfHotPages = (int) Math.ceil(dao.getNumberOfNotes(filter).orElseThrow(NoEntityException::new) / (double) numOfStrings);
-            int numOfHotNotes = dao.getNumberOfNotes(filter).orElseThrow(NoEntityException::new);
+            filter.setType(ProductType.Hot);
+            int numOfHotPages = (int) Math.ceil(productDAO.getNumberOfNotes(filter).orElseThrow(NoEntityException::new) / (double) numOfStrings);
+            int numOfHotNotes = productDAO.getNumberOfNotes(filter).orElseThrow(NoEntityException::new);
 
             int pageOrd = pageNum - numOfHotPages;
             int start;
@@ -113,7 +128,7 @@ public class AllProductServlet extends HttpServlet {
             else
                 start = pageOrd * numOfStrings - numOfStrings;
 
-            request.setAttribute("productList", dao.search(filter, start, numOfStrings, ProductType.Ordinary.name()));
+            request.setAttribute("productList", productDAO.search(filter, start, numOfStrings, ProductType.Ordinary));
         }
     }
 }

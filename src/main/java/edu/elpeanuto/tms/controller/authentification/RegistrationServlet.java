@@ -1,5 +1,6 @@
 package edu.elpeanuto.tms.controller.authentification;
 
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.PasswordHashing;
 import edu.elpeanuto.tms.model.User;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Client registration controller
+ * Client registration controller.
  */
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -49,14 +50,14 @@ public class RegistrationServlet extends HttpServlet {
         String status;
 
         if (userEmail.equals("admin@gmail.com"))
-            status = User.STATUS.Leader.name();
+            status = UserStatus.Leader.name();
         else
-            status = User.STATUS.Client.name();
+            status = UserStatus.Client.name();
 
         userPassword = PasswordHashing.hashPassword(userPassword);
         userPasswordRepetition = PasswordHashing.hashPassword(userPasswordRepetition);
 
-        User user = new User(null, userName, userPassword, userEmail, userPhoneNumber, status);
+        User user = new User(null, userName, userPassword, userEmail, userPhoneNumber, UserStatus.valueOf(status));
 
         try {
             if (userDAO.isEmailOccupied(userEmail)) {

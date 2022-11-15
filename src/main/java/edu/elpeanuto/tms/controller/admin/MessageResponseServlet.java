@@ -18,10 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * Message response controller
+ * Message response controller.
  */
 @WebServlet("/messageResponse")
 public class MessageResponseServlet extends HttpServlet {
@@ -62,7 +64,8 @@ public class MessageResponseServlet extends HttpServlet {
 
         try {
             Long answerMessageId = messagesDAO.get(messageId).orElseThrow(NoEntityException::new).getMessageAnswerId();
-            if(!messagesDAO.adminUpdate(new MessageDTO(answerMessageId, adminId, response, new Date().toString())))
+            if(!messagesDAO.adminUpdate(new MessageDTO(answerMessageId, adminId, response,
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))))
                 throw new FailToUpdateDBException();
         } catch (DAOException e) {
             logger.error(e.getMessage());

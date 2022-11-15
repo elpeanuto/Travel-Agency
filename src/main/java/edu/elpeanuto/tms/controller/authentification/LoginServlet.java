@@ -1,5 +1,6 @@
 package edu.elpeanuto.tms.controller.authentification;
 
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.PasswordHashing;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * Client log in controller
+ * Client log in controller.
  */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -61,14 +62,14 @@ public class LoginServlet extends HttpServlet {
             User user = userDAO.get(email).orElseThrow(FailToUpdateDBException::new);
             UserDTO userDto = new UserDTO(user.getId(), user.getUserInfoId(), user.getName(), user.getEmail(), user.getStatus());
 
-            if (userDto.getStatus().equals(User.STATUS.Banned.name())) {
+            if (userDto.getStatus().equals(UserStatus.Banned)) {
                 resp.sendRedirect("login");
                 return;
             }
 
             session.setAttribute("user", userDto);
 
-            if (userDto.getStatus().equals(User.STATUS.Leader.name()) || userDto.getStatus().equals(User.STATUS.Admin.name()) || userDto.getStatus().equals(User.STATUS.Manager.name())) {
+            if (userDto.getStatus().equals(UserStatus.Leader) || userDto.getStatus().equals(UserStatus.Admin) || userDto.getStatus().equals(UserStatus.Manager)) {
                 resp.sendRedirect("adminHome");
                 return;
             }

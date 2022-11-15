@@ -1,5 +1,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,6 +22,7 @@
       max-width: 420px;
       margin: 50px auto;
     }
+
 
     .feedback-input {
       color: black;
@@ -73,9 +75,23 @@
 
 <body>
   <input name="category" type="text" class="feedback-input" readonly value="<fmt:message key="${requestScope.message.category}"/>" />
-  <input name="adminId" type="text" class="feedback-input" placeholder="Id" value="${requestScope.message.adminId}" />
-  <textarea name="request" class="feedback-input">${requestScope.message.message}</textarea>
-  <textarea name="response" class="feedback-input">${requestScope.message.answer}</textarea>
+  <c:choose>
+    <c:when test="${requestScope.message.adminId == 0}">
+      <input readonly name="adminId" type="text" class="feedback-input" placeholder="Id" value="<fmt:message key="notProceeded"/>" />
+    </c:when>
+    <c:when test="${requestScope.message.adminId != 0}">
+      <input readonly name="adminId" type="text" class="feedback-input" placeholder="Id" value="<fmt:message key="adminId"/>: ${requestScope.message.adminId}" />
+    </c:when>
+  </c:choose>
+  <input readonly name="request" class="feedback-input" value="${requestScope.message.message}">
+  <c:choose>
+    <c:when test="${requestScope.message.answer == null}">
+      <input readonly name="response" class="feedback-input" value="<fmt:message key="notProceeded"/>">
+    </c:when>
+    <c:when test="${requestScope.message.adminId != null}">
+      <input readonly name="response" class="feedback-input" value="${requestScope.message.answer}">
+    </c:when>
+  </c:choose>
 </body>
 </fmt:bundle>
 </html>

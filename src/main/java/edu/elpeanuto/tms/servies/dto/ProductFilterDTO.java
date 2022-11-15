@@ -1,8 +1,6 @@
 package edu.elpeanuto.tms.servies.dto;
 
-import edu.elpeanuto.tms.servies.exception.EnumParseException;
-
-import java.util.Arrays;
+import edu.elpeanuto.tms.model.enums.ProductType;
 
 /**
  * Product filter DTO class which carries data between JSP page and ProductDAO
@@ -11,53 +9,36 @@ public class ProductFilterDTO {
     public enum HOTEL_TYPE {All, Resort, Motel, Hostel, Timeshare}
     public enum CATEGORY {All, Rest, Excursion, Shopping}
 
-    private String category;
-    private String hotelType;
+    private CATEGORY category;
+    private HOTEL_TYPE hotelType;
+    private ProductType type;
     private String searchPattern;
-    private String Type;
     private Integer numberOfTourists;
     private Integer minPrice;
     private Integer maxPrice;
 
-    public ProductFilterDTO(String category, String hotelType, String searchPattern, Integer numberOfTourists, Integer minPrice, Integer maxPrice) {
+    public ProductFilterDTO(CATEGORY category, HOTEL_TYPE hotelType, String searchPattern, Integer numberOfTourists, Integer minPrice, Integer maxPrice) {
+        this.category = category;
+        this.hotelType = hotelType;
         this.searchPattern = searchPattern;
         this.numberOfTourists = numberOfTourists;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
-
-        if (hotelType != null) {
-            if (isHotelTypeCorrect(hotelType))
-                this.hotelType = hotelType;
-            else
-                throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        } else {
-            this.hotelType = null;
-        }
-
-        if (category != null) {
-            if (isCategoryCorrect(category))
-                this.category = category;
-            else
-                throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        } else {
-            this.category = null;
-        }
-
     }
 
-    public String getCategory() {
+    public CATEGORY getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CATEGORY category) {
         this.category = category;
     }
 
-    public String getHotelType() {
+    public HOTEL_TYPE getHotelType() {
         return hotelType;
     }
 
-    public void setHotelType(String hotelType) {
+    public void setHotelType(HOTEL_TYPE hotelType) {
         this.hotelType = hotelType;
     }
 
@@ -67,6 +48,14 @@ public class ProductFilterDTO {
 
     public void setSearchPattern(String searchPattern) {
         this.searchPattern = searchPattern;
+    }
+
+    public ProductType getType() {
+        return type;
+    }
+
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
     public Integer getNumberOfTourists() {
@@ -93,32 +82,15 @@ public class ProductFilterDTO {
         this.maxPrice = maxPrice;
     }
 
-    public String getType() {
-        return Type;
-    }
-
-    public void setType(String type) {
-        Type = type;
-    }
-
     @Override
     public String toString() {
         return "ProductFilterDTO{" +
-                "category='" + category + '\'' +
-                ", hotelType='" + hotelType + '\'' +
+                "category=" + category +
+                ", hotelType=" + hotelType +
                 ", searchPattern='" + searchPattern + '\'' +
-                ", Type='" + Type + '\'' +
                 ", numberOfTourists=" + numberOfTourists +
                 ", minPrice=" + minPrice +
                 ", maxPrice=" + maxPrice +
                 '}';
-    }
-
-    private boolean isHotelTypeCorrect(String str) {
-        return Arrays.stream(HOTEL_TYPE.values()).anyMatch(v -> v.name().equals(str));
-    }
-
-    private boolean isCategoryCorrect(String str) {
-        return Arrays.stream(CATEGORY.values()).anyMatch(v -> v.name().equals(str));
     }
 }

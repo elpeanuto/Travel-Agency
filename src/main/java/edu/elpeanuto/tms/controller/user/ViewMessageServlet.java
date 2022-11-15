@@ -1,8 +1,6 @@
 package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.servies.dao.MessagesDAO;
-import edu.elpeanuto.tms.servies.dao.UserDAO;
-import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
@@ -16,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Message view controller.
+ */
 @WebServlet("/viewMessage")
 public class ViewMessageServlet extends HttpServlet {
     private Logger logger;

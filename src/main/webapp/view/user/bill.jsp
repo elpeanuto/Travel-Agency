@@ -18,15 +18,15 @@
             <div class="col-md-12">
                 <div class="invoice-wrapper print">
                     <div class="intro">
-                        <fmt:message key="hello" />, <strong>${order.realName} ${order.realSurName}</strong>,
-                        <br> <fmt:message key="thisIsReceipt" /> <strong>$${product.price}</strong> (USD)
+                        <fmt:message key="hello" />, <strong>${requestScope.order.realName} ${requestScope.order.realSurName}</strong>,
+                        <br> <fmt:message key="thisIsReceipt" /> <strong>$${requestScope.product.price}</strong> (USD)
                     </div>
 
                     <div class="payment-info">
                         <div class="row">
                             <div class="col-sm-6 text-right">
                                 <span> <fmt:message key="paymentDate" /></span>
-                                <strong>${order.date}</strong>
+                                <strong>${requestScope.order.date}</strong>
                             </div>
                         </div>
                     </div>
@@ -39,11 +39,11 @@
                                     <fmt:message key="clientInfo" />
                                 </strong>
                                 <p>
-                                    ${order.realName} ${order.realSurName}
-                                    <br> ${order.phoneNumber}
-                                    <br> ${order.dateOfBirth}
-                                    <br> ${order.citizenship}
-                                    <br> ${order.email}
+                                    ${requestScope.order.realName} ${requestScope.order.realSurName}
+                                    <br> ${requestScope.order.phoneNumber}
+                                    <br> ${requestScope.order.dateOfBirth}
+                                    <br> ${requestScope.order.citizenship}
+                                    <br> ${requestScope.order.email}
                                 </p>
                             </div>
                             <div class="col-sm-6 text-right">
@@ -76,7 +76,7 @@
                                     <fmt:message key="tourId" />
                                 </div>
                                 <div class="col-xs-3 qty">
-                                    ${product.id}
+                                    ${requestScope.product.id}
                                 </div>
                             </div>
                             <div class="row item">
@@ -84,7 +84,7 @@
                                     <fmt:message key="tourName" />
                                 </div>
                                 <div class="col-xs-3 qty">
-                                    ${product.name}
+                                    ${requestScope.product.name}
                                 </div>
                             </div>
                             <div class="row item">
@@ -92,7 +92,7 @@
                                     <fmt:message key="numberOfTourists" />
                                 </div>
                                 <div class="col-xs-3 qty">
-                                    ${product.numberOfTourists}
+                                    ${requestScope.product.numberOfTourists}
                                 </div>
                             </div>
                         </div>
@@ -101,13 +101,13 @@
                                 <strong><fmt:message key="extraNotes" /></strong> <fmt:message key="plesaPayDuring" />
                             </p>
                             <div class="field">
-                                <fmt:message key="subtotal" /> <span>$${product.price}</span>
+                                <fmt:message key="subtotal" /> <span>$${requestScope.product.price}</span>
                             </div>
                             <div class="field">
-                                <fmt:message key="discount" /> <span>${discount}%</span>
+                                <fmt:message key="discount" /> <span>${requestScope.discount}%</span>
                             </div>
                             <div class="field grand-total">
-                                <fmt:message key="total" /> <span>$${order.totalPrice}</span>
+                                <fmt:message key="total" /> <span>$${requestScope.order.totalPrice}</span>
                             </div>
                         </div>
 

@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.servies.dao.db;
 
-import edu.elpeanuto.tms.servies.dao.BaseDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

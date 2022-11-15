@@ -4,7 +4,7 @@ import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * Filter that set request and response encoding to UTF-8
+ * Filter that set request and response encoding to UTF-8.
  */
 public class EncodingFilter implements Filter {
 

@@ -1,7 +1,9 @@
 package edu.elpeanuto.tms.servies.dao;
 
 import edu.elpeanuto.tms.model.Order;
+import edu.elpeanuto.tms.model.enums.OrderStatus;
 import edu.elpeanuto.tms.servies.exception.DAOException;
+import edu.elpeanuto.tms.servies.pagination.Pagination;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,8 +12,8 @@ import java.util.Optional;
  * The interface that is needed to expand the BaseDAO if necessary
  * @see edu.elpeanuto.tms.servies.dao.BaseDAO
  */
-public interface OrderDAO extends BaseDAO<Long, Order> {
-    boolean changeStatus(Long id, String status) throws DAOException;
+public interface OrderDAO extends BaseDAO<Long, Order>, Pagination<Order> {
+    boolean changeStatus(Long id, OrderStatus status) throws DAOException;
 
     Optional<Integer> numOfRegisteredOrders(Long userId) throws DAOException;
 

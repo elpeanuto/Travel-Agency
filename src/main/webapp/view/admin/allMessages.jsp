@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<div style="color: black; text-align: center; font-size: 20px;">Your messages<i class='fab fa-elementor'></i></div>
+<div style="color: black; text-align: center; font-size: 20px;">Your messages</div>
 
 <table>
   <thead>

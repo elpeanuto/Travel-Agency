@@ -1,6 +1,8 @@
 package edu.elpeanuto.tms.servies.dao.daoImpl;
 
 import edu.elpeanuto.tms.model.User;
+import edu.elpeanuto.tms.model.enums.Gender;
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dao.db.DBConnection;
 import edu.elpeanuto.tms.servies.dao.db.PoolConnectionBuilder;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class that communicate with database (user, userInfo tables)
+ * Class that communicate with database (user, user_info tables)
  *
  * @see edu.elpeanuto.tms.servies.dao.BaseDAO
  * @see edu.elpeanuto.tms.servies.dao.UserDAO
@@ -22,11 +24,11 @@ public class UserDAOImpl implements UserDAO {
     private final DBConnection dbConnection;
 
     public UserDAOImpl() {
-       dbConnection = PoolConnectionBuilder.getInstance();
+        dbConnection = PoolConnectionBuilder.getInstance();
     }
 
     public UserDAOImpl(DBConnection dbConnection) {
-       this.dbConnection = dbConnection;
+        this.dbConnection = dbConnection;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean resetPassword(String email, String password) throws DAOException {
-        String resetPasswordPattern = "UPDATE user SET password = ? WHERE email = ?";
+        String resetPasswordPattern = "UPDATE users SET password = ? WHERE email = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(resetPasswordPattern)
@@ -54,13 +56,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean promote(Long id, String status) throws DAOException {
-        String promotePattern = "UPDATE user SET status = ? WHERE id = ?";
+    public boolean promote(Long id, UserStatus status) throws DAOException {
+        String promotePattern = "UPDATE users SET status = ? WHERE id = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(promotePattern)
         ) {
-            stmt.setString(1, status);
+            stmt.setString(1, status.name());
             stmt.setLong(2, id);
 
             int rowCounter = stmt.executeUpdate();
@@ -74,7 +76,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean isEmailOccupied(String email) throws DAOException {
-        String isEmailOccupied = "SELECT * FROM user WHERE email = ?";
+        String isEmailOccupied = "SELECT * FROM users WHERE email = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(isEmailOccupied)
@@ -93,7 +95,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean userVerify(String email, String password) throws DAOException {
-        String userVerifyPattern = "SELECT * FROM user WHERE email = ? and password = ?";
+        String userVerifyPattern = "SELECT * FROM users WHERE email = ? and password = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(userVerifyPattern)
@@ -112,7 +114,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> get(Long id) throws DAOException {
-        String getPattern = "SELECT * FROM user INNER JOIN userinfo ON user.id = userInfo.id WHERE user.id=?";
+        String getPattern = "SELECT * FROM users INNER JOIN user_info ui ON users.user_info_id = ui.id WHERE users.id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(getPattern)
@@ -129,7 +131,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> get(String email) throws DAOException {
-        String getPattern = "SELECT * FROM user INNER JOIN userinfo ON user.userInfoId = userInfo.id WHERE user.email=?";
+        String getPattern = "SELECT * FROM users INNER JOIN user_info ui ON users.user_info_id = ui.id WHERE users.email=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(getPattern)
@@ -144,8 +146,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getPaginationByStatus(Integer start, Integer numOfStrings, String status) throws DAOException {
-        String getUsersToPromotePattern = configureGetUsersToPromoteQuery(status);
+    public List<User> getPaginationByStatus(Integer start, Integer numOfStrings, UserStatus status) throws DAOException {
+        String getUsersToPromotePattern = configureGetUsersToPromoteQuery(status.name());
+
         List<User> userList = new ArrayList<>();
 
         try (Connection con = getConnection();
@@ -153,13 +156,13 @@ public class UserDAOImpl implements UserDAO {
         ) {
             int parameterPosition = 1;
 
-            stmt.setString(parameterPosition++, User.STATUS.Banned.name());
-            stmt.setString(parameterPosition++, User.STATUS.Client.name());
+            stmt.setString(parameterPosition++, UserStatus.Banned.name());
+            stmt.setString(parameterPosition++, UserStatus.Client.name());
 
-            if (status.equals(User.STATUS.Admin.name()) || status.equals(User.STATUS.Leader.name()))
-                stmt.setString(parameterPosition++, User.STATUS.Manager.name());
-            if (status.equals(User.STATUS.Leader.name()))
-                stmt.setString(parameterPosition++, User.STATUS.Admin.name());
+            if (status.equals(UserStatus.Admin) || status.equals(UserStatus.Leader))
+                stmt.setString(parameterPosition++, UserStatus.Manager.name());
+            if (status.equals(UserStatus.Leader))
+                stmt.setString(parameterPosition++, UserStatus.Admin.name());
 
             stmt.setInt(parameterPosition++, start);
             stmt.setInt(parameterPosition, numOfStrings);
@@ -167,29 +170,31 @@ public class UserDAOImpl implements UserDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                userList.add(new User(rs.getLong("id"), rs.getLong("userInfoId"),
+                userList.add(new User(rs.getLong("id"), rs.getLong("user_info_id"),
                         rs.getString("name"), "password", rs.getString("email"),
-                        rs.getString("phoneNumber"), rs.getString("status")));
+                        rs.getString("phone_number"), UserStatus.valueOf(rs.getString("status"))));
             }
 
             return userList;
 
         } catch (SQLException e) {
             throw new DAOException(String.format("SQLException in getPaginationByStatus(Integer start, Integer numOfStrings," +
-                            " String status), params: start: %s, numOfStrings: %s , status: %s", start.toString(), numOfStrings, status), e);
+                    " String status), params: start: %s, numOfStrings: %s , status: %s", start.toString(), numOfStrings, status), e);
         }
     }
 
     @Override
-    public Optional<Integer> getNumberOfNotesByStatus(String status) throws DAOException {
+    public Optional<Integer> getNumberOfNotesByStatus(UserStatus status) throws DAOException {
         StringBuilder getUsersToPromotePattern = new StringBuilder();
 
-        getUsersToPromotePattern.append("SELECT COUNT(*) FROM user INNER JOIN userinfo on user.userInfoId = userinfo.id WHERE status = ? or status = ?");
+        getUsersToPromotePattern.append("SELECT COUNT(*) FROM users INNER JOIN user_info ui ON users.user_info_id = ui.id WHERE status = ? or status = ?");
 
-        if (status.equals(User.STATUS.Admin.name()) || status.equals(User.STATUS.Leader.name()))
+        boolean isAdminOrLeader = status.equals(UserStatus.Admin) || status.equals(UserStatus.Leader);
+
+        if (isAdminOrLeader)
             getUsersToPromotePattern.append(" or status = ?");
 
-        if (status.equals(User.STATUS.Leader.name()))
+        if (status.equals(UserStatus.Leader))
             getUsersToPromotePattern.append(" or status = ?");
 
         getUsersToPromotePattern.append(";");
@@ -200,13 +205,13 @@ public class UserDAOImpl implements UserDAO {
         ) {
             int parameterPosition = 1;
 
-            stmt.setString(parameterPosition++, "Banned");
-            stmt.setString(parameterPosition++, "Client");
+            stmt.setString(parameterPosition++, UserStatus.Banned.name());
+            stmt.setString(parameterPosition++, UserStatus.Client.name());
 
-            if (status.equals(User.STATUS.Admin.name()) || status.equals(User.STATUS.Leader.name()))
-                stmt.setString(parameterPosition++, User.STATUS.Manager.name());
-            if (status.equals(User.STATUS.Leader.name()))
-                stmt.setString(parameterPosition, User.STATUS.Admin.name());
+            if (isAdminOrLeader)
+                stmt.setString(parameterPosition++, UserStatus.Manager.name());
+            if (status.equals(UserStatus.Leader))
+                stmt.setString(parameterPosition, UserStatus.Admin.name());
 
             ResultSet rs = stmt.executeQuery();
 
@@ -223,7 +228,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() throws DAOException {
-        String getALlPattern = "SELECT * FROM user INNER JOIN userinfo on user.userInfoId = userinfo.id";
+        String getALlPattern = "SELECT * FROM users INNER JOIN user_info ui ON users.user_info_id = ui.id";
 
         List<User> userList = new ArrayList<>();
 
@@ -233,9 +238,9 @@ public class UserDAOImpl implements UserDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                userList.add(new User(rs.getLong("id"), rs.getLong("userInfoId"),
+                userList.add(new User(rs.getLong("id"), rs.getLong("user_info_id"),
                         rs.getString("name"), "password", rs.getString("email"),
-                        rs.getString("phoneNumber"), rs.getString("status")));
+                        rs.getString("phone_number"), UserStatus.valueOf(rs.getString("status"))));
             }
 
             return userList;
@@ -247,9 +252,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean save(User user) throws DAOException {
-        String userSavePattern = "INSERT INTO user(userInfoId, name, password, email, phoneNumber, status) values(?,?,?,?,?,?)";
-        String userInfoSavePattern = "INSERT INTO userinfo(name,surname,dateOfBirth,gender,citizenship," +
-                "passportSerial,passportNumber,passportValidDate) VALUES (?,?,?,?,?,?,?,?)";
+        String userSavePattern = "INSERT INTO users(user_info_id, name, password, email, phone_number, status) values(?,?,?,?,?,?)";
+        String userInfoSavePattern = "INSERT INTO user_info(name,surname,date_of_birth,gender,nationality," +
+                "passport_serial,passport_number,passport_valid_date) VALUES (?,?,?,?,?,?,?,?)";
 
         try (Connection con = getConnection()) {
             try (PreparedStatement stmt1 = con.prepareStatement(userSavePattern);
@@ -267,7 +272,7 @@ public class UserDAOImpl implements UserDAO {
                         stmt1.setString(3, user.getPassword());
                         stmt1.setString(4, user.getEmail());
                         stmt1.setString(5, user.getPhoneNumber());
-                        stmt1.setString(6, user.getStatus());
+                        stmt1.setString(6, user.getStatus().name());
                     } else {
                         logger.error("Fatal error in save(User user), no ID obtained.");
                         throw new RuntimeException();
@@ -293,9 +298,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User user) throws DAOException {
-        String userUpdatePattern = "UPDATE user SET name=?, email=?, phoneNumber=? WHERE id=?";
-        String userInfoSavePattern = "UPDATE userinfo SET name=?,surname=?,dateOfBirth=?,gender=?,citizenship=?," +
-                "passportSerial=?,passportNumber=?,passportValidDate=? WHERE id=?";
+        String userUpdatePattern = "UPDATE users SET name=?, email=?, phone_number=? WHERE id=?";
+        String userInfoSavePattern = "UPDATE user_info SET name=?,surname=?,date_of_birth=?,gender=?,nationality=?," +
+                "passport_serial=?,passport_number=?,passport_valid_date=? WHERE id=?";
 
         try (Connection con = getConnection()) {
             try (PreparedStatement stmt1 = con.prepareStatement(userUpdatePattern);
@@ -329,9 +334,12 @@ public class UserDAOImpl implements UserDAO {
 
     private void userInfoStmtSet(User user, PreparedStatement stmt2) throws SQLException {
         stmt2.setString(1, user.getRealName());
-        stmt2.setString(2, user.getRealSurName());
+        stmt2.setString(2, user.getRealSurname());
         stmt2.setString(3, user.getDateOfBirth());
-        stmt2.setString(4, user.getGender());
+        if (user.getGender() != null)
+            stmt2.setString(4, user.getGender().name());
+        else
+            stmt2.setString(4, null);
         stmt2.setString(5, user.getCitizenship());
         stmt2.setString(6, user.getPassportSerial());
         stmt2.setString(7, user.getPassportNumber());
@@ -340,28 +348,28 @@ public class UserDAOImpl implements UserDAO {
 
     private Optional<User> getUser(ResultSet rs) throws SQLException {
         if (rs.next()) {
-            return Optional.of(new User(rs.getLong("id"), rs.getLong("userInfoID"), rs.getString("name"),
-                    null, rs.getString("email"), rs.getString("phoneNumber"), rs.getString("status"),
-                    rs.getString("userInfo.name"), rs.getString("surname"), rs.getString("gender"),
-                    rs.getString("dateOfBirth"), rs.getString("citizenship"),
-                    rs.getString("passportSerial"), rs.getString("passportNumber"), rs.getString("passportValidDate")));
+            return Optional.of(new User(rs.getLong("id"), rs.getLong("user_info_id"), rs.getString("name"),
+                    null, rs.getString("email"), rs.getString("phone_number"), UserStatus.valueOf(rs.getString("status")),
+                    rs.getString("ui.name"), rs.getString("surname"), rs.getString("gender") == null ? null : Gender.valueOf(rs.getString("gender")),
+                    rs.getString("date_of_birth"), rs.getString("nationality"),
+                    rs.getString("passport_serial"), rs.getString("passport_number"), rs.getString("passport_valid_date")));
         }
 
         return Optional.empty();
     }
 
-    private String configureGetUsersToPromoteQuery(String status){
+    private String configureGetUsersToPromoteQuery(String status) {
         StringBuilder getUsersToPromotePattern = new StringBuilder();
 
-        getUsersToPromotePattern.append("SELECT * FROM user INNER JOIN userinfo on user.userInfoId = userinfo.id WHERE status = ? or status = ?");
+        getUsersToPromotePattern.append("SELECT * FROM users INNER JOIN user_info ui ON users.user_info_id = ui.id WHERE status = ? or status = ?");
 
-        if (status.equals(User.STATUS.Admin.name()) || status.equals(User.STATUS.Leader.name()))
+        if (status.equals(UserStatus.Admin.name()) || status.equals(UserStatus.Leader.name()))
             getUsersToPromotePattern.append(" or status = ?");
 
-        if (status.equals(User.STATUS.Leader.name()))
+        if (status.equals(UserStatus.Leader.name()))
             getUsersToPromotePattern.append(" or status = ?");
 
-        getUsersToPromotePattern.append("LIMIT ?, ?;");
+        getUsersToPromotePattern.append(" LIMIT ?, ?;");
 
         return getUsersToPromotePattern.toString();
     }

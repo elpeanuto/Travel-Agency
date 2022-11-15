@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.controller.filter;
 
-import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Filter that checks is admin logged
+ * Filter that checks is admin logged.
  */
 public class AdminFilter implements Filter {
     HttpServletRequest request;
@@ -44,8 +43,8 @@ public class AdminFilter implements Filter {
             response.sendRedirect("login");
         } else {
             try {
-                String sessionUserStatus = userDTO.getStatus();
-                String dbUserStatus = userDAO.get(userDTO.getId()).orElseThrow(NoEntityException::new).getStatus();
+                String sessionUserStatus = userDTO.getStatus().name();
+                String dbUserStatus = userDAO.get(userDTO.getId()).orElseThrow(NoEntityException::new).getStatus().name();
 
                 if (!sessionUserStatus.equals(dbUserStatus)) {
                     response.sendRedirect("login");

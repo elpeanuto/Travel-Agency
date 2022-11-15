@@ -72,77 +72,77 @@
                             <fmt:message key="nickname" />
                         </td>
                         <td>:</td>
-                        <td>${user.name}</td>
+                        <td>${requestScope.user.name}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="email" />
                         </td>
                         <td>:</td>
-                        <td>${user.email}</td>
+                        <td>${requestScope.user.email}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="phoneNumber" />
                         </td>
                         <td>:</td>
-                        <td>${user.phoneNumber}</td>
+                        <td>${requestScope.user.phoneNumber}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="name" />
                         </td>
                         <td>:</td>
-                        <td>${user.realName}</td>
+                        <td>${requestScope.user.realName}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="surname" />
                         </td>
                         <td>:</td>
-                        <td>${user.realSurName}</td>
+                        <td>${requestScope.user.realSurName}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="dateOfBirth" />
                         </td>
                         <td>:</td>
-                        <td>${user.dateOfBirth}</td>
+                        <td>${requestScope.user.dateOfBirth}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="gender" />
                         </td>
                         <td>:</td>
-                        <td>${user.gender}</td>
+                        <td>${requestScope.user.gender}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="nationality" />
                         </td>
                         <td>:</td>
-                        <td>${user.citizenship}</td>
+                        <td>${requestScope.user.citizenship}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="passportSerial" />
                         </td>
                         <td>:</td>
-                        <td>${user.passportSerial}</td>
+                        <td>${requestScope.user.passportSerial}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="passportNumber" />
                         </td>
                         <td>:</td>
-                        <td>${user.passportNumber}</td>
+                        <td>${requestScope.user.passportNumber}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="passportValidDate" />
                         </td>
                         <td>:</td>
-                        <td>${user.passportValidDate}</td>
+                        <td>${requestScope.user.passportValidDate}</td>
                     </tr>
                     </tbody>
 

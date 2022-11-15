@@ -1,9 +1,7 @@
 package edu.elpeanuto.tms.servies.dao;
 
 
-import edu.elpeanuto.tms.controller.user.AllProductServlet;
 import edu.elpeanuto.tms.model.Entity;
-import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

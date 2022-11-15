@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 /**
- * Clients output profile controller
+ * Clients output profile controller.
  */
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {

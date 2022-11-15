@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * CLient log out controller
+ * Client log out controller.
  */
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {

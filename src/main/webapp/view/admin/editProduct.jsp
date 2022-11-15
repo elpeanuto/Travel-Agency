@@ -1,15 +1,55 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Edit</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/view.css" />
+        * {
+            margin: 0;
+        }
 
-    <!-- FontAwesome 5 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+        body {
+            background-color: #e8f5ff;
+            font-family: Arial;
+            overflow: hidden;
+        }
+
+        .main {
+            margin-top: 2%;
+            margin-left: 25%;
+            font-size: 28px;
+            padding: 0 10px;
+            width: 50%;
+        }
+
+        .main h2 {
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .main .card {
+            background-color: #fff;
+            border-radius: 18px;
+            box-shadow: 1px 1px 8px 0 grey;
+            height: auto;
+            margin-bottom: 20px;
+            padding: 20px 0 20px 50px;
+        }
+
+        .main .card table {
+            border: none;
+            font-size: 16px;
+            height: 270px;
+            width: 80%;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -17,12 +57,12 @@
 <!-- Main -->
 <div class="main">
 
-    <h2>New Product</h2>
+    <h2>Update Product</h2>
     <div class="card">
         <div class="card-body">
 
             <form method="post" action="${pageContext.request.contextPath}/updateProduct">
-                <input type="hidden" name="id" value="${product.id}">
+                <input type="hidden" name="id" value="${requestScope.product.id}">
 
                 <table>
                     <tbody>
@@ -30,84 +70,84 @@
                         <td>Name</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="name" placeholder="Enter name" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
+                            <input type="text" name="name" placeholder="Enter name" pattern="^[A-ZА-Я][\D]*" value="${requestScope.product.name}" required minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>Price</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="price" placeholder="Enter price" required pattern="\d*" maxlength="6">
+                            <input type="text" name="price" placeholder="Enter price" required  value="${requestScope.product.price}" pattern="\d*" maxlength="6">
                         </td>
                     </tr>
                     <tr>
                         <td>Hotel Name</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="hotelName" placeholder="Enter hotel name" required pattern="^[A-ZА-Я][\D]*" minlength="5" maxlength="20">
+                            <input type="text" name="hotelName" placeholder="Enter hotel name" value="${requestScope.product.hotelName}" required pattern="^[A-ZА-Я][\D]*" minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>Description</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="description" placeholder="Enter description" required minlength="10" maxlength="200">
+                            <input type="text" name="description" placeholder="Enter description" value="${requestScope.product.description}" required minlength="10" maxlength="200">
                         </td>
                     </tr>
                     <tr>
                         <td>Number of Tourists</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="numberOfTourists" placeholder="Enter num of tourists" pattern="\d*" required maxlength="6">
+                            <input type="text" name="numberOfTourists" placeholder="Enter num of tourists" value="${requestScope.product.numberOfTourists}" pattern="\d*" required maxlength="6">
                         </td>
                     </tr>
                     <tr>
                         <td>Arrival Date</td>
                         <td>:</td>
                         <td>
-                            <input type="date" name="arrivalDate" placeholder="Enter arrival date" required>
+                            <input type="date" name="arrivalDate" placeholder="Enter arrival date"  value="${requestScope.product.arrivalDate}" required>
                         </td>
                     </tr>
                     <tr>
                         <td>Arrival place</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="arrivalPlace" placeholder="Enter arrival place" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
+                            <input type="text" name="arrivalPlace" placeholder="Enter arrival place" value="${requestScope.product.arrivalPlace}" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>Departure date</td>
                         <td>:</td>
                         <td>
-                            <input type="date" name="departureDate" placeholder="Enter departure date" required>
+                            <input type="date" name="departureDate" value="${requestScope.product.departureDate}" placeholder="Enter departure date" required>
                         </td>
                     </tr>
                     <tr>
                         <td>Departure place</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="departurePlace" placeholder="Enter departure place" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
+                            <input type="text" name="departurePlace" placeholder="Enter departure place" value="${requestScope.product.departurePlace}" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>Country</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="country" placeholder="Enter country" pattern="^[A-ZА-Я][\D]* required minlength="5" maxlength="20">
+                            <input type="text" name="country" placeholder="Enter country" value="${requestScope.product.country}" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>City</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="city" placeholder="Enter city" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
+                            <input type="text" name="city" placeholder="Enter city"  value="${requestScope.product.city}" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>Amount Of days</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="amountOfDays" placeholder="Enter amountOfDays" pattern="\d*" maxlength="6" required>
+                            <input type="text" name="amountOfDays" value="${requestScope.product.amountOfDays}" placeholder="Enter amountOfDays" pattern="\d*" maxlength="6" required>
                         </td>
                     </tr>
                     <tr>

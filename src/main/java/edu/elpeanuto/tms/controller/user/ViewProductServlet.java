@@ -1,7 +1,6 @@
 package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
-import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
@@ -14,10 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
- * Tour details output controller
+ * Tour details output controller.
  */
 @WebServlet("/viewProduct")
 public class ViewProductServlet extends HttpServlet {

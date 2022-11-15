@@ -52,7 +52,7 @@
         </thead>
         <tbody>
 
-        <c:forEach var="order" items="${orderList}">
+        <c:forEach var="order" items="${requestScope.orderList}">
             <tr>
                 <td>${order.productName}</td>
                 <td>${order.productCountry}</td>

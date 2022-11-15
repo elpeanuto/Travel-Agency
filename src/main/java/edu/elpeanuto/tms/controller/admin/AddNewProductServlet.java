@@ -1,9 +1,12 @@
 package edu.elpeanuto.tms.controller.admin;
 
-import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.model.Product;
+import edu.elpeanuto.tms.model.enums.Bool;
+import edu.elpeanuto.tms.model.enums.HotelType;
+import edu.elpeanuto.tms.model.enums.ProductCategory;
+import edu.elpeanuto.tms.model.enums.ProductType;
+import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
-import edu.elpeanuto.tms.servies.exception.EnumParseException;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletConfig;
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Controller for adding new tours
+ * Controller for adding new tours.
  */
 @WebServlet("/addNewProduct")
 public class AddNewProductServlet extends HttpServlet {
@@ -40,20 +43,25 @@ public class AddNewProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             productDAO.save(getProductFromRequest(req));
-        } catch (DAOException | EnumParseException e) {
+        } catch (DAOException e) {
             logger.error(e.getMessage());
         }
 
         resp.sendRedirect("allProductEdit?page=1");
     }
 
-    private Product getProductFromRequest(HttpServletRequest req) throws EnumParseException {
+    /**
+     * Get parameters from request and put in Product object.
+     * @param req Http servlet request.
+     * @return New Product filled with params from request.
+     */
+    private Product getProductFromRequest(HttpServletRequest req) {
         String name = req.getParameter("name");
-        String category = req.getParameter("category");
-        String type = req.getParameter("type");
+        ProductCategory category = ProductCategory.valueOf(req.getParameter("category"));
+        ProductType type = ProductType.valueOf(req.getParameter("type"));
         Integer price = Integer.parseInt(req.getParameter("price"));
         String hotelName = req.getParameter("hotelName");
-        String hotelType = req.getParameter("hotelType");
+        HotelType hotelType = HotelType.valueOf(req.getParameter("hotelType"));
         String description = req.getParameter("description");
         Integer numberOfTourists = Integer.parseInt(req.getParameter("numberOfTourists"));
         String arrivalDate = req.getParameter("arrivalDate");
@@ -62,10 +70,10 @@ public class AddNewProductServlet extends HttpServlet {
         String departurePlace = req.getParameter("departurePlace");
         String country = req.getParameter("country");
         String city = req.getParameter("city");
-        String foodInPrice = req.getParameter("foodInPrice");
-        String flightInPrice = req.getParameter("flightInPrice");
+        Bool foodInPrice =  Bool.valueOf(req.getParameter("foodInPrice"));
+        Bool flightInPrice = Bool.valueOf(req.getParameter("flightInPrice"));
         Integer amountOfDays = Integer.parseInt(req.getParameter("amountOfDays"));
-        String active = req.getParameter("active");
+        Bool active = Bool.valueOf(req.getParameter("active"));
 
         return new Product(null, name, description, category, type, price, active, hotelName, hotelType, arrivalDate,
                 departureDate, arrivalPlace, departurePlace, country, city, foodInPrice, flightInPrice, amountOfDays, numberOfTourists);

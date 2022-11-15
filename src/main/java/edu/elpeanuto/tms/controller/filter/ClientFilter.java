@@ -1,7 +1,5 @@
 package edu.elpeanuto.tms.controller.filter;
 
-import edu.elpeanuto.tms.model.User;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Filter that checks is client logged
+ * Filter that checks is client logged.
  */
 public class ClientFilter implements Filter {
     HttpServletRequest request;

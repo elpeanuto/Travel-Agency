@@ -55,8 +55,22 @@
       <tr>
         <td><fmt:message key="${message.category}" /></td>
         <td>${message.receivedDate}</td>
-        <td>${message.processingDate}</td>
-        <td>${message.answer}</td>
+        <c:choose>
+          <c:when test="${message.processingDate != null}">
+            <td>${message.processingDate}</td>
+          </c:when>
+          <c:when test="${message.processingDate == null}">
+            <td><fmt:message key="notProceeded" /></td>
+          </c:when>
+        </c:choose>
+        <c:choose>
+          <c:when test="${message.processingDate != null}">
+            <td><fmt:message key="proceeded" /></td>
+          </c:when>
+          <c:when test="${message.processingDate == null}">
+            <td><fmt:message key="notProceeded" /></td>
+          </c:when>
+        </c:choose>
         <td>
           <a href="${pageContext.request.contextPath}/viewMessage?id=${message.id}">
             <fmt:message key="view" />

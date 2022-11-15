@@ -1,10 +1,9 @@
 package edu.elpeanuto.tms.controller.admin;
 
-import edu.elpeanuto.tms.model.Message;
 import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
+import edu.elpeanuto.tms.servies.pagination.SimplePagination;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
-import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Controller for displaying all orders and changing their status
@@ -30,6 +27,7 @@ public class AllOrderServlet extends HttpServlet {
     private OrderDAO orderDAO;
 
     private Integer numOfStringOnPage;
+    private FailToUpdateDBException failToUpdateDBException;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -38,18 +36,18 @@ public class AllOrderServlet extends HttpServlet {
         orderDAO = (OrderDAO) sc.getAttribute("orderDAO");
         logger = (Logger) sc.getAttribute("logger");
 
-        numOfStringOnPage=3;
+        numOfStringOnPage = 12;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("orderList", pagination(req, numOfStringOnPage));
+            req.setAttribute("orderList", SimplePagination.pagination(orderDAO, req, numOfStringOnPage));
         } catch (DAOException | NoEntityException e) {
             logger.error(e.getMessage());
         }
 
-        req.getRequestDispatcher("view/admin/ordersReceived.jsp").include(req,resp);
+        req.getRequestDispatcher("view/admin/ordersReceived.jsp").include(req, resp);
     }
 
     @Override
@@ -59,16 +57,16 @@ public class AllOrderServlet extends HttpServlet {
         try {
             Order order = orderDAO.get(id).orElseThrow(NoEntityException::new);
 
-            if(order.getStatus().equals(OrderStatus.Registered.name()) && status.equals(OrderStatus.Succeed.name())){
+            if (order.getStatus().equals(OrderStatus.Registered) && status.equals(OrderStatus.Succeed.name())) {
                 resp.sendRedirect("allOrders?page=1");
                 return;
             }
-            if(order.getStatus().equals(OrderStatus.Paid.name()) && status.equals(OrderStatus.Canceled.name())){
+            if (order.getStatus().equals(OrderStatus.Paid) && status.equals(OrderStatus.Canceled.name())) {
                 resp.sendRedirect("allOrders?page=1");
                 return;
             }
-            if (!orderDAO.changeStatus(id, status))
-                throw new FailToUpdateDBException();
+            if (!orderDAO.changeStatus(id, OrderStatus.valueOf(status)))
+                throw failToUpdateDBException;
         } catch (DAOException | NoEntityException e) {
             logger.error(e.getMessage());
         } catch (FailToUpdateDBException e) {
@@ -76,20 +74,5 @@ public class AllOrderServlet extends HttpServlet {
         }
 
         resp.sendRedirect("allOrders?page=1");
-    }
-
-    private List<Order> pagination(HttpServletRequest request, Integer numOfStrings) throws DAOException, NoEntityException {
-        int page = Integer.parseInt(request.getParameter("page"));
-
-        request.setAttribute("positionList", pages(numOfStrings));
-
-        return orderDAO.getPaginationNotProceeded(page * numOfStrings - numOfStrings, numOfStrings);
-    }
-
-    private List<Integer> pages(Integer numOfStrings) throws DAOException, NoEntityException {
-        int pagesLimit = (int) Math.ceil(orderDAO.getNumberOfNotesNotProceeded().orElseThrow(NoEntityException::new) / (double) numOfStrings);
-        List<Integer> list = Stream.iterate(1, n -> n + 1).limit(pagesLimit).toList();
-
-        return list.size() != 1 ? list : null;
     }
 }

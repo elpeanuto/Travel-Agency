@@ -35,8 +35,8 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public Optional<Message> get(Long id) throws DAOException {
-        String getPattern = "SELECT * FROM message INNER JOIN messageanswer ON" +
-                " message.messageAnswerId = messageAnswer.id  WHERE message.id=?";
+        String getPattern = "SELECT * FROM messages INNER JOIN message_answer ON" +
+                " messages.message_answer_id = message_answer.id  WHERE messages.id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(getPattern)
@@ -57,8 +57,8 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public List<Message> getAll() throws DAOException {
-        String getAllPattern = "SELECT * FROM message INNER JOIN messageanswer ON" +
-                                " message.messageAnswerId = messageAnswer.id";
+        String getAllPattern = "SELECT * FROM messages INNER JOIN message_answer ON" +
+                                " messages.message_answer_id = message_answer.id";
 
         List<Message> messageList = new ArrayList<>();
 
@@ -79,9 +79,9 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public boolean save(Message message) throws DAOException {
-        String messageSavePattern = "INSERT INTO message(messageAnswerId, userId, userEmail, userName, category, message, receivedDate)" +
+        String messageSavePattern = "INSERT INTO messages(message_answer_id, user_id, user_email, user_name, category, message, received_date)" +
                 " values(?,?,?,?,?,?,?)";
-        String messageAnswerSavePattern = "INSERT INTO messageAnswer(adminId, answer, processingDate) values(?,?,?)";
+        String messageAnswerSavePattern = "INSERT INTO message_answer(admin_id, answer, processing_date) values(?,?,?)";
 
         try (Connection con = getConnection()) {
             try (PreparedStatement stmt1 = con.prepareStatement(messageSavePattern);
@@ -127,7 +127,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public boolean update(Message message) throws DAOException {
-        String messageSavePattern = "UPDATE message SET userId=?, userEmail=?, category=?, message=?, receivedDate=? WHERE id=?";
+        String messageSavePattern = "UPDATE messages SET user_id=?, user_email=?, category=?, message=?, received_date=? WHERE id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(messageSavePattern)
@@ -149,7 +149,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public boolean adminUpdate(MessageDTO messageDTO) throws DAOException {
-        String savePattern = "UPDATE messageAnswer SET adminId=?, answer=?, processingDate=? WHERE id=?";
+        String savePattern = "UPDATE message_answer SET admin_id=?, answer=?, processing_date=? WHERE id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(savePattern)
@@ -169,7 +169,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public List<Message> getPaginationByUserId(Integer start, Integer numOfStrings, Long userId) throws DAOException {
-        String getAllPattern = "SELECT * FROM message JOIN messageAnswer ON message.messageAnswerId = messageAnswer.id WHERE userId = ? LIMIT ?, ?";
+        String getAllPattern = "SELECT * FROM messages JOIN message_answer ma ON messages.message_answer_id = ma.id WHERE user_id = ? LIMIT ?, ?";
 
         List<Message> messageList = new ArrayList<>();
 
@@ -195,7 +195,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public Optional<Integer> getNumberOfNotesByUserId(Long userId) throws DAOException {
-        String numRegisteredOrders = "SELECT COUNT(*) FROM message JOIN messageAnswer ON message.messageAnswerId = messageAnswer.id WHERE userId = ?";
+        String numRegisteredOrders = "SELECT COUNT(*) FROM messages JOIN message_answer ma on messages.message_answer_id = ma.id WHERE user_id = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(numRegisteredOrders)
@@ -217,7 +217,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public List<Message> getPaginationNotAnswered(Integer start, Integer numOfStrings) throws DAOException {
-        String getAllPattern = "SELECT * FROM message JOIN messageAnswer ON message.messageAnswerId = messageAnswer.id WHERE processingDate IS NULL LIMIT ?, ?;";
+        String getAllPattern = "SELECT * FROM messages JOIN message_answer ma on messages.message_answer_id = ma.id WHERE ma.processing_date IS NULL LIMIT ?, ?;";
 
         List<Message> messageList = new ArrayList<>();
 
@@ -242,7 +242,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     @Override
     public Optional<Integer> getNumberOfNotesNotAnswered() throws DAOException {
-        String numRegisteredOrders = "SELECT COUNT(*) FROM message JOIN messageAnswer ON message.messageAnswerId = messageAnswer.id WHERE processingDate IS NULL";
+        String numRegisteredOrders = "SELECT COUNT(*) FROM messages JOIN message_answer ma on messages.message_answer_id = ma.id WHERE ma.processing_date IS NULL";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(numRegisteredOrders)
@@ -261,8 +261,18 @@ public class MessagesDAOImpl implements MessagesDAO {
     }
 
     private Message setMessage(ResultSet rs) throws SQLException {
-        return new Message(rs.getLong("id"), rs.getLong("messageAnswerId"), rs.getLong("userId"), rs.getLong("adminId"),
-                rs.getString("userEmail"), rs.getString("userName"), rs.getString("category"), rs.getString("message"),
-                rs.getString("answer"), rs.getString("receivedDate"), rs.getString("processingDate"));
+        return new Message(rs.getLong("id"), rs.getLong("message_answer_id"), rs.getLong("user_id"), rs.getLong("admin_id"),
+                rs.getString("user_email"), rs.getString("user_name"), rs.getString("category"), rs.getString("message"),
+                rs.getString("answer"), rs.getString("received_date"), rs.getString("processing_date"));
+    }
+
+    @Override
+    public Optional<Integer> getNumberOfNotes() throws DAOException {
+        return getNumberOfNotesNotAnswered();
+    }
+
+    @Override
+    public List<Message> getPagination(Integer start, Integer numOfStrings) throws DAOException {
+        return getPaginationNotAnswered(start, numOfStrings);
     }
 }

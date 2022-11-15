@@ -1,26 +1,22 @@
 package edu.elpeanuto.tms.model;
 
-import edu.elpeanuto.tms.servies.exception.EnumParseException;
-
-import java.util.Arrays;
+import edu.elpeanuto.tms.model.enums.Gender;
+import edu.elpeanuto.tms.model.enums.UserStatus;
 
 /**
  * User model class, contains information about client
  */
 public class User extends Entity<User> {
-    public enum STATUS {Banned, Client, Manager, Admin, Leader}
-    public enum GENDER {Male, Female}
-
     private Long id;
     private Long userInfoId;
     private String name;
     private String password;
     private String email;
     private String phoneNumber;
-    private String status;
+    private UserStatus status;
     private String realName;
-    private String realSurName;
-    private String gender;
+    private String realSurname;
+    private Gender gender;
     private String dateOfBirth;
     private String citizenship;
     private String passportSerial;
@@ -31,90 +27,62 @@ public class User extends Entity<User> {
 
     }
 
-    public User(Long userInfoId, String name, String password, String email, String phoneNumber, String status) throws EnumParseException {
+    public User(Long userInfoId, String name, String password, String email, String phoneNumber, UserStatus status) {
         this.userInfoId = userInfoId;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-
-        if (isStatusCorrect(status))
-            this.status = status;
-        else
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-
+        this.status = status;
     }
 
-    public User(Long userInfoId, String name, String password, String email, String phoneNumber, String status,
-                String realName, String realSurName, String dateOfBirth, String gender, String citizenship, String passportSerial,
-                String passportNumber, String passportValidDate) throws EnumParseException {
+    public User(Long userInfoId, String name, String password, String email, String phoneNumber, UserStatus status,
+                String realName, String realSurname, Gender gender, String dateOfBirth, String citizenship, String passportSerial,
+                String passportNumber, String passportValidDate) {
         this.userInfoId = userInfoId;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.status = status;
         this.realName = realName;
-        this.realSurName = realSurName;
+        this.realSurname = realSurname;
+        this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.citizenship = citizenship;
         this.passportSerial = passportSerial;
         this.passportNumber = passportNumber;
         this.passportValidDate = passportValidDate;
-
-        if (isStatusCorrect(status))
-            this.status = status;
-        else
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-
-        if (isGenderCorrect(gender))
-            this.gender = gender;
-        else
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
     }
 
-    public User(Long id, Long userInfoId, String name, String password, String email, String phoneNumber, String status) throws EnumParseException {
+    public User(Long id, Long userInfoId, String name, String password, String email, String phoneNumber, UserStatus status) {
         this.id = id;
         this.userInfoId = userInfoId;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-
-        if (isStatusCorrect(status))
-            this.status = status;
-        else
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
+        this.status = status;
     }
 
-    public User(Long id, Long userInfoId, String name, String password, String email, String phoneNumber, String status,
-                String realName, String realSurName, String gender, String dateOfBirth, String citizenship,
-                String passportSerial, String passportNumber, String passportValidDate) throws EnumParseException {
+    public User(Long id, Long userInfoId, String name, String password, String email, String phoneNumber, UserStatus status,
+                String realName, String realSurname, Gender gender, String dateOfBirth, String citizenship, String passportSerial,
+                String passportNumber, String passportValidDate) {
         this.id = id;
         this.userInfoId = userInfoId;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.status = status;
         this.realName = realName;
-        this.realSurName = realSurName;
+        this.realSurname = realSurname;
+        this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.citizenship = citizenship;
         this.passportSerial = passportSerial;
         this.passportNumber = passportNumber;
         this.passportValidDate = passportValidDate;
-
-        if (isStatusCorrect(status))
-            this.status = status;
-        else
-            throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-
-        if (gender != null)
-            if (isGenderCorrect(gender))
-                this.gender = gender;
-            else
-                throw new EnumParseException("Enum value not equal to HTML value, please check your form inout values");
-        else
-            this.gender = null;
     }
 
     public Long getId() {
@@ -165,11 +133,11 @@ public class User extends Entity<User> {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
@@ -181,19 +149,19 @@ public class User extends Entity<User> {
         this.realName = realName;
     }
 
-    public String getRealSurName() {
-        return realSurName;
+    public String getRealSurname() {
+        return realSurname;
     }
 
-    public void setRealSurName(String realSurName) {
-        this.realSurName = realSurName;
+    public void setRealSurname(String realSurname) {
+        this.realSurname = realSurname;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -237,14 +205,6 @@ public class User extends Entity<User> {
         this.passportValidDate = passportValidDate;
     }
 
-    private boolean isStatusCorrect(String str) {
-        return Arrays.stream(STATUS.values()).anyMatch(v -> v.name().equals(str));
-    }
-
-    private boolean isGenderCorrect(String str) {
-        return Arrays.stream(GENDER.values()).anyMatch(v -> v.name().equals(str));
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -256,7 +216,7 @@ public class User extends Entity<User> {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", status='" + status + '\'' +
                 ", realName='" + realName + '\'' +
-                ", realSurName='" + realSurName + '\'' +
+                ", realSurName='" + realSurname + '\'' +
                 ", gender='" + gender + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", citizenship='" + citizenship + '\'' +

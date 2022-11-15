@@ -10,7 +10,6 @@
         id="Your_WebApp_ID"
         version="2.5">
 
-    <!-- Here you go. -->
     <error-page>
         <error-code>404</error-code>
         <location>/404.html</location>

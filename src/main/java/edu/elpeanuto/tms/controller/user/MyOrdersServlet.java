@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * Clients output order controller
+ * Clients output order controller.
  */
 @WebServlet("/myOrders")
 public class MyOrdersServlet extends HttpServlet {
@@ -71,6 +71,15 @@ public class MyOrdersServlet extends HttpServlet {
         req.getRequestDispatcher("view/user/myOrders.jsp").include(req, resp);
     }
 
+    /**
+     * Get data by pieces from db and set pageList.
+     * @param request Http servlet request.
+     * @param numOfStrings Number of string on one page.
+     * @param userId User id.
+     * @return List of orders.
+     * @throws DAOException Exception: {@link edu.elpeanuto.tms.servies.exception.DAOException check}
+     * @throws NoEntityException Exception: {@link edu.elpeanuto.tms.servies.exception.NoEntityException check}
+     */
     private List<Order> pagination(HttpServletRequest request, Integer numOfStrings, Long userId) throws DAOException, NoEntityException {
         int page = Integer.parseInt(request.getParameter("page"));
 
@@ -79,6 +88,14 @@ public class MyOrdersServlet extends HttpServlet {
         return orderDAO.getPaginationByUserId(page * numOfStrings - numOfStrings, numOfStrings, userId);
     }
 
+    /**
+     * Create page list.
+     * @param numOfStrings Number of string on one page.
+     * @param userId User id.
+     * @return List of orders.
+     * @throws DAOException Exception: {@link edu.elpeanuto.tms.servies.exception.DAOException check}
+     * @throws NoEntityException Exception: {@link edu.elpeanuto.tms.servies.exception.NoEntityException check}
+     */
     private List<Integer> pages(Integer numOfStrings, Long userId) throws DAOException, NoEntityException {
         int pagesLimit = (int) Math.ceil(orderDAO.getNumberOfNotesByUserId(userId).orElseThrow(NoEntityException::new) / (double) numOfStrings);
         List<Integer> list = Stream.iterate(1, n -> n + 1).limit(pagesLimit).toList();

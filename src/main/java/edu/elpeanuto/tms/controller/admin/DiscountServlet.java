@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Discount set controller
+ * Discount set controller.
  */
 @WebServlet("/discount")
 public class DiscountServlet extends HttpServlet {

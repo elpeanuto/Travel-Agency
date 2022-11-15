@@ -1,6 +1,10 @@
 package edu.elpeanuto.tms.servies.dao.daoImpl;
 
 import edu.elpeanuto.tms.model.Product;
+import edu.elpeanuto.tms.model.enums.Bool;
+import edu.elpeanuto.tms.model.enums.HotelType;
+import edu.elpeanuto.tms.model.enums.ProductCategory;
+import edu.elpeanuto.tms.model.enums.ProductType;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.dao.db.DBConnection;
 import edu.elpeanuto.tms.servies.dao.db.PoolConnectionBuilder;
@@ -39,7 +43,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<Product> get(Long id) throws DAOException {
-        String getPattern = "SELECT * FROM product WHERE id=?";
+        String getPattern = "SELECT * FROM products WHERE id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(getPattern)
@@ -60,7 +64,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> getAll() throws DAOException {
-        String getALlPattern = "SELECT * FROM product";
+        String getALlPattern = "SELECT * FROM products";
 
         List<Product> productList = new ArrayList<>();
 
@@ -81,16 +85,14 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean save(Product product) throws DAOException {
-        String savePattern = "INSERT INTO product(name, description, category, type, price, active, hotelName," +
-                " arrivalDate, departureDate, arrivalPlace, departurePlace, country, city, foodInPrice, flightInPrice, amountOfDays," +
-                " numberOfTourists, hotelType) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String savePattern = "INSERT INTO products(name, description, category, type, price, active, hotel_name, hotel_type," +
+                "arrival_date, departure_date, arrival_place, departure_place, country, city, food_in_price," +
+                "flight_in_price, amount_of_days, number_of_tourists) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(savePattern)
         ) {
             stmtSetParams(product, stmt);
-            stmt.setString(18, product.getHotelType());
-
             int rowCounter = stmt.executeUpdate();
 
             return rowCounter > 0;
@@ -99,18 +101,17 @@ public class ProductDAOImpl implements ProductDAO {
         }
     }
 
-
     @Override
     public boolean update(Product product) throws DAOException {
-        String updatePattern = "UPDATE product SET name=?, description=?, category=?, type=?, price=?," +
-                " active=?, hotelName=?, arrivalDate=?, departureDate=?, arrivalPlace=?, departurePlace=?," +
-                "country=?, city=?, foodInPrice=?, flightInPrice=?, amountOfDays=?, numberOfTourists=? WHERE id=?";
+        String updatePattern = "UPDATE products SET name=?, description=?, category=?, type=?, price=?," +
+                " active=?, hotel_name=?, hotel_type=?, arrival_date=?, departure_date=?, arrival_place=?, departure_place=?," +
+                "country=?, city=?, food_in_price=?, flight_in_price=?, amount_of_days=?, number_of_tourists=? WHERE id=?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(updatePattern)
         ) {
             stmtSetParams(product, stmt);
-            stmt.setLong(18, product.getId());
+            stmt.setLong(19, product.getId());
 
             int rowCounter = stmt.executeUpdate();
 
@@ -121,7 +122,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<Product> search(ProductFilterDTO filter, Integer start, Integer numOfString, String type) throws DAOException {
+    public List<Product> search(ProductFilterDTO filter, Integer start, Integer numOfString, ProductType type) throws DAOException {
         String searchPattern = configureSearchQuery(filter);
 
         try (Connection con = getConnection();
@@ -131,13 +132,13 @@ public class ProductDAOImpl implements ProductDAO {
 
             stmt.setInt(parameterPosition++, filter.getMinPrice());
             stmt.setInt(parameterPosition++, filter.getMaxPrice());
-            stmt.setString(parameterPosition++, type);
+            stmt.setString(parameterPosition++, type.name());
 
-            if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All.name()))
-                stmt.setString(parameterPosition++, filter.getCategory());
+            if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All))
+                stmt.setString(parameterPosition++, filter.getCategory().name());
 
-            if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All.name()))
-                stmt.setString(parameterPosition++, filter.getHotelType());
+            if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All))
+                stmt.setString(parameterPosition++, filter.getHotelType().name());
 
             if (filter.getNumberOfTourists() != null)
                 stmt.setInt(parameterPosition++, filter.getNumberOfTourists());
@@ -160,7 +161,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> getPagination(Integer start, Integer numOfStrings) throws DAOException {
-        String getALlPattern = "SELECT * FROM product LIMIT ?, ?";
+        String getALlPattern = "SELECT * FROM products LIMIT ?, ?";
 
         List<Product> productList = new ArrayList<>();
 
@@ -185,7 +186,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<Integer> getNumberOfNotes() throws DAOException {
-        String numRegisteredOrders = "SELECT COUNT(*) FROM product";
+        String numRegisteredOrders = "SELECT COUNT(*) FROM products";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(numRegisteredOrders)
@@ -204,13 +205,13 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public boolean promote(Long id, String type) throws DAOException {
-        String promotePattern = "UPDATE product SET type = ? WHERE id = ?";
+    public boolean promote(Long id, ProductType type) throws DAOException {
+        String promotePattern = "UPDATE products SET type = ? WHERE id = ?";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(promotePattern)
         ) {
-            stmt.setString(1, type);
+            stmt.setString(1, type.name());
             stmt.setLong(2, id);
 
             int rowCounter = stmt.executeUpdate();
@@ -223,7 +224,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<Integer> minPrice() throws DAOException {
-        String minPricePattern = "SELECT MIN(price) FROM product";
+        String minPricePattern = "SELECT MIN(price) FROM products";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(minPricePattern)
@@ -242,7 +243,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<Integer> maxPrice() throws DAOException {
-        String maxPricePattern = "SELECT MAX(price) FROM product";
+        String maxPricePattern = "SELECT MAX(price) FROM products";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(maxPricePattern)
@@ -272,13 +273,13 @@ public class ProductDAOImpl implements ProductDAO {
             stmt.setInt(parameterPosition++, filter.getMaxPrice());
 
             if (filter.getType() != null)
-                stmt.setString(parameterPosition++, filter.getType());
+                stmt.setString(parameterPosition++, filter.getType().name());
 
-            if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All.name()))
-                stmt.setString(parameterPosition++, filter.getCategory());
+            if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All))
+                stmt.setString(parameterPosition++, filter.getCategory().name());
 
-            if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All.name()))
-                stmt.setString(parameterPosition++, filter.getHotelType());
+            if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All))
+                stmt.setString(parameterPosition++, filter.getHotelType().name());
 
             if (filter.getNumberOfTourists() != null)
                 stmt.setInt(parameterPosition++, filter.getNumberOfTourists());
@@ -301,20 +302,20 @@ public class ProductDAOImpl implements ProductDAO {
     private String configureGetNumOfNotesQuery(ProductFilterDTO filter){
         StringBuilder productGetByPattern = new StringBuilder();
 
-        productGetByPattern.append("SELECT count(*) from product WHERE active = 'yes' and price >= ? and price <= ?");
+        productGetByPattern.append("SELECT count(*) from products WHERE active = 'yes' and price >= ? and price <= ?");
 
         if (filter.getType() != null)
             productGetByPattern.append(" and type = ?");
 
-        if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All.name())){
+        if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All)){
             productGetByPattern.append(" and category = ?");
         }
 
-        if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All.name()))
-            productGetByPattern.append(" and hotelType = ?");
+        if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All))
+            productGetByPattern.append(" and hotel_type = ?");
 
         if (filter.getNumberOfTourists() != null)
-            productGetByPattern.append(" and numberOfTourists = ?");
+            productGetByPattern.append(" and number_of_tourists = ?");
 
 
         if (filter.getSearchPattern() != null) {
@@ -328,48 +329,48 @@ public class ProductDAOImpl implements ProductDAO {
 
     private Product setProduct(ResultSet rs) throws SQLException {
         return new Product(rs.getLong("id"), rs.getString("name"), rs.getString("description"),
-                rs.getString("category"), rs.getString("type"), rs.getInt("price"), rs.getString("active"),
-                rs.getString("hotelName"), rs.getString("hotelType"), rs.getString("arrivalDate"), rs.getString("departureDate"),
-                rs.getString("arrivalPlace"), rs.getString("departurePlace"), rs.getString("country"),
-                rs.getString("city"), rs.getString("foodInPrice"), rs.getString("flightInPrice"),
-                rs.getInt("amountOfDays"), rs.getInt("numberOfTourists"));
+                ProductCategory.valueOf(rs.getString("category")),  ProductType.valueOf(rs.getString("type")),
+                rs.getInt("price"),  Bool.valueOf(rs.getString("active")), rs.getString("hotel_name"),
+                HotelType.valueOf(rs.getString("hotel_type")), rs.getString("arrival_date"), rs.getString("departure_date"),
+                rs.getString("arrival_place"), rs.getString("departure_place"), rs.getString("country"),
+                rs.getString("city"), Bool.valueOf(rs.getString("food_in_price")), Bool.valueOf(rs.getString("flight_in_price")),
+                rs.getInt("amount_of_days"), rs.getInt("number_of_tourists"));
     }
-
 
     private void stmtSetParams(Product product, PreparedStatement stmt) throws SQLException {
         stmt.setString(1, product.getName());
         stmt.setString(2, product.getDescription());
-        stmt.setString(3, product.getCategory());
-        stmt.setString(4, product.getType());
+        stmt.setString(3, product.getCategory().name());
+        stmt.setString(4, product.getType().name());
         stmt.setInt(5, product.getPrice());
-        stmt.setString(6, product.getActive());
+        stmt.setString(6, product.getActive().name());
         stmt.setString(7, product.getHotelName());
-        stmt.setString(8, product.getArrivalDate());
-        stmt.setString(9, product.getDepartureDate());
-        stmt.setString(10, product.getArrivalPlace());
-        stmt.setString(11, product.getDeparturePlace());
-        stmt.setString(12, product.getCountry());
-        stmt.setString(13, product.getCity());
-        stmt.setString(14, product.getFoodInPrice());
-        stmt.setString(15, product.getFlightInPrice());
-        stmt.setInt(16, product.getAmountOfDays());
-        stmt.setInt(17, product.getNumberOfTourists());
+        stmt.setString(8, product.getHotelType().name());
+        stmt.setString(9, product.getArrivalDate());
+        stmt.setString(10, product.getDepartureDate());
+        stmt.setString(11, product.getArrivalPlace());
+        stmt.setString(12, product.getDeparturePlace());
+        stmt.setString(13, product.getCountry());
+        stmt.setString(14, product.getCity());
+        stmt.setString(15, product.getFoodInPrice().name());
+        stmt.setString(16, product.getFlightInPrice().name());
+        stmt.setInt(17, product.getAmountOfDays());
+        stmt.setInt(18, product.getNumberOfTourists());
     }
 
     private String configureSearchQuery(ProductFilterDTO filter) {
         StringBuilder productGetByPattern = new StringBuilder();
 
-        productGetByPattern.append("SELECT * from product WHERE active = 'yes' and price >= ? and price <= ? and type = ?");
+        productGetByPattern.append("SELECT * from products WHERE active = 'Yes' and price >= ? and price <= ? and type = ?");
 
-        if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.HOTEL_TYPE.All.name()))
+        if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All))
             productGetByPattern.append(" and category = ?");
 
-        if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All.name()))
-            productGetByPattern.append(" and hotelType = ?");
+        if (filter.getHotelType() != null && !filter.getHotelType().equals(ProductFilterDTO.HOTEL_TYPE.All))
+            productGetByPattern.append(" and hotel_type = ?");
 
         if (filter.getNumberOfTourists() != null)
-            productGetByPattern.append(" and numberOfTourists = ?");
-
+            productGetByPattern.append(" and number_of_tourists = ?");
 
         if (filter.getSearchPattern() != null) {
             productGetByPattern.append(" and city like ?");

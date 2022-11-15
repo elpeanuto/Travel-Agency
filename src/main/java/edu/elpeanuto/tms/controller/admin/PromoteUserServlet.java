@@ -2,6 +2,7 @@ package edu.elpeanuto.tms.controller.admin;
 
 import edu.elpeanuto.tms.model.Message;
 import edu.elpeanuto.tms.model.User;
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * User status change controller
+ * User status change controller.
  */
 @WebServlet("/promoteUser")
 public class PromoteUserServlet extends HttpServlet {
@@ -37,7 +38,7 @@ public class PromoteUserServlet extends HttpServlet {
         userDAO = (UserDAO) sc.getAttribute("userDAO");
         logger = (Logger) sc.getAttribute("logger");
 
-        numOfStringOnPage = 3;
+        numOfStringOnPage = 15;
     }
 
     @Override
@@ -59,9 +60,8 @@ public class PromoteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));
-
         try {
-            if (!userDAO.promote(id, User.STATUS.valueOf(req.getParameter("status")).name()))
+            if (!userDAO.promote(id, UserStatus.valueOf(req.getParameter("status"))))
                 throw new FailToUpdateDBException();
         } catch (DAOException e) {
             logger.error(e.getMessage());
@@ -69,10 +69,19 @@ public class PromoteUserServlet extends HttpServlet {
             logger.warn(e.getMessage());
         }
 
-        resp.sendRedirect("promoteUser");
+        resp.sendRedirect("promoteUser?page=1");
     }
 
-    private List<User> pagination(HttpServletRequest request, Integer numOfStrings, String status) throws DAOException, NoEntityException {
+    /**
+     * Get data by pieces from db and set pageList.
+     * @param request Http servlet request.
+     * @param numOfStrings Number of string on one page.
+     * @param status User status.
+     * @return List of users.
+     * @throws DAOException Exception: {@link edu.elpeanuto.tms.servies.exception.DAOException check}
+     * @throws NoEntityException Exception: {@link edu.elpeanuto.tms.servies.exception.NoEntityException check}
+     */
+    private List<User> pagination(HttpServletRequest request, Integer numOfStrings, UserStatus status) throws DAOException, NoEntityException {
         int page = Integer.parseInt(request.getParameter("page"));
 
         request.setAttribute("positionList", pages(numOfStrings, status));
@@ -80,7 +89,15 @@ public class PromoteUserServlet extends HttpServlet {
         return userDAO.getPaginationByStatus(page * numOfStrings - numOfStrings, numOfStrings, status);
     }
 
-    private List<Integer> pages(Integer numOfStrings, String status) throws DAOException, NoEntityException {
+    /**
+     * Create page list.
+     * @param numOfStrings Number of string on one page.
+     * @param status User status.
+     * @return List of pages
+     * @throws DAOException Exception: {@link edu.elpeanuto.tms.servies.exception.DAOException check}
+     * @throws NoEntityException Exception: {@link edu.elpeanuto.tms.servies.exception.NoEntityException check}
+     */
+    private List<Integer> pages(Integer numOfStrings, UserStatus status) throws DAOException, NoEntityException {
         int pagesLimit = (int) Math.ceil(userDAO.getNumberOfNotesByStatus(status).orElseThrow(NoEntityException::new) / (double) numOfStrings);
         List<Integer> list = Stream.iterate(1, n -> n + 1).limit(pagesLimit).toList();
 

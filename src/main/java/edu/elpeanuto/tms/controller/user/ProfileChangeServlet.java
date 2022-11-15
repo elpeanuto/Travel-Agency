@@ -1,8 +1,10 @@
 package edu.elpeanuto.tms.controller.user;
 
+import edu.elpeanuto.tms.model.User;
+import edu.elpeanuto.tms.model.enums.Gender;
+import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
-import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
@@ -14,12 +16,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.http.HttpRequest;
 
 /**
- * Clients change profile controller
+ * Clients change profile controller.
  */
 @WebServlet("/profileChange")
 public class ProfileChangeServlet extends HttpServlet {
@@ -79,9 +79,9 @@ public class ProfileChangeServlet extends HttpServlet {
         String passportSerial = req.getParameter("passportSerial");
         String passportNumber = req.getParameter("passportNumber");
         String passportValidDate = req.getParameter("passportValidDate");
-        String status = userDto.getStatus();
+        UserStatus status = userDto.getStatus();
 
         return new User(userDto.getId(), userDto.getId(), name, null, email, phoneNumber, status,
-                realName, realSurName, gender, dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate);
+                realName, realSurName, Gender.valueOf(gender), dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate);
     }
 }

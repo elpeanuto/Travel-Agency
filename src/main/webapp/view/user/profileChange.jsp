@@ -1,4 +1,4 @@
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+﻿<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}" />
 
 <!DOCTYPE html>
@@ -70,7 +70,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="name" placeholder="<fmt:message key="enterNickname"/>" value="${user.name}" pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="5" maxlength="20">
+                            <input type="text" name="name" placeholder="<fmt:message key="enterNickname"/>" value="${requestScope.user.name}" pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
@@ -79,7 +79,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="email" placeholder="<fmt:message key="enterEmail"/>" value="${user.email}" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50">
+                            <input type="text" name="email" placeholder="<fmt:message key="enterEmail"/>" value="${requestScope.user.email}" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50">
                         </td>
                     </tr>
                     <tr>
@@ -88,7 +88,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="phoneNumber" placeholder="<fmt:message key="enterPhoneNumber"/>" value="${user.phoneNumber}" pattern="\d*"  required minlength="10" maxlength="10">
+                            <input type="text" name="phoneNumber" placeholder="<fmt:message key="enterPhoneNumber"/>" value="${requestScope.user.phoneNumber}" pattern="\d*"  required minlength="10" maxlength="10">
                         </td>
                     </tr>
                     <tr>
@@ -97,7 +97,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="realName" placeholder="<fmt:message key="enterName"/>" value="${user.realName}" pattern="^[A-ZА-я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                            <input type="text" name="realName" placeholder="<fmt:message key="enterName"/>" value="${requestScope.user.realName}" pattern="^[A-ZА-я]+[a-zа-я]*$" minlength="3" maxlength="20">
                         </td>
                     </tr>
                     <tr>
@@ -106,7 +106,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="realSurName" placeholder="<fmt:message key="enterSurname"/>" value="${user.realSurName}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                            <input type="text" name="realSurName" placeholder="<fmt:message key="enterSurname"/>" value="${requestScope.user.realSurName}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
                         </td>
                     </tr>
                     <tr>
@@ -115,7 +115,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="date" name="dateOfBirth" placeholder="<fmt:message key="enterDateOfBirth"/>" value="${user.dateOfBirth}">
+                            <input type="date" name="dateOfBirth" placeholder="<fmt:message key="enterDateOfBirth"/>" value="${requestScope.user.dateOfBirth}">
                         </td>
                     </tr>
                     <tr>
@@ -140,7 +140,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="citizenship" placeholder="<fmt:message key="enterNationality"/>" value="${user.citizenship}" pattern="^[A-ZА-Я]+[a-zа-я]*$" maxlength="20">
+                            <input type="text" name="citizenship" placeholder="<fmt:message key="enterNationality"/>" value="${requestScope.user.citizenship}" pattern="^[A-ZА-Я]+[a-zа-я]*$" maxlength="20">
                         </td>
                     </tr>
                     <tr>
@@ -149,7 +149,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="passportSerial" placeholder="<fmt:message key="enterPassportSerial"/>" value="${user.passportSerial}" pattern="\d*" required minlength="10" maxlength="10">
+                            <input type="text" name="passportSerial" placeholder="<fmt:message key="enterPassportSerial"/>" value="${requestScope.user.passportSerial}" pattern="\d*" required minlength="10" maxlength="10">
                         </td>
                     </tr>
                     <tr>
@@ -158,7 +158,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="passportNumber" placeholder="<fmt:message key="enterPassportNumber"/>" value="${user.passportNumber}" pattern="\d*" required minlength="5" maxlength="5">
+                            <input type="text" name="passportNumber" placeholder="<fmt:message key="enterPassportNumber"/>" value="${requestScope.user.passportNumber}" pattern="\d*" required minlength="5" maxlength="5">
                         </td>
                     </tr>
                     <tr>
@@ -167,7 +167,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="date" name="passportValidDate" placeholder="<fmt:message key="enterPassportValidDate"/>" value="${user.passportValidDate}">
+                            <input type="date" name="passportValidDate" placeholder="<fmt:message key="enterPassportValidDate"/>" value="${requestScope.user.passportValidDate}">
                         </td>
                     </tr>
                     </tbody>

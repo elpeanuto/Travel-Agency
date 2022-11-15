@@ -72,98 +72,98 @@
                             <fmt:message key="name" />
                         </td>
                         <td>:</td>
-                        <td>${product.name}</td>
+                        <td>${requestScope.product.name}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="category" />
                         </td>
                         <td>:</td>
-                        <td>${product.category}</td>
+                        <td>${requestScope.product.category}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="price" />
                         </td>
                         <td>:</td>
-                        <td>${product.price}</td>
+                        <td>${requestScope.product.price}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="hotelName" />
                         </td>
                         <td>:</td>
-                        <td>${product.hotelName}</td>
+                        <td>${requestScope.product.hotelName}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="arrivalDate" />
                         </td>
                         <td>:</td>
-                        <td>${product.arrivalDate}</td>
+                        <td>${requestScope.product.arrivalDate}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="departureDate" />
                         </td>
                         <td>:</td>
-                        <td>${product.departureDate}</td>
+                        <td>${requestScope.product.departureDate}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="arrivalPlace" />
                         </td>
                         <td>:</td>
-                        <td>${product.arrivalPlace}</td>
+                        <td>${requestScope.product.arrivalPlace}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="departurePlace" />
                         </td>
                         <td>:</td>
-                        <td>${product.departurePlace}</td>
+                        <td>${requestScope.product.departurePlace}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="country" />
                         </td>
                         <td>:</td>
-                        <td>${product.country}</td>
+                        <td>${requestScope.product.country}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="city" />
                         </td>
                         <td>:</td>
-                        <td>${product.city}</td>
+                        <td>${requestScope.product.city}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="foodInPrice" />
                         </td>
                         <td>:</td>
-                        <td>${product.foodInPrice}</td>
+                        <td>${requestScope.product.foodInPrice}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="flightInPrice" />
                         </td>
                         <td>:</td>
-                        <td>${product.flightInPrice}</td>
+                        <td>${requestScope.product.flightInPrice}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="amountOfDays" />
                         </td>
                         <td>:</td>
-                        <td>${product.amountOfDays}</td>
+                        <td>${requestScope.product.amountOfDays}</td>
                     </tr>
                     <tr>
                         <td>
                             <fmt:message key="numberOfTourists" />
                         </td>
                         <td>:</td>
-                        <td>${product.numberOfTourists}</td>
+                        <td>${requestScope.product.numberOfTourists}</td>
                     </tr>
                     </tbody>
 
@@ -175,7 +175,7 @@
             <div class="card-body">
                 <i class="fa fa-pen fa-xs edit"></i>
                 <form method="post" action="${pageContext.request.contextPath}/makeOrder">
-                    <input type="hidden" name="id" value="${product.id}">
+                    <input type="hidden" name="id" value="${requestScope.product.id}">
 
                     <table>
                         <tbody>
@@ -185,7 +185,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input readonly type="text" name="name" placeholder="<fmt:message key="enterNickname"/>" value="${user.name}" pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="5" maxlength="20">
+                                <input readonly type="text" name="name" placeholder="<fmt:message key="enterNickname"/>" value="${requestScope.user.name}" pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="5" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -194,7 +194,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input readonly type="text" name="email" placeholder="<fmt:message key="enterEmail"/>" value="${user.email}" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50">
+                                <input readonly type="text" name="email" placeholder="<fmt:message key="enterEmail"/>" value="${requestScope.user.email}" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50">
                             </td>
                         </tr>
                         <tr>
@@ -203,7 +203,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="phoneNumber" placeholder="<fmt:message key="enterPhoneNumber"/>" value="${user.phoneNumber}" pattern="\d*"  required minlength="10" maxlength="10">
+                                <input type="text" name="phoneNumber" placeholder="<fmt:message key="enterPhoneNumber"/>" value="${requestScope.user.phoneNumber}" pattern="\d*"  required minlength="10" maxlength="10">
                             </td>
                         </tr>
                         <tr>
@@ -212,7 +212,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="realName" placeholder="<fmt:message key="enterName"/>" value="${user.realName}" pattern="^[A-ZА-я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                                <input type="text" name="realName" placeholder="<fmt:message key="enterName"/>" value="${requestScope.user.realName}" pattern="^[A-ZА-я]+[a-zа-я]*$" minlength="3" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -221,7 +221,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="realSurName" placeholder="<fmt:message key="enterSurname"/>" value="${user.realSurName}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                                <input type="text" name="realSurName" placeholder="<fmt:message key="enterSurname"/>" value="${requestScope.user.realSurName}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -230,7 +230,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="date" name="dateOfBirth" placeholder="<fmt:message key="enterDateOfBirth"/>" value="${user.dateOfBirth}">
+                                <input type="date" name="dateOfBirth" placeholder="<fmt:message key="enterDateOfBirth"/>" value="${requestScope.user.dateOfBirth}">
                             </td>
                         </tr>
                         <tr>
@@ -255,7 +255,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="citizenship" placeholder="<fmt:message key="enterNationality"/>p" value="${user.citizenship}" pattern="^[A-ZА-Я]+[a-zа-я]*$" maxlength="20">
+                                <input type="text" name="citizenship" placeholder="<fmt:message key="enterNationality"/>p" value="${requestScope.user.citizenship}" pattern="^[A-ZА-Я]+[a-zа-я]*$" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -264,7 +264,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="passportSerial" placeholder="<fmt:message key="enterPassportSerial"/>" value="${user.passportSerial}" pattern="\d*" required minlength="10" maxlength="10">
+                                <input type="text" name="passportSerial" placeholder="<fmt:message key="enterPassportSerial"/>" value="${requestScope.user.passportSerial}" pattern="\d*" required minlength="10" maxlength="10">
                             </td>
                         </tr>
                         <tr>
@@ -273,7 +273,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="passportNumber" placeholder="<fmt:message key="enterPassportNumber"/>" value="${user.passportNumber}" pattern="\d*" required minlength="5" maxlength="5">
+                                <input type="text" name="passportNumber" placeholder="<fmt:message key="enterPassportNumber"/>" value="${requestScope.user.passportNumber}" pattern="\d*" required minlength="5" maxlength="5">
                             </td>
                         </tr>
                         <tr>
@@ -282,7 +282,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="date" name="passportValidDate" placeholder="<fmt:message key="enterPassportValidDate"/>" value="${user.passportValidDate}">
+                                <input type="date" name="passportValidDate" placeholder="<fmt:message key="enterPassportValidDate"/>" value="${requestScope.user.passportValidDate}">
                             </td>
                         </tr>
                         </tbody>

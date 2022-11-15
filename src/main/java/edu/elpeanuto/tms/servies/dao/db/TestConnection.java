@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Connection by jdbc driver used for tests
+ */
 public class TestConnection implements DBConnection{
     private final String user = "root";
     private final String password = "141312";

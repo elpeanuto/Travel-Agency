@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Controller which compare user OTP with generated one
+ * Controller which compare user OTP with generated one.
  */
 @WebServlet("/validateOtp")
 public class ValidateOtpServlet extends HttpServlet {

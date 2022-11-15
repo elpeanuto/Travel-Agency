@@ -1,13 +1,8 @@
 package dao;
 
 import edu.elpeanuto.tms.model.Message;
-import edu.elpeanuto.tms.model.Product;
-import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.servies.dao.MessagesDAO;
-import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.dao.daoImpl.MessagesDAOImpl;
-import edu.elpeanuto.tms.servies.dao.daoImpl.ProductDAOImpl;
-import edu.elpeanuto.tms.servies.dao.daoImpl.UserDAOImpl;
 import edu.elpeanuto.tms.servies.dao.db.DBConnection;
 import edu.elpeanuto.tms.servies.dao.db.TestConnection;
 import edu.elpeanuto.tms.servies.dto.MessageDTO;
@@ -20,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,25 +34,25 @@ public class MessagesDAOImplTest {
         try (Connection con = dbConnection.getConnection();
              Statement stmt = con.createStatement()
         ) {
-            stmt.executeUpdate("DROP TABLE IF EXISTS message");
-            stmt.executeUpdate("DROP TABLE IF EXISTS messageanswer");
-            stmt.executeUpdate("CREATE TABLE message" +
+            stmt.executeUpdate("DROP TABLE IF EXISTS messages");
+            stmt.executeUpdate("DROP TABLE IF EXISTS message_answer");
+            stmt.executeUpdate("CREATE TABLE messages" +
                     "(" +
-                    "    id              INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
-                    "    messageAnswerId INT REFERENCES messageAnswer (id)," +
-                    "    userId          INT                            NOT NULL," +
-                    "    userEmail       VARCHAR(50)                    NOT NULL," +
-                    "    userName        VARCHAR(50)                    NOT NULL," +
-                    "    category        VARCHAR(50)                    NOT NULL," +
-                    "    message         VARCHAR(500)                   NOT NULL," +
-                    "    receivedDate    VARCHAR(50)                    NOT NULL" +
+                    "    id              INT PRIMARY KEY AUTO_INCREMENT," +
+                    "    message_answer_id INT REFERENCES message_answer (id)," +
+                    "    user_id          INT                        NOT NULL," +
+                    "    user_email       VARCHAR(50)                NOT NULL," +
+                    "    user_name        VARCHAR(20)                NOT NULL," +
+                    "    category         VARCHAR(20)                NOT NULL," +
+                    "    message          VARCHAR(500)               NOT NULL," +
+                    "    received_date    DATETIME                   NOT NULL" +
                     ");");
-            stmt.executeUpdate("CREATE TABLE messageAnswer" +
+            stmt.executeUpdate("CREATE TABLE message_answer" +
                     "(" +
-                    "    id             INT PRIMARY KEY AUTO_INCREMENT NOT NULL," +
-                    "    adminId        INT," +
+                    "    id             INT PRIMARY KEY AUTO_INCREMENT," +
+                    "    admin_id        INT," +
                     "    answer         VARCHAR(500)," +
-                    "    processingDate VARCHAR(500)" +
+                    "    processing_date DATETIME" +
                     ");");
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -64,56 +60,56 @@ public class MessagesDAOImplTest {
     }
 
     @Test
-    public void test1() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
+    public void test1() throws DAOException, NoEntityException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
         assertEquals(2, messagesDAO.getNumberOfNotesByUserId(1L).orElseThrow(NoEntityException::new));
     }
 
     @Test
-    public void test2() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
+    public void test2() throws DAOException, NoEntityException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
         assertEquals(2, messagesDAO.getNumberOfNotesNotAnswered().orElseThrow(NoEntityException::new));
     }
 
     @Test
-    public void test3() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
+    public void test3() throws DAOException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
         assertEquals(2, messagesDAO.getAll().size());
     }
     @Test
-    public void test4() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.update(new Message(1L, null, 1L, "email", "name", "category", "message2", (new Date()).toString()));
+    public void test4() throws DAOException, NoEntityException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.update(new Message(1L, null, 1L, "email", "name", "category", "message2", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
         assertEquals("message2", messagesDAO.get(1L).orElseThrow(NoEntityException::new).getMessage());
     }
 
     @Test
-    public void test5() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.adminUpdate(new MessageDTO(1L, 1L, "response", "processingDate"));
+    public void test5() throws DAOException, NoEntityException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.adminUpdate(new MessageDTO(1L, 1L, "response", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
-        assertEquals("processingDate", messagesDAO.get(1L).orElseThrow(NoEntityException::new).getProcessingDate());
+        assertEquals(1L, messagesDAO.get(1L).orElseThrow(NoEntityException::new).getAdminId());
     }
 
     @Test
-    public void test6() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
+    public void test6() throws DAOException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
         assertEquals(3, messagesDAO.getPaginationByUserId(0, 3, 1L).size());
@@ -121,12 +117,12 @@ public class MessagesDAOImplTest {
     }
 
     @Test
-    public void test7() throws DAOException, SQLException, NoEntityException {
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
-        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", (new Date()).toString()));
+    public void test7() throws DAOException {
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        messagesDAO.save(new Message(null, null, 1L, "email", "name", "category", "message", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
 
         assertEquals(3, messagesDAO.getPaginationNotAnswered(0, 3).size());
