@@ -216,7 +216,7 @@ public class User extends Entity<User> {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", status='" + status + '\'' +
                 ", realName='" + realName + '\'' +
-                ", realSurName='" + realSurname + '\'' +
+                ", realSurname='" + realSurname + '\'' +
                 ", gender='" + gender + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", citizenship='" + citizenship + '\'' +

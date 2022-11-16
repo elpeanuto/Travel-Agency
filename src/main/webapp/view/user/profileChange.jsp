@@ -106,7 +106,7 @@
                         </td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="realSurName" placeholder="<fmt:message key="enterSurname"/>" value="${requestScope.user.realSurName}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                            <input type="text" name="realSurname" placeholder="<fmt:message key="enterSurname"/>" value="${requestScope.user.realSurname}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
                         </td>
                     </tr>
                     <tr>

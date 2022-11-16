@@ -100,7 +100,7 @@
                             <fmt:message key="surname" />
                         </td>
                         <td>:</td>
-                        <td>${requestScope.user.realSurName}</td>
+                        <td>${requestScope.user.realSurname}</td>
                     </tr>
                     <tr>
                         <td>

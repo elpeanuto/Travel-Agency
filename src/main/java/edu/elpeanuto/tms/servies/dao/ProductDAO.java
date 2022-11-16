@@ -16,6 +16,8 @@ import java.util.Optional;
 public interface ProductDAO extends BaseDAO<Long, Product>, Pagination<Product> {
     boolean promote(Long id, ProductType type) throws DAOException;
 
+    boolean delete(Long id) throws DAOException;
+
     Optional<Integer> minPrice() throws DAOException;
 
     Optional<Integer> maxPrice() throws DAOException;

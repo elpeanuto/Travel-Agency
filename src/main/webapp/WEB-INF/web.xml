@@ -63,6 +63,8 @@
         <url-pattern>/updateProduct</url-pattern>
         <url-pattern>/adminHome</url-pattern>
         <url-pattern>/allMessages</url-pattern>
+        <url-pattern>/deleteProduct</url-pattern>
+        <url-pattern>/adminView</url-pattern>
     </filter-mapping>
 
     <taglib>

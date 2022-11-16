@@ -18,7 +18,7 @@
             <div class="col-md-12">
                 <div class="invoice-wrapper print">
                     <div class="intro">
-                        <fmt:message key="hello" />, <strong>${requestScope.order.realName} ${requestScope.order.realSurName}</strong>,
+                        <fmt:message key="hello" />, <strong>${requestScope.order.realName} ${requestScope.order.realSurname}</strong>,
                         <br> <fmt:message key="thisIsReceipt" /> <strong>$${requestScope.product.price}</strong> (USD)
                     </div>
 
@@ -39,7 +39,7 @@
                                     <fmt:message key="clientInfo" />
                                 </strong>
                                 <p>
-                                    ${requestScope.order.realName} ${requestScope.order.realSurName}
+                                    ${requestScope.order.realName} ${requestScope.order.realSurname}
                                     <br> ${requestScope.order.phoneNumber}
                                     <br> ${requestScope.order.dateOfBirth}
                                     <br> ${requestScope.order.citizenship}

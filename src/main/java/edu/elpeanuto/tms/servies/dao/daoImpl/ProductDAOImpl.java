@@ -223,6 +223,24 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public boolean delete(Long id) throws DAOException {
+        String deletePattern = "DELETE FROM products WHERE id = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(deletePattern)
+        ) {
+            stmt.setLong(1, id);
+
+            int rowCounter = stmt.executeUpdate();
+
+            return rowCounter > 0;
+        } catch (SQLException e) {
+            throw new DAOException(String.format("SQLException in delete(Long id), params: id: %s", id.toString()), e);
+        }
+    }
+
+
+    @Override
     public Optional<Integer> minPrice() throws DAOException {
         String minPricePattern = "SELECT MIN(price) FROM products";
 

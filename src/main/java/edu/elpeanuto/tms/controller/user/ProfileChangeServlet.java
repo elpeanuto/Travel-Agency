@@ -72,7 +72,7 @@ public class ProfileChangeServlet extends HttpServlet {
         String email = req.getParameter("email");
         String phoneNumber = req.getParameter("phoneNumber");
         String realName = req.getParameter("realName");
-        String realSurName = req.getParameter("realSurName");
+        String realSurname = req.getParameter("realSurname");
         String dateOfBirth = req.getParameter("dateOfBirth");
         String gender = req.getParameter("gender");
         String citizenship = req.getParameter("citizenship");
@@ -82,6 +82,6 @@ public class ProfileChangeServlet extends HttpServlet {
         UserStatus status = userDto.getStatus();
 
         return new User(userDto.getId(), userDto.getId(), name, null, email, phoneNumber, status,
-                realName, realSurName, Gender.valueOf(gender), dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate);
+                realName, realSurname, Gender.valueOf(gender), dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate);
     }
 }

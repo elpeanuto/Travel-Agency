@@ -4,7 +4,6 @@ package edu.elpeanuto.tms.model;
  * Message model class, contains information about message
  */
 public class Message extends Entity<Message> {
-
     private Long id;
     private Long messageAnswerId;
     private Long userId;

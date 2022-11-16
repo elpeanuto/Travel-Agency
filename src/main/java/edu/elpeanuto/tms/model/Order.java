@@ -16,7 +16,7 @@ public class Order extends Entity<Order> {
     String phoneNumber;
     String email;
     String realName;
-    String realSurName;
+    String realSurname;
     Gender gender;
     String dateOfBirth;
     String citizenship;
@@ -26,7 +26,7 @@ public class Order extends Entity<Order> {
     Integer totalPrice;
 
     public Order(Long id, Long userId, Long productId, OrderStatus status, String date, String name, String phoneNumber,
-                 String email, String realName, String realSurName, Gender gender, String dateOfBirth, String citizenship,
+                 String email, String realName, String realSurname, Gender gender, String dateOfBirth, String citizenship,
                  String passportSerial, String passportNumber, String passportValidDate, Integer totalPrice) {
         this.id = id;
         this.userId = userId;
@@ -37,7 +37,7 @@ public class Order extends Entity<Order> {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.realName = realName;
-        this.realSurName = realSurName;
+        this.realSurname = realSurname;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.citizenship = citizenship;
@@ -119,12 +119,12 @@ public class Order extends Entity<Order> {
         this.realName = realName;
     }
 
-    public String getRealSurName() {
-        return realSurName;
+    public String getRealSurname() {
+        return realSurname;
     }
 
-    public void setRealSurName(String realSurName) {
-        this.realSurName = realSurName;
+    public void setRealSurname(String realSurname) {
+        this.realSurname = realSurname;
     }
 
     public Gender getGender() {
@@ -195,7 +195,7 @@ public class Order extends Entity<Order> {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", realName='" + realName + '\'' +
-                ", realSurName='" + realSurName + '\'' +
+                ", realSurname='" + realSurname + '\'' +
                 ", gender=" + gender +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", citizenship='" + citizenship + '\'' +

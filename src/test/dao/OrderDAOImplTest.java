@@ -65,11 +65,11 @@ public class OrderDAOImplTest {
     @Test
     public void test1() throws DAOException {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2022-11-11", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
 
@@ -79,11 +79,11 @@ public class OrderDAOImplTest {
     @Test
     public void test2() throws DAOException, NoEntityException {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name2",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
 
@@ -94,19 +94,19 @@ public class OrderDAOImplTest {
     @Test
     public void test3() throws DAOException, NoEntityException {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Canceled, "2022-11-11", "name2",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name2",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
 
@@ -116,19 +116,19 @@ public class OrderDAOImplTest {
     @Test
     public void test4() throws DAOException, NoEntityException {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Canceled, "2022-11-11", "name2",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name2",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
 
@@ -138,11 +138,11 @@ public class OrderDAOImplTest {
     @Test
     public void test5() throws DAOException, NoEntityException {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Paid, "2022-11-11", "name2",
-                "phoneNumber", "email", "realName", "realSurName", Gender.Male,
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
                 "2022-11-11", 1000));
 

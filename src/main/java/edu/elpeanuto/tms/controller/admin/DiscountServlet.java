@@ -1,14 +1,11 @@
 package edu.elpeanuto.tms.controller.admin;
 
 import edu.elpeanuto.tms.model.Discount;
-import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.servies.dao.DiscountDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
-import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
 
-import javax.security.auth.login.FailedLoginException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * Discount set controller.

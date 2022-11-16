@@ -109,7 +109,7 @@ public class MakeOrderServlet extends HttpServlet {
         String phoneNumber = req.getParameter("phoneNumber");
         String email = req.getParameter("email");
         String realName = req.getParameter("realName");
-        String realSurName = req.getParameter("realSurName");
+        String realSurname = req.getParameter("realSurname");
         Gender gender = Gender.valueOf(req.getParameter("gender"));
         String dateOfBirth = req.getParameter("dateOfBirth");
         String citizenship = req.getParameter("citizenship");
@@ -131,7 +131,7 @@ public class MakeOrderServlet extends HttpServlet {
             session.setAttribute("discount", countTotal(productId, user.getId()).getTotalDiscount());
 
             Order order = new Order(null, user.getId(), productId, OrderStatus.Registered, date, name, phoneNumber, email, realName,
-                    realSurName, gender, dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate, (int) totalPrice);
+                    realSurname, gender, dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate, (int) totalPrice);
 
             orderDAO.save(order);
 

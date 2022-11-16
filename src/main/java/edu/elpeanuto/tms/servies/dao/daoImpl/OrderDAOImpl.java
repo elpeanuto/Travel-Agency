@@ -224,6 +224,22 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public boolean isProductOrdered(Long productId) throws DAOException {
+        String deletePattern = "SELECT 1 FROM orders WHERE product_id = ? LIMIT 1";
+
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(deletePattern)
+        ) {
+            stmt.setLong(1, productId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            return rs.next();
+        } catch (SQLException e) {
+            throw new DAOException(String.format("SQLException in isProductOrdered(Long id), params: id: %s", productId.toString()), e);
+        }
+    }
+    @Override
     public boolean save(Order order) throws DAOException {
         String savePattern = "INSERT INTO orders(user_id, product_id, status , date, name, phone_number, email, " +
                 "real_name, real_surname, gender,date_of_birth, nationality, passport_serial,passport_number,passport_valid_date, total_price) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -239,7 +255,7 @@ public class OrderDAOImpl implements OrderDAO {
             stmt.setString(6, order.getPhoneNumber());
             stmt.setString(7, order.getEmail());
             stmt.setString(8, order.getRealName());
-            stmt.setString(9, order.getRealSurName());
+            stmt.setString(9, order.getRealSurname());
             stmt.setString(10, order.getGender().name());
             stmt.setString(11, order.getDateOfBirth());
             stmt.setString(12, order.getCitizenship());

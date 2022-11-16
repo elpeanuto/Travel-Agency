@@ -68,6 +68,10 @@ public class OrderDTO {
         return order.getId();
     }
 
+    public String getOrderStatus(){
+        return order.getStatus().name();
+    }
+
     @Override
     public String toString() {
         return "OrderDto{" +

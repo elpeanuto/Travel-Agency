@@ -27,7 +27,7 @@
         <th scope="col">Price</th>
         <th>Type</th>
         <th>Active</th>
-        <th scope="col">Edit <i class='fas fa-pen-fancy'></i></th>
+        <th scope="col">View</th>
     </tr>
     </thead>
     <tbody>
@@ -40,7 +40,7 @@
             <td>${product.price}</td>
             <td>${product.type}</td>
             <td>${product.active}</td>
-            <td><a href="editProduct?id=${product.id}">Edit <i class='fas fa-pen-fancy'></i></a></td>
+            <td><a href="adminView?id=${product.id}">View</a></td>
         </tr>
     </c:forEach>
     </tbody>

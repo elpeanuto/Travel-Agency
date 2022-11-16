@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface OrderDAO extends BaseDAO<Long, Order>, Pagination<Order> {
     boolean changeStatus(Long id, OrderStatus status) throws DAOException;
 
+    boolean isProductOrdered(Long productId) throws DAOException;
+
     Optional<Integer> numOfRegisteredOrders(Long userId) throws DAOException;
 
     Optional<Integer> getNumberOfNotesByUserId(Long userId) throws DAOException;
