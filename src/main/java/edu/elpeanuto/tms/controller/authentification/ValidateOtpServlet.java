@@ -1,5 +1,7 @@
 package edu.elpeanuto.tms.controller.authentification;
 
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class ValidateOtpServlet extends HttpServlet {
         if (userOtp != null && correctOtp != null && userOtp.matches("^\\d{6}$") && correctOtp.equals(userOtp)) {
             resp.sendRedirect("newPassword");
         } else {
+            SetAlertToRequest.setCustomAlert(req, "Error", "Incorrect OTP.", AlertType.ERROR);
             resp.sendRedirect("validateOtp");
         }
     }

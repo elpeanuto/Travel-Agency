@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <title>Product Edit</title>
     <style>
         @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
@@ -221,6 +223,11 @@
 
         </div>
     </div>
+    <script>
+        if("${sessionScope.alertFlag}" === "true"){
+            swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+        }
+    </script>
 </body>
 
 </html>

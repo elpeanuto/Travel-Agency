@@ -3,6 +3,7 @@ package edu.elpeanuto.tms.controller.user;
 import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.model.enums.Gender;
 import edu.elpeanuto.tms.model.enums.UserStatus;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -47,8 +48,13 @@ public class ProfileChangeServlet extends HttpServlet {
             req.setAttribute("user", userDAO.get(userDto.getId()).orElseThrow(NoEntityException::new));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         req.getRequestDispatcher("view/user/profileChange.jsp").include(req, resp);
@@ -60,6 +66,10 @@ public class ProfileChangeServlet extends HttpServlet {
             userDAO.update(getUserFromRequest(req));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         }
 
         resp.sendRedirect("allProduct?page=1");

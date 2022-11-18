@@ -3,6 +3,8 @@ package edu.elpeanuto.tms.controller.admin;
 import edu.elpeanuto.tms.model.Message;
 import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.model.enums.UserStatus;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -50,8 +52,13 @@ public class PromoteUserServlet extends HttpServlet {
 
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         } catch (NoEntityException e) {
-            throw new RuntimeException(e);
+            logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.WARNING);
         }
 
         req.getRequestDispatcher("view/admin/promoteUser.jsp").include(req, resp);
@@ -65,8 +72,10 @@ public class PromoteUserServlet extends HttpServlet {
                 throw new FailToUpdateDBException();
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
         } catch (FailToUpdateDBException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         }
 
         resp.sendRedirect("promoteUser?page=1");

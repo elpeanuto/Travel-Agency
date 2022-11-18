@@ -8,6 +8,8 @@
     <title><fmt:message key="passwordRecovery"/></title>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <style>
         body {
@@ -86,6 +88,13 @@
     </div>
 </div>
     </fmt:bundle>
+
+<script>
+    if("${sessionScope.alertFlag}" === "true"){
+        swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+    }
+</script>
+
 </body>
 
 </html>

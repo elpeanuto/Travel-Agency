@@ -10,6 +10,7 @@
             <fmt:message key="contactUs" />
         </title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <style>
             @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
@@ -91,6 +92,12 @@
         <textarea name="message" class="feedback-input" placeholder="<fmt:message key="message"/>" required minlength="20" maxlength="500"></textarea>
         <input type="submit" value="<fmt:message key="submit"/>"/>
     </form>
+
+    <script>
+        if("${sessionScope.alertFlag}" === "true"){
+            swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+        }
+    </script>
     </body>
 </fmt:bundle>
 

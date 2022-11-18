@@ -9,7 +9,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title><fmt:message key="enterOTP"/></title>
 
     <style>
@@ -59,7 +59,11 @@
     </div>
 </div>
 
-
+<script>
+    if("${sessionScope.alertFlag}" === "true"){
+        swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+    }
+</script>
 </body>
 </fmt:bundle>
 </html>

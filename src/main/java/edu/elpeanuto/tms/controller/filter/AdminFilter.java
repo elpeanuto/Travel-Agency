@@ -4,6 +4,7 @@ import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
+import org.slf4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,24 +16,24 @@ import java.io.IOException;
  * Filter that checks is admin logged.
  */
 public class AdminFilter implements Filter {
-    HttpServletRequest request;
-    HttpServletResponse response;
-    HttpSession session;
-    UserDAO userDAO;
+    private UserDAO userDAO;
+
+    private Logger logger;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         ServletContext sc = filterConfig.getServletContext();
 
+        logger = (Logger) sc.getAttribute("logger");
         userDAO = (UserDAO) sc.getAttribute("userDAO");
         Filter.super.init(filterConfig);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        request = (HttpServletRequest) servletRequest;
-        response = (HttpServletResponse) servletResponse;
-        session = request.getSession(true);
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        HttpSession session = request.getSession(true);
 
         UserDTO userDTO = null;
 
@@ -53,6 +54,7 @@ public class AdminFilter implements Filter {
 
                 filterChain.doFilter(servletRequest, servletResponse);
             } catch (DAOException | NoEntityException e) {
+                logger.error(e.getMessage());
                 throw new RuntimeException(e);
             }
         }

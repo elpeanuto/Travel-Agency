@@ -8,6 +8,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Promote user</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <style>
         h3 {
             color: yellow;
@@ -107,6 +109,12 @@
         </c:forEach>
     </div>
 </c:if>
+
+<script>
+    if("${sessionScope.alertFlag}" === "true"){
+        swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+    }
+</script>
 </body>
 
 </html>

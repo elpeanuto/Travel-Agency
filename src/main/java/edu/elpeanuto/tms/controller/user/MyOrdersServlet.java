@@ -2,6 +2,7 @@ package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.model.Product;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.dto.OrderDTO;
@@ -63,8 +64,13 @@ public class MyOrdersServlet extends HttpServlet {
 
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         req.setAttribute("orderList", orderDTOList);

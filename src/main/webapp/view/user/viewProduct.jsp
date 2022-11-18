@@ -6,6 +6,8 @@
         <head>
             <title><fmt:message key="tour"/></title>
             <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
+
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         </head>
 
         <style>
@@ -148,6 +150,12 @@
         </div>
 
     </div>
+
+        <script>
+            if("${sessionScope.alertFlag}" === "true"){
+                swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+            }
+        </script>
     </body>
     </fmt:bundle>
     </html>

@@ -5,6 +5,8 @@ import edu.elpeanuto.tms.model.enums.Bool;
 import edu.elpeanuto.tms.model.enums.HotelType;
 import edu.elpeanuto.tms.model.enums.ProductCategory;
 import edu.elpeanuto.tms.model.enums.ProductType;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
@@ -47,8 +49,13 @@ public class UpdateProductServlet extends HttpServlet {
                 throw new FailToUpdateDBException();
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         } catch (FailToUpdateDBException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         }
 
         resp.sendRedirect("allProductEdit?page=1");

@@ -1,5 +1,6 @@
 package edu.elpeanuto.tms.controller.user;
 
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.MessagesDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
@@ -38,9 +39,13 @@ public class ViewMessageServlet extends HttpServlet {
             req.setAttribute("message", messagesDAO.get(messageId).orElseThrow(NoEntityException::new));
         } catch (DAOException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(e);
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         req.getRequestDispatcher("view/user/viewMessage.jsp").include(req, resp);

@@ -1,6 +1,8 @@
 package edu.elpeanuto.tms.controller.admin;
 
 import edu.elpeanuto.tms.model.Message;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.MessagesDAO;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.dto.MessageDTO;
@@ -49,8 +51,10 @@ public class MessageResponseServlet extends HttpServlet {
             req.setAttribute("message", messagesDAO.get(messageId).orElseThrow(NoEntityException::new));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.WARNING);
         }
 
         req.getRequestDispatcher("view/admin/messageResponse.jsp").include(req, resp);
@@ -69,8 +73,13 @@ public class MessageResponseServlet extends HttpServlet {
                 throw new FailToUpdateDBException();
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         } catch (FailToUpdateDBException e) {
             throw new RuntimeException(e);
         }

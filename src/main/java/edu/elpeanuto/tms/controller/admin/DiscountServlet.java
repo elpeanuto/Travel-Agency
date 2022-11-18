@@ -1,6 +1,8 @@
 package edu.elpeanuto.tms.controller.admin;
 
 import edu.elpeanuto.tms.model.Discount;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.DiscountDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
@@ -37,6 +39,7 @@ public class DiscountServlet extends HttpServlet {
             discountDAO.get(1L).ifPresent(value -> req.setAttribute("discount", value));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
         }
 
         req.getRequestDispatcher("view/admin/discount.jsp").include(req, resp);
@@ -54,8 +57,13 @@ public class DiscountServlet extends HttpServlet {
                 throw new FailToUpdateDBException();
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         }catch (FailToUpdateDBException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         }
 
         resp.sendRedirect("discount");

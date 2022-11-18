@@ -2,6 +2,7 @@ package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.model.Product;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -51,9 +52,13 @@ public class BillServlet extends HttpServlet {
             req.setAttribute("discount", req.getSession().getAttribute("discount"));
         } catch (DAOException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(e);
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         req.getRequestDispatcher("view/user/bill.jsp").include(req, resp);

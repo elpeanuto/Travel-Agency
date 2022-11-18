@@ -1,5 +1,7 @@
 package edu.elpeanuto.tms.controller.admin;
 
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -42,6 +44,10 @@ public class EditProductServlet extends HttpServlet {
             product.ifPresent(value -> req.setAttribute("product", value));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         }
 
         req.getRequestDispatcher("view/admin/editProduct.jsp").include(req,resp);

@@ -1,6 +1,7 @@
 package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Message;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.MessagesDAO;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -50,9 +51,13 @@ public class MyMessagesServlet extends HttpServlet {
             req.setAttribute("messageList", pagination(req, numOfStringOnPage, userDto.getId()));
         } catch (DAOException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(e);
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
-            throw new RuntimeException(e);
+            logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
         req.getRequestDispatcher("view/user/myMessages.jsp").include(req, resp);
     }

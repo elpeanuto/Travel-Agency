@@ -5,6 +5,8 @@
 <fmt:bundle basename="viewBundle">
   <head>
     <title><fmt:message key="deleteTour"/></title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
   </head>
 
@@ -153,6 +155,11 @@
     </div>
 
   </div>
+  <script>
+    if("${sessionScope.alertFlag}" === "true"){
+      swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+    }
+  </script>
   </body>
 </fmt:bundle>
 </html>

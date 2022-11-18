@@ -1,5 +1,7 @@
 package edu.elpeanuto.tms.controller.admin;
 
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.pagination.SimplePagination;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -41,8 +43,13 @@ public class AllProductEditServlet extends HttpServlet {
             req.setAttribute("productList", SimplePagination.pagination(productDAO, req, numOfStringOnPage));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         } catch (NoEntityException e) {
-            throw new RuntimeException(e);
+            logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         }
 
         req.getRequestDispatcher("view/admin/allProductEdit.jsp").include(req,resp);

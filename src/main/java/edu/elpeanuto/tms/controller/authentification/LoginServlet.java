@@ -1,6 +1,8 @@
 package edu.elpeanuto.tms.controller.authentification;
 
 import edu.elpeanuto.tms.model.enums.UserStatus;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.PasswordHashing;
 import edu.elpeanuto.tms.servies.dto.UserDTO;
@@ -53,9 +55,13 @@ public class LoginServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
+        req.setAttribute("pageStatus", "error");
+
         try {
             if (!userDAO.userVerify(email, PasswordHashing.hashPassword(password))) {
+                SetAlertToRequest.setCustomAlert(req, "Error", "Wrong email or password.", AlertType.ERROR);
                 resp.sendRedirect("login");
+
                 return;
             }
 
@@ -63,6 +69,7 @@ public class LoginServlet extends HttpServlet {
             UserDTO userDto = new UserDTO(user.getId(), user.getUserInfoId(), user.getName(), user.getEmail(), user.getStatus());
 
             if (userDto.getStatus().equals(UserStatus.Banned)) {
+                SetAlertToRequest.setCustomAlert(req, "Error", "This account has been blocked.", AlertType.ERROR);
                 resp.sendRedirect("login");
                 return;
             }
@@ -82,8 +89,14 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("allProduct?page=1");
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("login");
         } catch (FailToUpdateDBException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("login");
         }
     }
 

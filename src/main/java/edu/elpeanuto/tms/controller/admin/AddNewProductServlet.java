@@ -5,6 +5,8 @@ import edu.elpeanuto.tms.model.enums.Bool;
 import edu.elpeanuto.tms.model.enums.HotelType;
 import edu.elpeanuto.tms.model.enums.ProductCategory;
 import edu.elpeanuto.tms.model.enums.ProductType;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import org.slf4j.Logger;
@@ -45,6 +47,10 @@ public class AddNewProductServlet extends HttpServlet {
             productDAO.save(getProductFromRequest(req));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
         }
 
         resp.sendRedirect("allProductEdit?page=1");

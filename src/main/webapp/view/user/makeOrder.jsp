@@ -10,6 +10,8 @@
         </title>
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
         <style>
         @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
         * {
@@ -296,6 +298,12 @@
         </div>
 
     </div>
+
+    <script>
+        if("${sessionScope.alertFlag}" === "true"){
+            swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+        }
+    </script>
     </body>
 </fmt:bundle>
 

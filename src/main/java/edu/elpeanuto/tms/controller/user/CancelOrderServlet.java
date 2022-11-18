@@ -2,6 +2,7 @@ package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -52,6 +53,7 @@ public class CancelOrderServlet extends HttpServlet {
             throw new RuntimeException(e);
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         req.getRequestDispatcher("view/user/cancelOrder.jsp").include(req, resp);
@@ -66,9 +68,13 @@ public class CancelOrderServlet extends HttpServlet {
                 orderDAO.changeStatus(orderId, OrderStatus.Canceled);
         } catch (DAOException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(e);
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         resp.sendRedirect("myOrders?page=1");

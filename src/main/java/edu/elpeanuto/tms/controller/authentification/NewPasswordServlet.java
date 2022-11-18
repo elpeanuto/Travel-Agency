@@ -1,8 +1,11 @@
 package edu.elpeanuto.tms.controller.authentification;
 
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.PasswordHashing;
 import edu.elpeanuto.tms.servies.exception.DAOException;
+import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
 import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
 
@@ -43,6 +46,7 @@ public class NewPasswordServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         session = req.getSession();
+
         String newPassword = req.getParameter("password");
         String newPasswordRepetition = req.getParameter("re-password");
 
@@ -50,21 +54,27 @@ public class NewPasswordServlet extends HttpServlet {
         newPasswordRepetition = PasswordHashing.hashPassword(newPasswordRepetition);
 
         if (!newPassword.equals(newPasswordRepetition)) {
-            req.getRequestDispatcher("newPassword");
+            SetAlertToRequest.setCustomAlert(req, "Error", "Passwords do not match.", AlertType.ERROR);
+            resp.sendRedirect("newPassword");
             return;
         }
 
-        boolean isResetSuccess = false;
         try {
-            isResetSuccess = userDAO.resetPassword((String) session.getAttribute("email"), newPasswordRepetition);
+            if (!userDAO.resetPassword((String) session.getAttribute("email"), newPasswordRepetition))
+                throw new FailToUpdateDBException();
+
+            SetAlertToRequest.setSuccessAlert(req);
+            resp.sendRedirect("login");
         } catch (DAOException e) {
             logger.error(e.getMessage());
-        }
+            SetAlertToRequest.setErrorAlert(req);
 
-        if (isResetSuccess) {
-            req.getRequestDispatcher("login").forward(req, resp);
-        } else {
-            req.getRequestDispatcher("newPassword").forward(req, resp);
+            resp.sendRedirect("newPassword");
+        } catch (FailToUpdateDBException e) {
+            logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("newPassword");
         }
     }
 }

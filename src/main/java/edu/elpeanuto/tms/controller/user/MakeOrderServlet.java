@@ -6,6 +6,7 @@ import edu.elpeanuto.tms.model.Order;
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.model.enums.Gender;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.DiscountDAO;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
@@ -96,8 +97,13 @@ public class MakeOrderServlet extends HttpServlet {
             req.setAttribute("user", userDAO.get(userDto.getId()).orElseThrow(NoEntityException::new));
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("allProduct?page=1");
+            return;
         } catch (NoEntityException e) {
             logger.warn(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
         }
 
         req.getRequestDispatcher("view/user/makeOrder.jsp").include(req, resp);

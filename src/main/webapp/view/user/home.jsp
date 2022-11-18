@@ -13,6 +13,7 @@
             <fmt:message key="tours" />
         </title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home-style.css">
 
@@ -167,6 +168,12 @@
             </c:forEach>
         </div>
     </c:if>
+
+    <script>
+        if("${sessionScope.alertFlag}" === "true"){
+            swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+        }
+    </script>
     </body>
 </fmt:bundle>
 

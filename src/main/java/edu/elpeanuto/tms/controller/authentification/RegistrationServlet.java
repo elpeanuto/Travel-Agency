@@ -1,6 +1,8 @@
 package edu.elpeanuto.tms.controller.authentification;
 
 import edu.elpeanuto.tms.model.enums.UserStatus;
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.PasswordHashing;
 import edu.elpeanuto.tms.model.User;
@@ -61,14 +63,20 @@ public class RegistrationServlet extends HttpServlet {
 
         try {
             if (userDAO.isEmailOccupied(userEmail)) {
+                SetAlertToRequest.setCustomAlert(req, "Error", "Account with this email is already exist.", AlertType.ERROR);
                 resp.sendRedirect("registration");
             } else if (!userPassword.equals(userPasswordRepetition)) {
+                SetAlertToRequest.setCustomAlert(req, "Error", "Passwords do not match.", AlertType.ERROR);
                 resp.sendRedirect("registration");
             } else if (userDAO.save(user)) {
+                SetAlertToRequest.setCustomAlert(req, "Success", "Account registered successfully.", AlertType.SUCCESS);
                 resp.sendRedirect("login");
             }
         } catch (DAOException e) {
             logger.error(e.getMessage());
+            SetAlertToRequest.setErrorAlert(req);
+
+            resp.sendRedirect("login");
         }
     }
 }

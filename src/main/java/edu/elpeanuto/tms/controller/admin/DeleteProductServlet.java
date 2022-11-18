@@ -1,5 +1,7 @@
 package edu.elpeanuto.tms.controller.admin;
 
+import edu.elpeanuto.tms.servies.alert.AlertType;
+import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.servies.exception.DAOException;
@@ -38,28 +40,30 @@ public class DeleteProductServlet extends HttpServlet {
 
         try {
             if (!adminProductName.equals(productDAO.get(id).orElseThrow(NoEntityException::new).getName())) {
+                SetAlertToRequest.setCustomAlert(req, "Error", "Names are not same.", AlertType.ERROR);
                 resp.sendRedirect(String.format("adminView?id=%d", id));
                 return;
             }
 
-            System.out.println("id:" + id);
-            System.out.println("ordered? " + orderDAO.isProductOrdered(id));
-
-            if(orderDAO.isProductOrdered(id)){
+            if (orderDAO.isProductOrdered(id)) {
+                SetAlertToRequest.setCustomAlert(req, "Error", "This tour is already in use.", AlertType.ERROR);
                 resp.sendRedirect(String.format("adminView?id=%d", id));
                 return;
             }
 
-            if(!productDAO.delete(id))
+            if (!productDAO.delete(id))
                 throw new FailToUpdateDBException();
 
             resp.sendRedirect("allProductEdit?page=1");
-        } catch (NoEntityException e) {
-            logger.warn(e.getMessage());
         } catch (DAOException e) {
             logger.error(e.getMessage());
-        } catch (FailToUpdateDBException e) {
-            logger.error(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
+
+            resp.sendRedirect("adminHome");
+            return;
+        } catch (NoEntityException | FailToUpdateDBException e) {
+            logger.warn(e.getMessage());
+            SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         }
     }
 }

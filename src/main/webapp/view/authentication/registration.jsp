@@ -6,6 +6,7 @@
     <head>
         <title><fmt:message key="signUp"/></title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
@@ -121,6 +122,12 @@
             <fmt:message key="haveAccount"/>? <a href="login"><fmt:message key="signIn"/></a>
         </div>
     </div>
+
+    <script>
+        if("${sessionScope.alertFlag}" === "true"){
+            swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+        }
+    </script>
     </body>
 
 </fmt:bundle>

@@ -12,6 +12,7 @@
         </title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home-style.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <style>
             h3 {
@@ -80,6 +81,11 @@
         </div>
     </c:if>
 
+    <script>
+        if("${sessionScope.alertFlag}" === "true"){
+            swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+        }
+    </script>
     </body>
 </fmt:bundle>
 

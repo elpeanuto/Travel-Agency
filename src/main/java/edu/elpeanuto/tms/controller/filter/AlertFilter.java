@@ -8,31 +8,39 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Filter that checks is client logged.
- */
-public class ClientFilter implements Filter {
+public class AlertFilter implements Filter {
+    private int alertCounter;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        alertCounter = 0;
         Filter.super.init(filterConfig);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
 
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login");
-        } else {
-            filterChain.doFilter(servletRequest, servletResponse);
+        Object object = session.getAttribute("alertFlag");
+        Boolean alertFlag = (Boolean) (object == null ? false : object);
+
+        if (alertFlag) {
+            alertCounter++;
         }
+
+        if(alertCounter == 2){
+            session.setAttribute("alertFlag", false);
+            alertCounter = 0;
+        }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
     public void destroy() {
         Filter.super.destroy();
     }
+
+
 }

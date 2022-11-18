@@ -4,6 +4,8 @@
 
 <head>
   <title>Title</title>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <style>
     @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
     body {
@@ -73,6 +75,12 @@
   <textarea name="response" class="feedback-input" placeholder="Comment" required minlength="20" maxlength="500"></textarea>
   <input type="submit" value="SUBMIT" />
 </form>
+
+<script>
+  if("${sessionScope.alertFlag}" === "true"){
+    swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
+  }
+</script>
 </body>
 
 </html>
