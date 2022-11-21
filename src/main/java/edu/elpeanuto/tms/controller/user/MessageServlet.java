@@ -33,7 +33,7 @@ public class MessageServlet extends HttpServlet {
     MessagesDAO messagesDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");
@@ -64,7 +64,7 @@ public class MessageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String message = req.getParameter("message");

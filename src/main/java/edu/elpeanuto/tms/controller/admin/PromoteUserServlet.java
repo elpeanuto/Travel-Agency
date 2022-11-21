@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.controller.admin;
 
-import edu.elpeanuto.tms.model.Message;
 import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.model.enums.UserStatus;
 import edu.elpeanuto.tms.servies.alert.AlertType;
@@ -34,7 +33,7 @@ public class PromoteUserServlet extends HttpServlet {
     private Integer numOfStringOnPage;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");
@@ -65,7 +64,7 @@ public class PromoteUserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long id = Long.parseLong(req.getParameter("id"));
         try {
             if (!userDAO.promote(id, UserStatus.valueOf(req.getParameter("status"))))

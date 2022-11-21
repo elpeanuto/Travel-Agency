@@ -325,6 +325,7 @@ public class ProductDAOImpl implements ProductDAO {
         if (filter.getType() != null)
             productGetByPattern.append(" and type = ?");
 
+        //noinspection DuplicatedCode
         if (filter.getCategory() != null && !filter.getCategory().equals(ProductFilterDTO.CATEGORY.All)){
             productGetByPattern.append(" and category = ?");
         }

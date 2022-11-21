@@ -2,12 +2,9 @@ package edu.elpeanuto.tms.controller.authentification;
 
 import edu.elpeanuto.tms.servies.alert.AlertType;
 import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
-import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.util.Objects;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +24,7 @@ public class ValidateOtpServlet extends HttpServlet {
         req.getRequestDispatcher("view/authentication/enterOtp.jsp").include(req, resp);
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         session = req.getSession();
 
         String userOtp = req.getParameter("otp");

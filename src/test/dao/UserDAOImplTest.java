@@ -39,7 +39,7 @@ public class UserDAOImplTest {
             stmt.executeUpdate("CREATE TABLE users" +
                     "(" +
                     "    id            INT PRIMARY KEY AUTO_INCREMENT," +
-                    "    user_info_id  INT REFERENCES userInfo (id)," +
+                    "    user_info_id  INT REFERENCES user_info (id)," +
                     "    name          VARCHAR(20) NOT NULL," +
                     "    password      VARCHAR(20) NOT NULL," +
                     "    email         VARCHAR(50) NOT NULL," +

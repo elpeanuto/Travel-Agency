@@ -8,9 +8,6 @@ import java.sql.SQLException;
  * Connection by jdbc driver used for tests
  */
 public class TestConnection implements DBConnection{
-    private final String user = "root";
-    private final String password = "141312";
-    private final String url = "jdbc:mysql://localhost:3306/travelbooktest";
 
     public Connection getConnection() throws SQLException {
         try {
@@ -20,6 +17,9 @@ public class TestConnection implements DBConnection{
             throw new RuntimeException("Failed to get connection", e);
         }
 
+        String user = "root";
+        String password = "141312";
+        String url = "jdbc:mysql://localhost:3306/travelbooktest";
         return DriverManager.getConnection(url, user, password);
     }
 }

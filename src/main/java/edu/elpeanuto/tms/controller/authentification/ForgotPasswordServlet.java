@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.controller.authentification;
 
-import edu.elpeanuto.tms.servies.dao.UserDAO;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -13,7 +12,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,7 +29,7 @@ public class ForgotPasswordServlet extends HttpServlet {
     private Logger logger;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         logger = (Logger) sc.getAttribute("logger");
@@ -42,7 +40,7 @@ public class ForgotPasswordServlet extends HttpServlet {
         req.getRequestDispatcher("view/authentication/forgotPassword.jsp").include(req, resp);
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String email = req.getParameter("email");
         HttpSession mySession = req.getSession();
 
@@ -84,7 +82,7 @@ public class ForgotPasswordServlet extends HttpServlet {
     }
 
     private String generateOtp() {
-        StringBuilder otp = new StringBuilder("");
+        StringBuilder otp = new StringBuilder();
 
         int otpLength = 6;
         for (int i = 0; i < otpLength; i++)

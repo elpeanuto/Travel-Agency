@@ -1,7 +1,5 @@
 package edu.elpeanuto.tms.controller.filter;
 
-import org.slf4j.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,10 +27,5 @@ public class ClientFilter implements Filter {
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
-    }
-
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
     }
 }

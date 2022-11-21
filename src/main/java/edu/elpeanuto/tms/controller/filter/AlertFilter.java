@@ -1,10 +1,7 @@
 package edu.elpeanuto.tms.controller.filter;
 
-import org.slf4j.Logger;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -36,11 +33,4 @@ public class AlertFilter implements Filter {
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
-
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
-    }
-
-
 }

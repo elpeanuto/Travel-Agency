@@ -1,4 +1,3 @@
-<jsp:include page="footer.jsp" />
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,22 +10,19 @@
             <fmt:message key="orders" />
         </title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home-style.css">
+        <style>
+            <%@include file="/css/home-style.css"%>
+        </style>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-        <style>
-            h3 {
-                color: yellow;
-                text-align: center;
-            }
-        </style>
 
     </head>
 
     <body>
     <%@ include file="header.jspf" %>
     <div style="color: black; text-align: center; font-size: 20px;">
-        <fmt:message key="yourOrders" /><i class='fab fa-elementor'></i></div>
+        <fmt:message key="yourOrders" /><i class='fab fa-elementor'></i>
+    </div>
 
     <table>
         <thead>
@@ -46,6 +42,9 @@
             <th>
                 <fmt:message key="status" />
             </th>
+            <th>
+                <fmt:message key="view" />
+            </th>
             <th scope="col">
                 <fmt:message key="cancel" />
             </th>
@@ -61,6 +60,11 @@
                 <td>${order.totalPrice}</td>
                 <td>${order.orderStatus}</td>
                 <td>
+                    <a href="bill?id=${order.orderId}">
+                        <fmt:message key="cancel" />
+                    </a>
+                </td>
+                <td>
                     <a href="cancelOrder?id=${order.orderId}">
                         <fmt:message key="cancel" />
                     </a>
@@ -74,15 +78,16 @@
     <br>
 
     <c:if test="${requestScope.positionList != null}">
-        <div class="pagination" style="text-align: center;">
+        <div class="pagination"">
             <c:forEach var="position" items="${requestScope.positionList}">
                 <a href="myOrders?page=${position}">${position}</a>
             </c:forEach>
         </div>
     </c:if>
 
+    <jsp:include page="footer.jsp" />
     <script>
-        if("${sessionScope.alertFlag}" === "true"){
+        if ("${sessionScope.alertFlag}" === "true") {
             swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
         }
     </script>

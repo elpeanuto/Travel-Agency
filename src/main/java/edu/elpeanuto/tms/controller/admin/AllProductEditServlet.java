@@ -24,11 +24,10 @@ import java.io.IOException;
 public class AllProductEditServlet extends HttpServlet {
     private Logger logger;
     private ProductDAO productDAO;
-
     private Integer numOfStringOnPage;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         productDAO = (ProductDAO) sc.getAttribute("productDAO");

@@ -20,7 +20,7 @@ public class ProfileServlet extends HttpServlet {
     private UserDAO userDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");

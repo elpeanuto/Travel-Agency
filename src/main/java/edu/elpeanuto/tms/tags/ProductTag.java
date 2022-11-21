@@ -19,7 +19,7 @@ public class ProductTag extends TagSupport {
         JspWriter out = pageContext.getOut();
 
         try {
-            if(product.getType().equals(ProductType.Hot.name()))
+            if(product.getType().name().equals(ProductType.Hot.name()))
                 out.print(String.format("<td class=\"hot\">%s</td>", product.getName()));
             else
                 out.print(String.format("<td>%s</td>", product.getName()));

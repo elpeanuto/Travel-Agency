@@ -106,6 +106,12 @@ public class Message extends Entity<Message> {
         this.receivedDate = receivedDate;
     }
 
+    // --Commented out by Inspection START (20.11.2022 17:42):
+//    public void setReceivedDate(String receivedDate) {
+//        this.receivedDate = receivedDate;
+//    }
+// --Commented out by Inspection STOP (20.11.2022 17:42)
+
     public String getProcessingDate() {
         return processingDate;
     }

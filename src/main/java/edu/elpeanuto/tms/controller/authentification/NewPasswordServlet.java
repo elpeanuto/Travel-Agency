@@ -6,13 +6,10 @@ import edu.elpeanuto.tms.servies.dao.UserDAO;
 import edu.elpeanuto.tms.servies.PasswordHashing;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
-import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -32,7 +29,7 @@ public class NewPasswordServlet extends HttpServlet {
     HttpSession session;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");
@@ -44,7 +41,7 @@ public class NewPasswordServlet extends HttpServlet {
         req.getRequestDispatcher("view/authentication/newPassword.jsp").include(req, resp);
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         session = req.getSession();
 
         String newPassword = req.getParameter("password");

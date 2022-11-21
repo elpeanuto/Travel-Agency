@@ -29,7 +29,7 @@ public class AddNewProductServlet extends HttpServlet {
     private ProductDAO productDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         productDAO = (ProductDAO) sc.getAttribute("productDAO");
@@ -42,7 +42,7 @@ public class AddNewProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             productDAO.save(getProductFromRequest(req));
         } catch (DAOException e) {
@@ -62,6 +62,7 @@ public class AddNewProductServlet extends HttpServlet {
      * @return New Product filled with params from request.
      */
     private Product getProductFromRequest(HttpServletRequest req) {
+        @SuppressWarnings("DuplicatedCode")
         String name = req.getParameter("name");
         ProductCategory category = ProductCategory.valueOf(req.getParameter("category"));
         ProductType type = ProductType.valueOf(req.getParameter("type"));

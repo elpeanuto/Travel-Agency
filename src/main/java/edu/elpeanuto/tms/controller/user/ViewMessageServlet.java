@@ -24,7 +24,7 @@ public class ViewMessageServlet extends HttpServlet {
     private MessagesDAO messagesDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         messagesDAO = (MessagesDAO) sc.getAttribute("messagesDAO");
@@ -36,6 +36,7 @@ public class ViewMessageServlet extends HttpServlet {
         Long messageId = Long.valueOf(req.getParameter("id"));
 
         try {
+            System.out.println(messagesDAO.get(messageId).orElseThrow(NoEntityException::new));
             req.setAttribute("message", messagesDAO.get(messageId).orElseThrow(NoEntityException::new));
         } catch (DAOException e) {
             logger.error(e.getMessage());

@@ -298,7 +298,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User user) throws DAOException {
-        String userUpdatePattern = "UPDATE users SET name=?, email=?, phone_number=? WHERE id=?";
+        String userUpdatePattern = "UPDATE users SET name=?, phone_number=? WHERE id=?";
         String userInfoSavePattern = "UPDATE user_info SET name=?,surname=?,date_of_birth=?,gender=?,nationality=?," +
                 "passport_serial=?,passport_number=?,passport_valid_date=? WHERE id=?";
 
@@ -308,9 +308,8 @@ public class UserDAOImpl implements UserDAO {
                 con.setAutoCommit(false);
 
                 stmt1.setString(1, user.getName());
-                stmt1.setString(2, user.getEmail());
-                stmt1.setString(3, user.getPhoneNumber());
-                stmt1.setLong(4, user.getId());
+                stmt1.setString(2, user.getPhoneNumber());
+                stmt1.setLong(3, user.getId());
 
                 userInfoStmtSet(user, stmt2);
                 stmt2.setLong(9, user.getUserInfoId());
@@ -336,10 +335,7 @@ public class UserDAOImpl implements UserDAO {
         stmt2.setString(1, user.getRealName());
         stmt2.setString(2, user.getRealSurname());
         stmt2.setString(3, user.getDateOfBirth());
-        if (user.getGender() != null)
-            stmt2.setString(4, user.getGender().name());
-        else
-            stmt2.setString(4, null);
+        stmt2.setString(4, user.getGender() == null ? null : user.getGender().name());
         stmt2.setString(5, user.getCitizenship());
         stmt2.setString(6, user.getPassportSerial());
         stmt2.setString(7, user.getPassportNumber());

@@ -23,8 +23,4 @@ public class EncodingFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
-    }
 }

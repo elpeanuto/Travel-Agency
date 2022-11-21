@@ -30,7 +30,7 @@ public class PromoteProductServlet extends HttpServlet {
     private Integer numOfStringOnPage;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         productDAO = (edu.elpeanuto.tms.servies.dao.ProductDAO) sc.getAttribute("productDAO");
@@ -55,7 +55,7 @@ public class PromoteProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long id = Long.parseLong(req.getParameter("id"));
         ProductType status = ProductType.valueOf(req.getParameter("status"));
 

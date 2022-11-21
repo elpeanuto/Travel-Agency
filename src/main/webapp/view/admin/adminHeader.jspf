@@ -1,0 +1,17 @@
+<br>
+<div class="topnav sticky">
+    <h2 style="text-align: center">TIME TO REDACT</h2>
+    <c:if test="${sessionScope.user.status == 'Admin' || sessionScope.user.status == 'Leader'}">
+        <a href="addNewProduct">Add New Product</a>
+    </c:if>
+    <c:if test="${sessionScope.user.status == 'Admin' || sessionScope.user.status == 'Leader'}">
+        <a href="allProductEdit?page=1">All Products & Edit Products</a>
+    </c:if>
+    <a href="promoteUser?page=1">Promote User</a>
+    <a href="promoteProduct?page=1">Promote Product</a>
+    <a href="discount">Discount</a>
+    <a href="allMessages?page=1">Messages Received</a>
+    <a href="allOrders?page=1">Orders Received</a>
+    <a href="logout">Logout</a>
+</div>
+<br>

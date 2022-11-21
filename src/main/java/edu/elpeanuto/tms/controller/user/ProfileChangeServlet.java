@@ -28,7 +28,7 @@ public class ProfileChangeServlet extends HttpServlet {
     private UserDAO userDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");
@@ -61,7 +61,7 @@ public class ProfileChangeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             userDAO.update(getUserFromRequest(req));
         } catch (DAOException e) {
@@ -79,7 +79,6 @@ public class ProfileChangeServlet extends HttpServlet {
         UserDTO userDto = (UserDTO) req.getSession().getAttribute("user");
 
         String name = req.getParameter("name");
-        String email = req.getParameter("email");
         String phoneNumber = req.getParameter("phoneNumber");
         String realName = req.getParameter("realName");
         String realSurname = req.getParameter("realSurname");
@@ -91,7 +90,7 @@ public class ProfileChangeServlet extends HttpServlet {
         String passportValidDate = req.getParameter("passportValidDate");
         UserStatus status = userDto.getStatus();
 
-        return new User(userDto.getId(), userDto.getId(), name, null, email, phoneNumber, status,
+        return new User(userDto.getId(), userDto.getId(), name, null, null, phoneNumber, status,
                 realName, realSurname, Gender.valueOf(gender), dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate);
     }
 }

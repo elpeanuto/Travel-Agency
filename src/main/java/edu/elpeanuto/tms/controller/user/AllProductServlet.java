@@ -33,7 +33,7 @@ public class AllProductServlet extends HttpServlet {
     private ProductDAO productDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         productDAO = (ProductDAO) sc.getAttribute("productDAO");

@@ -27,11 +27,10 @@ import java.io.IOException;
 public class AllOrderServlet extends HttpServlet {
     private Logger logger;
     private OrderDAO orderDAO;
-
     private Integer numOfStringOnPage;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         orderDAO = (OrderDAO) sc.getAttribute("orderDAO");
@@ -59,7 +58,7 @@ public class AllOrderServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long id = Long.parseLong(req.getParameter("id"));
         String status = req.getParameter("status");
         try {

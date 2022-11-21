@@ -23,12 +23,11 @@ import java.io.IOException;
 @WebServlet("/allMessages")
 public class AllMessagesServlet extends HttpServlet {
     private Logger logger;
-    MessagesDAO messagesDAO;
-
+    private MessagesDAO messagesDAO;
     private Integer numOfStringOnPage;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         messagesDAO = (MessagesDAO) sc.getAttribute("messagesDAO");
@@ -54,6 +53,4 @@ public class AllMessagesServlet extends HttpServlet {
 
         req.getRequestDispatcher("view/admin/allMessages.jsp").include(req, resp);
     }
-
-
 }

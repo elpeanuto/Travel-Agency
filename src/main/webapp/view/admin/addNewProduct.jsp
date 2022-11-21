@@ -2,57 +2,12 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <title>Add new product</title>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
-
-        * {
-            margin: 0;
-        }
-
-        body {
-            background-color: #e8f5ff;
-            font-family: Arial;
-            overflow: hidden;
-        }
-
-        .main {
-            margin-top: 2%;
-            margin-left: 25%;
-            font-size: 28px;
-            padding: 0 10px;
-            width: 50%;
-        }
-
-        .main h2 {
-            color: #333;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .main .card {
-            background-color: #fff;
-            border-radius: 18px;
-            box-shadow: 1px 1px 8px 0 grey;
-            height: auto;
-            margin-bottom: 20px;
-            padding: 20px 0 20px 50px;
-        }
-
-        .main .card table {
-            border: none;
-            font-size: 16px;
-            height: 270px;
-            width: 80%;
-        }
-
+        <%@include file="/css/view-style.css"%>
     </style>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
 </head>
 
 <body>
@@ -78,7 +33,7 @@
                         <td>Price</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="price" placeholder="Enter price" required pattern="\d*" maxlength="6">
+                            <input type="number" name="price" placeholder="Enter price" min="1" required maxlength="6">
                         </td>
                     </tr>
                     <tr>
@@ -92,14 +47,14 @@
                         <td>Description</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="description" placeholder="Enter description" required minlength="10" maxlength="200">
+                            <input type="text" name="description" placeholder="Enter description" required minlength="10" maxlength="300">
                         </td>
                     </tr>
                     <tr>
                         <td>Number of Tourists</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="numberOfTourists" placeholder="Enter num of tourists" pattern="\d*" required maxlength="6">
+                            <input type="number" name="numberOfTourists" min="1" placeholder="Enter num of tourists" required maxlength="6">
                         </td>
                     </tr>
                     <tr>
@@ -148,7 +103,7 @@
                         <td>Amount Of days</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="amountOfDays" placeholder="Enter amountOfDays" pattern="\d*" maxlength="6" required>
+                            <input type="number" name="amountOfDays" min="1" placeholder="Enter amountOfDays" maxlength="6" required>
                         </td>
                     </tr>
                     <tr>
@@ -225,7 +180,7 @@
 </div>
 
 <script>
-    if("${sessionScope.alertFlag}" === "true"){
+    if ("${sessionScope.alertFlag}" === "true") {
         swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
     }
 </script>

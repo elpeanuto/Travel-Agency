@@ -33,7 +33,7 @@ public class MyMessagesServlet extends HttpServlet {
     private Integer numOfStringOnPage;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         messagesDAO = (MessagesDAO) sc.getAttribute("messagesDAO");

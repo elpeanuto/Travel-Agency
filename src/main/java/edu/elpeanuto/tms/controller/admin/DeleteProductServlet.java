@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ public class DeleteProductServlet extends HttpServlet {
     private OrderDAO orderDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         productDAO = (ProductDAO) sc.getAttribute("productDAO");
@@ -34,7 +33,7 @@ public class DeleteProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long id = Long.valueOf(req.getParameter("id"));
         String adminProductName = req.getParameter("name");
 
@@ -60,7 +59,6 @@ public class DeleteProductServlet extends HttpServlet {
             SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
 
             resp.sendRedirect("adminHome");
-            return;
         } catch (NoEntityException | FailToUpdateDBException e) {
             logger.warn(e.getMessage());
             SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);

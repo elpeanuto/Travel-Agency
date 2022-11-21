@@ -1,5 +1,4 @@
-﻿<jsp:include page="footer.jsp" />
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+﻿<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.locale}" />
 <%@ taglib uri="elpTags" prefix="elp" %>
@@ -15,17 +14,20 @@
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home-style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home-style.css" type="text/css" />
+        <style>
+            <%@include file="/css/home-style.css"%>
+        </style>
 
         <style>
-            .headName{
+            .headName {
                 color: black;
                 text-align: center;
                 font-size: 20px;
             }
 
-            .hot{
-                color:orangered;
+            .hot {
+                color: red;
             }
         </style>
     </head>
@@ -43,24 +45,21 @@
                     <fmt:message key="allCategories" />
                 </option>
 
-                <option
-                        <c:if test="${requestScope.filter.category == 'Rest'}">
-                            selected
-                        </c:if>
+                <option <c:if test="${requestScope.filter.category == 'Rest'}">
+                    selected
+                </c:if>
                         value="Rest">
                     <fmt:message key="rest" />
                 </option>
-                <option
-                        <c:if test="${requestScope.filter.category == 'Excursion'}">
-                            selected
-                        </c:if>
+                <option <c:if test="${requestScope.filter.category == 'Excursion'}">
+                    selected
+                </c:if>
                         value="Excursion">
                     <fmt:message key="excursion" />
                 </option>
-                <option
-                        <c:if test="${requestScope.filter.category == 'Shopping'}">
-                            selected
-                        </c:if>
+                <option <c:if test="${requestScope.filter.category == 'Shopping'}">
+                    selected
+                </c:if>
                         value="Shopping">
                     <fmt:message key="shopping" />
                 </option>
@@ -72,51 +71,49 @@
                     <option value="All">
                         <fmt:message key="allTypes" />
                     </option>
-                    <option
-                            <c:if test="${requestScope.filter.hotelType == 'Resort'}">
-                                selected
-                            </c:if>
+                    <option <c:if test="${requestScope.filter.hotelType == 'Resort'}">
+                        selected
+                    </c:if>
                             value="Resort">
-                        <fmt:message key="resort"/>
+                        <fmt:message key="resort" />
                     </option>
-                    <option
-                            <c:if test="${requestScope.filter.hotelType == 'Hostel'}">
-                                selected
-                            </c:if>
+                    <option <c:if test="${requestScope.filter.hotelType == 'Hostel'}">
+                        selected
+                    </c:if>
                             value="Hostel">
-                        <fmt:message key="hostel"/>
+                        <fmt:message key="hostel" />
                     </option>
-                    <option
-                            <c:if test="${requestScope.filter.hotelType == 'Motel'}">
-                                selected
-                            </c:if>
+                    <option <c:if test="${requestScope.filter.hotelType == 'Motel'}">
+                        selected
+                    </c:if>
                             value="Motel">
-                        <fmt:message key="motel"/>
+                        <fmt:message key="motel" />
                     </option>
-                    <option
-                            <c:if test="${requestScope.filter.hotelType == 'Timeshare'}">
-                                selected
-                            </c:if>
+                    <option <c:if test="${requestScope.filter.hotelType == 'Timeshare'}">
+                        selected
+                    </c:if>
                             value="Timeshare">
-                        <fmt:message key="timeShare"/>
+                        <fmt:message key="timeShare" />
                     </option>
                 </select>
             </label>
         </td>
 
-        <input type="text" placeholder="<fmt:message key="priceMin"/>" name="minPrice" value="${requestScope.filter.minPrice}" pattern="\d*" maxlength="6">
-        <input type="text" placeholder="<fmt:message key="priceMax"/>" name="maxPrice" value="${requestScope.filter.maxPrice}" pattern="\d*" maxlength="6">
-        <input type="text" placeholder="<fmt:message key="numberOfTourists"/>" name="numberOfTourists" value="${requestScope.filter.numberOfTourists}" pattern="\d*" maxlength="6">
-        <input type="text" placeholder="<fmt:message key="search"/>" name="search" value="${requestScope.filter.searchPattern}" maxlength="50">
+        <input type="text" placeholder="<fmt:message key="priceMin" />" name="minPrice" min="1" value="${requestScope.filter.minPrice}" pattern="\d*" maxlength="6">
+        <input type="text" placeholder="<fmt:message key="priceMax" />" name="maxPrice" min="1" value="${requestScope.filter.maxPrice}" pattern="\d*" maxlength="6">
+        <input type="text" placeholder="<fmt:message key="numberOfTourists" />" min="1" name="numberOfTourists" value="${requestScope.filter.numberOfTourists}" pattern="\d*" maxlength="6">
+        <input type="text" placeholder="<fmt:message key="search" />" name="search" value="${requestScope.filter.searchPattern}" maxlength="50">
 
         <input type="hidden" name="page" value="${requestScope.currentPosition}">
 
 
         <button type="submit">
-            <fmt:message key="search"/>
+            <fmt:message key="search" />
         </button>
 
-        <a href="${pageContext.request.contextPath}/allProduct?page=1"><fmt:message key="reset" /></a>
+        <a href="${pageContext.request.contextPath}/allProduct?page=1">
+            <fmt:message key="reset" />
+        </a>
     </form>
 
     <table>
@@ -169,8 +166,10 @@
         </div>
     </c:if>
 
+    <jsp:include page="footer.jsp" />
+
     <script>
-        if("${sessionScope.alertFlag}" === "true"){
+        if ("${sessionScope.alertFlag}" === "true") {
             swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
         }
     </script>

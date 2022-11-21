@@ -8,57 +8,18 @@
     <title>Cancel order</title>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <style>
-      @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
-      * {
-        margin: 0;
-      }
-      body {
-        background-color: #e8f5ff;
-        font-family: Arial;
-        overflow: hidden;
-      }
-      /* Main */
-      .main {
-        margin-top: 2%;
-        margin-left: 25%;
-        font-size: 28px;
-        padding: 0 10px;
-        width: 50%;
-      }
-      .main h2 {
-        color: #333;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 24px;
-        margin-bottom: 10px;
-      }
-      .main .card {
-        background-color: #fff;
-        border-radius: 18px;
-        box-shadow: 1px 1px 8px 0 grey;
-        height: auto;
-        margin-bottom: 20px;
-        padding: 20px 0 20px 50px;
-      }
-      .main .card table {
-        border: none;
-        font-size: 16px;
-        height: 270px;
-        width: 80%;
-      }
-      .edit {
-        position: absolute;
-        color: #e7e7e8;
-        right: 14%;
-      }
+      <%@include file="/css/view-style.css"%>
     </style>
-    </head>
+
+  </head>
 
   <body>
 
   <div class="main">
-    <h2><fmt:message key="yourOrder"/></h2>
+    <h2>
+      <fmt:message key="yourOrder" />
+    </h2>
     <div class="card">
       <div class="card-body">
 
@@ -178,7 +139,7 @@
   </div>
 
   <script>
-    if("${sessionScope.alertFlag}" === "true"){
+    if ("${sessionScope.alertFlag}" === "true") {
       swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
     }
   </script>

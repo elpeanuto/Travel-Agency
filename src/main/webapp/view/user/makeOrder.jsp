@@ -13,49 +13,9 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <style>
-        @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
-        * {
-            margin: 0;
-        }
-        body {
-            background-color: #e8f5ff;
-            font-family: Arial;
-            overflow: hidden;
-        }
-        /* Main */
-        .main {
-            margin-top: 2%;
-            margin-left: 25%;
-            font-size: 28px;
-            padding: 0 10px;
-            width: 50%;
-        }
-        .main h2 {
-            color: #333;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .main .card {
-            background-color: #fff;
-            border-radius: 18px;
-            box-shadow: 1px 1px 8px 0 grey;
-            height: auto;
-            margin-bottom: 20px;
-            padding: 20px 0 20px 50px;
-        }
-        .main .card table {
-            border: none;
-            font-size: 16px;
-            height: 270px;
-            width: 80%;
-        }
-        .edit {
-            position: absolute;
-            color: #e7e7e8;
-            right: 14%;
-        }
+            <%@include file="/css/view-style.css"%>
         </style>
+
     </head>
 
     <body>
@@ -63,7 +23,9 @@
     <!-- Main -->
     <div class="main">
 
-        <h2><fmt:message key="yourTour"/></h2>
+        <h2>
+            <fmt:message key="yourTour" />
+        </h2>
         <div class="card">
             <div class="card-body">
                 <i class="fa fa-pen fa-xs edit"></i>
@@ -172,7 +134,9 @@
                 </table>
             </div>
         </div>
-        <h2><fmt:message key="yourInformation"/></h2>
+        <h2>
+            <fmt:message key="yourInformation" />
+        </h2>
         <div class="card">
             <div class="card-body">
                 <i class="fa fa-pen fa-xs edit"></i>
@@ -187,7 +151,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input readonly type="text" name="name" placeholder="<fmt:message key="enterNickname"/>" value="${requestScope.user.name}" pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="5" maxlength="20">
+                                <input readonly type="text" name="name" placeholder="<fmt:message key=" enterNickname" />" value="${requestScope.user.name}" pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="5" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -196,7 +160,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input readonly type="text" name="email" placeholder="<fmt:message key="enterEmail"/>" value="${requestScope.user.email}" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50">
+                                <input readonly type="text" name="email" placeholder="<fmt:message key=" enterEmail" />" value="${requestScope.user.email}" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50">
                             </td>
                         </tr>
                         <tr>
@@ -205,7 +169,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="phoneNumber" placeholder="<fmt:message key="enterPhoneNumber"/>" value="${requestScope.user.phoneNumber}" pattern="\d*"  required minlength="10" maxlength="10">
+                                <input type="text" pattern="^\d{10}$" name="phoneNumber" placeholder="<fmt:message key=" enterPhoneNumber" />" value="${requestScope.user.phoneNumber}" required minlength="10" maxlength="10">
                             </td>
                         </tr>
                         <tr>
@@ -214,7 +178,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="realName" placeholder="<fmt:message key="enterName"/>" value="${requestScope.user.realName}" pattern="^[A-ZА-я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                                <input type="text" name="realName" placeholder="<fmt:message key=" enterName" />" value="${requestScope.user.realName}" pattern="^[A-ZА-я]+[a-zа-я]*$" minlength="3" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -223,7 +187,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="realSurname" placeholder="<fmt:message key="enterSurname"/>" value="${requestScope.user.realSurname}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
+                                <input type="text" name="realSurname" placeholder="<fmt:message key=" enterSurname" />" value="${requestScope.user.realSurname}" pattern="^[A-ZА-Я]+[a-zа-я]*$" minlength="3" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -232,7 +196,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="date" name="dateOfBirth" placeholder="<fmt:message key="enterDateOfBirth"/>" value="${requestScope.user.dateOfBirth}">
+                                <input type="date" name="dateOfBirth" placeholder="<fmt:message key=" enterDateOfBirth" />" value="${requestScope.user.dateOfBirth}">
                             </td>
                         </tr>
                         <tr>
@@ -257,7 +221,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="citizenship" placeholder="<fmt:message key="enterNationality"/>p" value="${requestScope.user.citizenship}" pattern="^[A-ZА-Я]+[a-zа-я]*$" maxlength="20">
+                                <input type="text" name="citizenship" placeholder="<fmt:message key=" enterNationality" />p" value="${requestScope.user.citizenship}" pattern="^[A-ZА-Я]+[a-zа-я]*$" maxlength="20">
                             </td>
                         </tr>
                         <tr>
@@ -266,7 +230,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="passportSerial" placeholder="<fmt:message key="enterPassportSerial"/>" value="${requestScope.user.passportSerial}" pattern="\d*" required minlength="10" maxlength="10">
+                                <input type="text" pattern="^\d{10}$" name="passportSerial" placeholder="<fmt:message key=" enterPassportSerial" />" value="${requestScope.user.passportSerial}" required >
                             </td>
                         </tr>
                         <tr>
@@ -275,7 +239,7 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="text" name="passportNumber" placeholder="<fmt:message key="enterPassportNumber"/>" value="${requestScope.user.passportNumber}" pattern="\d*" required minlength="5" maxlength="5">
+                                <input type="text" name="passportNumber" placeholder="<fmt:message key=" enterPassportNumber" />" value="${requestScope.user.passportNumber}" required pattern="^\d{5}$">
                             </td>
                         </tr>
                         <tr>
@@ -284,14 +248,15 @@
                             </td>
                             <td>:</td>
                             <td>
-                                <input type="date" name="passportValidDate" placeholder="<fmt:message key="enterPassportValidDate"/>" value="${requestScope.user.passportValidDate}">
+                                <input type="date" name="passportValidDate" placeholder="<fmt:message key=" enterPassportValidDate" />" value="${requestScope.user.passportValidDate}">
                             </td>
                         </tr>
                         </tbody>
 
                     </table>
                     <button class="button">
-                        <fmt:message key="save" /></button>
+                        <fmt:message key="save" />
+                    </button>
                 </form>
             </div>
 
@@ -300,7 +265,7 @@
     </div>
 
     <script>
-        if("${sessionScope.alertFlag}" === "true"){
+        if ("${sessionScope.alertFlag}" === "true") {
             swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
         }
     </script>

@@ -2,61 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <title>Product Edit</title>
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
-
-        * {
-            margin: 0;
-        }
-
-        body {
-            background-color: #e8f5ff;
-            font-family: Arial;
-            overflow: hidden;
-        }
-
-        .main {
-            margin-top: 2%;
-            margin-left: 25%;
-            font-size: 28px;
-            padding: 0 10px;
-            width: 50%;
-        }
-
-        .main h2 {
-            color: #333;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .main .card {
-            background-color: #fff;
-            border-radius: 18px;
-            box-shadow: 1px 1px 8px 0 grey;
-            height: auto;
-            margin-bottom: 20px;
-            padding: 20px 0 20px 50px;
-        }
-
-        .main .card table {
-            border: none;
-            font-size: 16px;
-            height: 270px;
-            width: 80%;
-        }
-
+        <%@include file="/css/view-style.css"%>
     </style>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
 </head>
 
 <body>
 
-<!-- Main -->
 <div class="main">
 
     <h2>Update Product</h2>
@@ -79,7 +34,7 @@
                         <td>Price</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="price" placeholder="Enter price" required  value="${requestScope.product.price}" pattern="\d*" maxlength="6">
+                            <input type="number" name="price" min="1" placeholder="Enter price" required value="${requestScope.product.price}" maxlength="6">
                         </td>
                     </tr>
                     <tr>
@@ -100,14 +55,14 @@
                         <td>Number of Tourists</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="numberOfTourists" placeholder="Enter num of tourists" value="${requestScope.product.numberOfTourists}" pattern="\d*" required maxlength="6">
+                            <input type="number" name="numberOfTourists" min="1" placeholder="Enter num of tourists" value="${requestScope.product.numberOfTourists}" required maxlength="6">
                         </td>
                     </tr>
                     <tr>
                         <td>Arrival Date</td>
                         <td>:</td>
                         <td>
-                            <input type="date" name="arrivalDate" placeholder="Enter arrival date"  value="${requestScope.product.arrivalDate}" required>
+                            <input type="date" name="arrivalDate" placeholder="Enter arrival date" value="${requestScope.product.arrivalDate}" required>
                         </td>
                     </tr>
                     <tr>
@@ -142,14 +97,14 @@
                         <td>City</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="city" placeholder="Enter city"  value="${requestScope.product.city}" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
+                            <input type="text" name="city" placeholder="Enter city" value="${requestScope.product.city}" pattern="^[A-ZА-Я][\D]*" required minlength="5" maxlength="20">
                         </td>
                     </tr>
                     <tr>
                         <td>Amount Of days</td>
                         <td>:</td>
                         <td>
-                            <input type="text" name="amountOfDays" value="${requestScope.product.amountOfDays}" placeholder="Enter amountOfDays" pattern="\d*" maxlength="6" required>
+                            <input type="number" name="amountOfDays" min="1" value="${requestScope.product.amountOfDays}" placeholder="Enter amountOfDays" maxlength="6" required>
                         </td>
                     </tr>
                     <tr>
@@ -224,10 +179,11 @@
         </div>
     </div>
     <script>
-        if("${sessionScope.alertFlag}" === "true"){
+        if ("${sessionScope.alertFlag}" === "true") {
             swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
         }
     </script>
+</div>
 </body>
 
 </html>

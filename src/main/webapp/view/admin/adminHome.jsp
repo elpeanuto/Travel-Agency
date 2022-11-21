@@ -1,20 +1,19 @@
-<jsp:include page="adminHeader.jsp" />
-<jsp:include page="../user/footer.jsp" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>welcome</title>
+    <title>Welcome</title>
     <style>
-        h1 {
-            text-align: center;
-            font-size: 60px;
-        }
+        <%@include file="/css/home-style.css"%>
     </style>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
+
+
 </head>
 
 <body>
-
+<%@ include file="adminHeader.jspf" %>
+<jsp:include page="../user/footer.jsp" />
 </body>
 
 </html>

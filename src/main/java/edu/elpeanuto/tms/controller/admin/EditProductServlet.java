@@ -5,7 +5,6 @@ import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.servies.exception.DAOException;
-import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletConfig;
@@ -27,7 +26,7 @@ public class EditProductServlet extends HttpServlet {
     private ProductDAO productDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         productDAO = (ProductDAO) sc.getAttribute("productDAO");

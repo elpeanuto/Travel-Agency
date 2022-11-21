@@ -9,7 +9,6 @@ import edu.elpeanuto.tms.servies.dto.UserDTO;
 import edu.elpeanuto.tms.model.User;
 import edu.elpeanuto.tms.servies.exception.DAOException;
 import edu.elpeanuto.tms.servies.exception.FailToUpdateDBException;
-import edu.elpeanuto.tms.servies.exception.NoEntityException;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletConfig;
@@ -21,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * Client log in controller.
@@ -34,7 +31,7 @@ public class LoginServlet extends HttpServlet {
     private UserDAO userDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");
@@ -49,7 +46,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
 
         String email = req.getParameter("email");

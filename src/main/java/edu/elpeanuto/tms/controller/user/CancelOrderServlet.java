@@ -2,6 +2,7 @@ package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
+import edu.elpeanuto.tms.model.enums.ProductCategory;
 import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
@@ -30,7 +31,7 @@ public class CancelOrderServlet extends HttpServlet {
     private ProductDAO productDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         orderDAO = (OrderDAO) sc.getAttribute("orderDAO");
@@ -44,10 +45,11 @@ public class CancelOrderServlet extends HttpServlet {
         long orderId = Long.parseLong(req.getParameter("id"));
 
         try {
-            Optional<Product> optionalProduct = productDAO.get(orderDAO.get(orderId).orElseThrow(NoEntityException::new).getProductId());
+            Long productId = orderDAO.get(orderId).orElseThrow(NoEntityException::new).getProductId();
+            Product product = productDAO.get(productId).orElseThrow(NoEntityException::new);
 
             req.setAttribute("orderId", orderId);
-            req.setAttribute("product", optionalProduct.isPresent());
+            req.setAttribute("product", product);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             throw new RuntimeException(e);
@@ -60,7 +62,7 @@ public class CancelOrderServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         long orderId = Long.parseLong(req.getParameter("id"));
 
         try {

@@ -71,7 +71,7 @@ public class MakeOrderServlet extends HttpServlet {
     HttpSession session;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         userDAO = (UserDAO) sc.getAttribute("userDAO");
@@ -110,7 +110,7 @@ public class MakeOrderServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String name = req.getParameter("name");
         String phoneNumber = req.getParameter("phoneNumber");
         String email = req.getParameter("email");

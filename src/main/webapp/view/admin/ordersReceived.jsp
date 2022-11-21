@@ -1,24 +1,19 @@
-<jsp:include page="adminHeader.jsp" />
-<jsp:include page="../user/footer.jsp" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Order received</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/travel.png" type="image/png">
     <style>
-        h3 {
-            color: yellow;
-            text-align: center;
-        }
+        <%@include file="/css/home-style.css"%>
     </style>
 
 </head>
 
 <body>
+<jsp:include page="adminHeader.jspf" />
 <div style="color: black; text-align: center; font-size: 20px;">All orders</div>
 
 <table>
@@ -60,14 +55,15 @@
 <br>
 <br>
 <c:if test="${requestScope.positionList != null}">
-    <div class="pagination" style="text-align: center;">
+    <div class="pagination">
         <c:forEach var="position" items="${requestScope.positionList}">
             <a href="allOrders?page=${position}">${position}</a>
         </c:forEach>
     </div>
 </c:if>
+<jsp:include page="../user/footer.jsp" />
 <script>
-    if("${sessionScope.alertFlag}" === "true"){
+    if ("${sessionScope.alertFlag}" === "true") {
         swal("${sessionScope.alertHeader}", "${sessionScope.alertBody}", "${sessionScope.alertType}")
     }
 </script>

@@ -1,7 +1,10 @@
 <br>
 <div class="topnav sticky">
-    <center>
-        <h2><fmt:message key="timeToTravel"/></h2></center>
+    <div style="text-align: center;">
+        <h2>
+            <fmt:message key="timeToTravel" />
+        </h2>
+    </div>
 
     <a href="allProduct?page=1">
         <fmt:message key="tours" />

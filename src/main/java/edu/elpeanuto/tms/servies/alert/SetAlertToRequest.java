@@ -1,7 +1,5 @@
 package edu.elpeanuto.tms.servies.alert;
 
-import com.mysql.cj.Session;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

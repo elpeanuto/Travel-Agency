@@ -1,6 +1,5 @@
 package edu.elpeanuto.tms.controller.admin;
 
-import edu.elpeanuto.tms.model.Message;
 import edu.elpeanuto.tms.servies.alert.AlertType;
 import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.MessagesDAO;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  * Message response controller.
@@ -34,7 +32,7 @@ public class MessageResponseServlet extends HttpServlet {
     private UserDAO userDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         messagesDAO = (MessagesDAO) sc.getAttribute("messagesDAO");
@@ -61,7 +59,7 @@ public class MessageResponseServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long messageId = Long.valueOf(req.getParameter("id"));
         Long adminId = Long.valueOf(req.getParameter("adminId"));
         String response = req.getParameter("response");

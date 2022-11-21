@@ -26,7 +26,7 @@ public class DiscountServlet extends HttpServlet {
     DiscountDAO discountDAO;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext sc = config.getServletContext();
 
         discountDAO = (DiscountDAO) sc.getAttribute("discountDAO");
@@ -46,7 +46,7 @@ public class DiscountServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String step = req.getParameter("step");
         String max = req.getParameter("max");
 
