@@ -89,4 +89,4 @@ All tasks are completed, additionally added:
 
 MySQL er-diagram:
 -
-![img.png](img.png)
+![er-diagram.png](er-diagram.png)
