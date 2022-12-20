@@ -120,7 +120,7 @@
                                     <fmt:message key="subtotal" /> <span>$${requestScope.product.price}</span>
                                 </div>
                                 <div class="field">
-                                    <fmt:message key="discount" /> <span>${requestScope.discount}%</span>
+                                    <fmt:message key="discount" /> <span>${requestScope.order.totalDiscount}%</span>
                                 </div>
                                 <div class="field grand-total">
                                     <fmt:message key="total" /> <span>$${requestScope.order.totalPrice}</span>

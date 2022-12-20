@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<jsp:include page="adminHeader.jspf" />
+<%@ include file="adminHeader.jspf" %>
 <div class="header-name">Promote product</div>
 
 <table>
@@ -43,17 +43,15 @@
                 <td>
                     <select class="input-style" name="status">
 
-                        <option <c:if test="${product.type == 'Ordinary'}">
-                            selected
-                        </c:if>
+                        <option <c:if test="${product.type == 'Ordinary'}">selected</c:if>
                                 value="Ordinary">Ordinary
                         </option>
-                        <option <c:if test="${product.type == 'Hot'}">
-                            selected
-                        </c:if>
+                        <option <c:if test="${product.type == 'Hot'}">selected</c:if>
                                 value="Hot">Hot
                         </option>
+
                     </select>
+
                     <button class="button">Save<i class='far fa-arrow-alt-circle-right'></i></button>
 
                 </td>
@@ -72,7 +70,7 @@
         </c:forEach>
     </div>
 </c:if>
-<jsp:include page="../user/footer.jsp" />
+<jsp:include page="../user/footer.jsp"/>
 
 <script>
     if ("${sessionScope.alertFlag}" === "true") {

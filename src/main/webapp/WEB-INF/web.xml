@@ -14,10 +14,14 @@
         <location>/errorPages/404.html</location>
     </error-page>
 
-<!--    <error-page>-->
-<!--        <error-code>500</error-code>-->
-<!--        <location>/errorPages/500.html</location>-->
-<!--    </error-page>-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorPages/500.html</location>
+    </error-page>
+
+    <error-page>
+        <location>/errorPages/generalError.html</location>
+    </error-page>
 
     <filter>
         <filter-name>EncodingFilter</filter-name>

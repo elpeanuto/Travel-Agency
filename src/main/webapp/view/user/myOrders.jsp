@@ -61,7 +61,7 @@
                 <td>${order.orderStatus}</td>
                 <td>
                     <a href="bill?id=${order.orderId}">
-                        <fmt:message key="cancel" />
+                        <fmt:message key="view" />
                     </a>
                 </td>
                 <td>

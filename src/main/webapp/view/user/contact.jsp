@@ -21,8 +21,8 @@
     <body>
     <form method="post" action="${pageContext.request.contextPath}/message">
 
-        <input name="name" type="text" class="feedback-input" placeholder="<fmt:message key=" name" />" value="${requestScope.user.name}" required pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="3" maxlength="20"/>
-        <input readonly name="email" type="text" class="feedback-input" placeholder="<fmt:message key=" email" />" value="${requestScope.user.email}" required pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50"/>
+        <input name="name" type="text" class="feedback-input" placeholder="<fmt:message key="name" />" value="${requestScope.user.name}" required pattern="^[A-Za-zА-Яа-я0-9]*$" minlength="3" maxlength="20"/>
+        <input readonly name="email" type="text" class="feedback-input" placeholder="<fmt:message key="email" />" value="${requestScope.user.email}" required pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" maxlength="50"/>
         <select name="category" class="feedback-input">
             <option value="websiteProblem">
                 <fmt:message key="problemWithTheWebsite" />
@@ -34,8 +34,8 @@
                 <fmt:message key="problemWithOrder" />
             </option>
         </select>
-        <textarea wrap="hard" name="message" class="feedback-input" placeholder="<fmt:message key=" message" />" required minlength="20" maxlength="500"></textarea>
-        <input type="submit" value="<fmt:message key=" submit" />"/>
+        <textarea wrap="hard" name="message" class="feedback-input" placeholder="<fmt:message key="message" />" required minlength="20" maxlength="480"></textarea>
+        <input type="submit" value="<fmt:message key="submit" />"/>
     </form>
 
     <script>

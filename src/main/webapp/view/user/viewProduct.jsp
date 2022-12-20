@@ -143,7 +143,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <fmt:message key="numberOfTourists" />
+                            <fmt:message key="description" />
                         </td>
                         <td>:</td>
                         <td>${requestScope.product.description}</td>

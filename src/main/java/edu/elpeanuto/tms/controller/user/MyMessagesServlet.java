@@ -39,7 +39,7 @@ public class MyMessagesServlet extends HttpServlet {
         messagesDAO = (MessagesDAO) sc.getAttribute("messagesDAO");
         logger = (Logger) sc.getAttribute("logger");
 
-        numOfStringOnPage = 2;
+        numOfStringOnPage = 5;
     }
 
     @Override

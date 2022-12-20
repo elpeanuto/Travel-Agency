@@ -7,27 +7,28 @@ import edu.elpeanuto.tms.model.enums.OrderStatus;
  * Order model class, contains information about order
  */
 public class Order extends Entity<Order> {
-    Long id;
-    Long userId;
-    Long productId;
-    OrderStatus status;
-    String date;
-    String name;
-    String phoneNumber;
-    String email;
-    String realName;
-    String realSurname;
-    Gender gender;
-    String dateOfBirth;
-    String citizenship;
-    String passportSerial;
-    String passportNumber;
-    String passportValidDate;
-    Integer totalPrice;
+    private Long id;
+    private Long userId;
+    private Long productId;
+    private OrderStatus status;
+    private String date;
+    private String name;
+    private String phoneNumber;
+    private String email;
+    private String realName;
+    private String realSurname;
+    private Gender gender;
+    private String dateOfBirth;
+    private String citizenship;
+    private String passportSerial;
+    private String passportNumber;
+    private String passportValidDate;
+    private Integer totalDiscount;
+    private Integer totalPrice;
 
     public Order(Long id, Long userId, Long productId, OrderStatus status, String date, String name, String phoneNumber,
                  String email, String realName, String realSurname, Gender gender, String dateOfBirth, String citizenship,
-                 String passportSerial, String passportNumber, String passportValidDate, Integer totalPrice) {
+                 String passportSerial, String passportNumber, String passportValidDate, Integer totalDiscount, Integer totalPrice) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
@@ -44,6 +45,7 @@ public class Order extends Entity<Order> {
         this.passportSerial = passportSerial;
         this.passportNumber = passportNumber;
         this.passportValidDate = passportValidDate;
+        this.totalDiscount = totalDiscount;
         this.totalPrice = totalPrice;
     }
 
@@ -183,6 +185,14 @@ public class Order extends Entity<Order> {
         this.totalPrice = totalPrice;
     }
 
+    public Integer getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(Integer totalDiscount) {
+        this.totalDiscount = totalDiscount;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -202,6 +212,7 @@ public class Order extends Entity<Order> {
                 ", passportSerial='" + passportSerial + '\'' +
                 ", passportNumber='" + passportNumber + '\'' +
                 ", passportValidDate='" + passportValidDate + '\'' +
+                ", totalDiscount=" + totalDiscount +
                 ", totalPrice=" + totalPrice +
                 '}';
     }

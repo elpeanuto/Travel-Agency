@@ -17,8 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderDAOImplTest {
     private static OrderDAO orderDAO;
@@ -54,6 +53,7 @@ public class OrderDAOImplTest {
                     "    passport_serial     VARCHAR(10)           NOT NULL," +
                     "    passport_number     VARCHAR(10)           NOT NULL," +
                     "    passport_valid_date DATE                  NOT NULL," +
+                    "    total_discount      INTEGER               NOT NULL," +
                     "    total_price         INTEGER               NOT NULL" +
                     ");");
 
@@ -67,11 +67,11 @@ public class OrderDAOImplTest {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2022-11-11", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
 
         assertEquals(2, orderDAO.getAll().size());
     }
@@ -81,11 +81,11 @@ public class OrderDAOImplTest {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name2",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
 
         assertEquals("name", orderDAO.get(1L).orElseThrow(NoEntityException::new).getName());
         assertEquals("name2", orderDAO.get(2L).orElseThrow(NoEntityException::new).getName());
@@ -96,19 +96,19 @@ public class OrderDAOImplTest {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Canceled, "2022-11-11", "name2",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name2",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
 
         assertEquals(4, orderDAO.getNumberOfNotesByUserId(1L).orElseThrow(NoEntityException::new));
     }
@@ -118,19 +118,19 @@ public class OrderDAOImplTest {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Canceled, "2022-11-11", "name2",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name2",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
 
         assertEquals(3, orderDAO.numOfRegisteredOrders(1L).orElseThrow(NoEntityException::new));
     }
@@ -140,11 +140,11 @@ public class OrderDAOImplTest {
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
         orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Paid, "2022-11-11", "name2",
                 "phoneNumber", "email", "realName", "realSurname", Gender.Male,
                 "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
-                "2022-11-11", 1000));
+                "2022-11-11", 0, 1000));
 
 
         assertTrue(orderDAO.changeStatus(1L, OrderStatus.Canceled));
@@ -155,4 +155,64 @@ public class OrderDAOImplTest {
 
     }
 
+    @Test
+    public void test6() throws DAOException, NoEntityException {
+        orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+        orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Paid, "2022-11-11", "name2",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+        orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Succeed, "2022-11-11", "name2",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+
+        assertEquals(2, orderDAO.getNumberOfNotesNotProceeded().orElseThrow(NoEntityException::new));
+
+    }
+
+    @Test
+    public void test7() throws DAOException, NoEntityException {
+        orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+        orderDAO.save(new Order(null, 1L, 2L, OrderStatus.Paid, "2022-11-11", "name2",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+
+
+        assertTrue(orderDAO.isProductOrdered(1L));
+        assertTrue(orderDAO.isProductOrdered(2L));
+        assertFalse(orderDAO.isProductOrdered(3L));
+    }
+
+    @Test
+    public void test8() throws DAOException, NoEntityException {
+        orderDAO.save(new Order(null, 1L, 1L, OrderStatus.Registered, "2022-11-11", "name",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+        orderDAO.save(new Order(null, 1L, 2L, OrderStatus.Paid, "2022-11-11", "name2",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+        orderDAO.save(new Order(null, 2L, 1L, OrderStatus.Registered, "2022-11-11", "name",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+        orderDAO.save(new Order(null, 1L, 2L, OrderStatus.Paid, "2022-11-11", "name2",
+                "phoneNumber", "email", "realName", "realSurname", Gender.Male,
+                "2000-11-3", "citizenship", "wkfuehdgrh", "tnehfejrhf",
+                "2022-11-11", 0, 1000));
+
+
+        assertEquals(2, orderDAO.getPaginationByUserId(0, 2, 1L).size());
+        assertEquals(1, orderDAO.getPaginationByUserId(2, 2, 1L).size());
+
+    }
 }

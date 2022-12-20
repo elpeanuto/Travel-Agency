@@ -16,8 +16,10 @@
     <input name="id" hidden value=${requestScope.message.id}>
     <input name="category" type="text" class="feedback-input" readonly value="${requestScope.message.category}" required />
     <input name="adminId" type="number" class="feedback-input" readonly placeholder="Id" value="${requestScope.admin.id}" required />
-    <input name="request" class="feedback-input" value="${requestScope.message.message}" readonly>
-    <textarea wrap="hard" name="response" class="feedback-input" placeholder="Comment" required minlength="20" maxlength="500"></textarea>
+    <div class="text-box">
+        <pre>${requestScope.message.message}</pre>
+    </div>
+    <textarea wrap="hard" name="response" class="feedback-input" placeholder="Comment" required minlength="20" maxlength="480"></textarea>
     <input type="submit" value="SUBMIT" />
 </form>
 

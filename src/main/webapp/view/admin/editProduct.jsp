@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -112,10 +113,10 @@
                         <td>:</td>
                         <td>
                             <select name="hotelType">
-                                <option value="Resort">Resort</option>
-                                <option value="Motel">Motel</option>
-                                <option value="Hostel">Hostel</option>
-                                <option value="Timeshare">Timeshare</option>
+                                <option <c:if test="${requestScope.poduct.hotelType == 'Resort'}">selected</c:if> value="Resort">Resort</option>
+                                <option <c:if test="${requestScope.poduct.hotelType == 'Motel'}">selected</c:if> value="Motel">Motel</option>
+                                <option <c:if test="${requestScope.poduct.hotelType == 'Hostel'}">selected</c:if> value="Hostel">Hostel</option>
+                                <option <c:if test="${requestScope.poduct.hotelType == 'Timeshare'}">selected</c:if> value="Timeshare">Timeshare</option>
                             </select>
                         </td>
                     </tr>
@@ -124,8 +125,8 @@
                         <td>:</td>
                         <td>
                             <select class="input-style" name="type">
-                                <option value="Ordinary">Ordinary</option>
-                                <option value="Hot">Hot</option>
+                                <option <c:if test="${requestScope.product.type == 'Ordinary'}">selected</c:if> value="Ordinary">Ordinary</option>
+                                <option <c:if test="${requestScope.product.type == 'Hot'}">selected</c:if> value="Hot">Hot</option>
                             </select>
                         </td>
                     </tr>
@@ -134,9 +135,9 @@
                         <td>:</td>
                         <td>
                             <select name="category">
-                                <option value="Rest">Rest</option>
-                                <option value="Excursion">Excursion</option>
-                                <option value="Shopping">Shopping</option>
+                                <option <c:if test="${requestScope.product.category == 'Rest'}">selected</c:if> value="Rest">Rest</option>
+                                <option <c:if test="${requestScope.product.category == 'Excursion'}">selected</c:if>  value="Excursion">Excursion</option>
+                                <option <c:if test="${requestScope.product.category == 'Shopping'}">selected</c:if>  value="Shopping">Shopping</option>
                             </select>
                         </td>
                     </tr>
@@ -145,8 +146,8 @@
                         <td>:</td>
                         <td>
                             <select name="foodInPrice">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
+                                <option <c:if test="${requestScope.product.foodInPrice == 'Yes'}">selected</c:if> value="Yes">Yes</option>
+                                <option <c:if test="${requestScope.product.foodInPrice == 'No'}">selected</c:if> value="No">No</option>
                             </select>
                         </td>
                     </tr>
@@ -155,8 +156,8 @@
                         <td>:</td>
                         <td>
                             <select name="flightInPrice">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
+                                <option <c:if test="${requestScope.product.flightInPrice == 'Yes'}">selected</c:if> value="Yes">Yes</option>
+                                <option <c:if test="${requestScope.product.flightInPrice == 'No'}">selected</c:if> value="No">No</option>
                             </select>
                         </td>
                     </tr>
@@ -165,8 +166,8 @@
                         <td>:</td>
                         <td>
                             <select name="active">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
+                                <option <c:if test="${requestScope.product.active == 'Yes'}">selected</c:if> value="Yes">Yes</option>
+                                <option <c:if test="${requestScope.product.active == 'No'}">selected</c:if> value="No">No</option>
                             </select>
                         </td>
                     </tr>

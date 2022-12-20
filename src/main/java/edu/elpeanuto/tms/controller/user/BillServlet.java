@@ -49,7 +49,7 @@ public class BillServlet extends HttpServlet {
 
             req.setAttribute("order", order);
             req.setAttribute("product", optionalProduct.orElseThrow(NoEntityException::new));
-            req.setAttribute("discount", req.getSession().getAttribute("discount"));
+
         } catch (DAOException e) {
             logger.error(e.getMessage());
             SetAlertToRequest.setErrorAlert(req);

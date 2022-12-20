@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<jsp:include page="adminHeader.jspf" />
+<%@ include file="adminHeader.jspf" %>
 <div class="header-name">All Products & Edit Products</div>
 
 <table>

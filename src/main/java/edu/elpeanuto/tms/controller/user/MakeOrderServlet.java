@@ -131,13 +131,14 @@ public class MakeOrderServlet extends HttpServlet {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         float totalPrice;
+        int totalDiscount;
 
         try {
             totalPrice = countTotal(productId, user.getId()).getTotal();
-            session.setAttribute("discount", countTotal(productId, user.getId()).getTotalDiscount());
+            totalDiscount = countTotal(productId, user.getId()).getTotalDiscount();
 
             Order order = new Order(null, user.getId(), productId, OrderStatus.Registered, date, name, phoneNumber, email, realName,
-                    realSurname, gender, dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate, (int) totalPrice);
+                    realSurname, gender, dateOfBirth, citizenship, passportSerial, passportNumber, passportValidDate, totalDiscount, (int) totalPrice);
 
             orderDAO.save(order);
 

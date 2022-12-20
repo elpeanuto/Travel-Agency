@@ -15,6 +15,7 @@ import java.util.Optional;
 
 /**
  * Class that communicate with database (order table)
+ *
  * @see edu.elpeanuto.tms.servies.dao.BaseDAO
  * @see edu.elpeanuto.tms.servies.dao.OrderDAO
  */
@@ -33,6 +34,7 @@ public class OrderDAOImpl implements OrderDAO {
     public Connection getConnection() throws SQLException {
         return dbConnection.getConnection();
     }
+
     @Override
     public Optional<Order> get(Long id) throws DAOException {
         String getPattern = "SELECT * FROM orders WHERE id=?";
@@ -50,13 +52,13 @@ public class OrderDAOImpl implements OrderDAO {
                         rs.getString("name"), rs.getString("phone_number"), rs.getString("email"),
                         rs.getString("real_name"), rs.getString("real_surname"), Gender.valueOf(rs.getString("gender")),
                         rs.getString("date_of_birth"), rs.getString("nationality"), rs.getString("passport_serial"),
-                        rs.getString("passport_number"), rs.getString("passport_valid_date"), rs.getInt("total_price")));
+                        rs.getString("passport_number"), rs.getString("passport_valid_date"), rs.getInt("total_discount"), rs.getInt("total_price")));
             }
 
             return Optional.empty();
 
         } catch (SQLException e) {
-            throw new DAOException(String.format("SQLException in get(Long id), params: %s" , id.toString()), e);
+            throw new DAOException(String.format("SQLException in get(Long id), params: %s", id.toString()), e);
         }
     }
 
@@ -74,7 +76,7 @@ public class OrderDAOImpl implements OrderDAO {
 
             return rowCounter > 0;
         } catch (SQLException e) {
-            throw new DAOException(String.format("SQLException in changeStatus(Long id, String status), params: id: %s, status: %s" , id.toString(), status), e);
+            throw new DAOException(String.format("SQLException in changeStatus(Long id, String status), params: id: %s, status: %s", id.toString(), status), e);
         }
     }
 
@@ -97,7 +99,7 @@ public class OrderDAOImpl implements OrderDAO {
             return Optional.empty();
 
         } catch (SQLException e) {
-            throw new DAOException(String.format("SQLException in numOfRegisteredOrders(Long userId), params: %s" , userId.toString()), e);
+            throw new DAOException(String.format("SQLException in numOfRegisteredOrders(Long userId), params: %s", userId.toString()), e);
         }
     }
 
@@ -197,7 +199,7 @@ public class OrderDAOImpl implements OrderDAO {
             return Optional.empty();
 
         } catch (SQLException e) {
-            throw new DAOException(String.format("SQLException in getNumberOfNotesByUserId(Long userId), params: %s" , userId.toString()), e);
+            throw new DAOException(String.format("SQLException in getNumberOfNotesByUserId(Long userId), params: %s", userId.toString()), e);
         }
     }
 
@@ -239,10 +241,12 @@ public class OrderDAOImpl implements OrderDAO {
             throw new DAOException(String.format("SQLException in isProductOrdered(Long id), params: id: %s", productId.toString()), e);
         }
     }
+
     @Override
     public boolean save(Order order) throws DAOException {
         String savePattern = "INSERT INTO orders(user_id, product_id, status , date, name, phone_number, email, " +
-                "real_name, real_surname, gender,date_of_birth, nationality, passport_serial,passport_number,passport_valid_date, total_price) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "real_name, real_surname, gender,date_of_birth, nationality, passport_serial,passport_number,passport_valid_date," +
+                " total_discount, total_price) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(savePattern, Statement.RETURN_GENERATED_KEYS)
@@ -262,7 +266,8 @@ public class OrderDAOImpl implements OrderDAO {
             stmt.setString(13, order.getPassportSerial());
             stmt.setString(14, order.getPassportNumber());
             stmt.setString(15, order.getPassportValidDate());
-            stmt.setInt(16, order.getTotalPrice());
+            stmt.setInt(16, order.getTotalDiscount());
+            stmt.setInt(17, order.getTotalPrice());
 
             int rowCounter = stmt.executeUpdate();
 
@@ -278,7 +283,7 @@ public class OrderDAOImpl implements OrderDAO {
             return rowCounter > 0;
 
         } catch (SQLException e) {
-            throw new DAOException(String.format("SQLException in save(Order order), params: %s" , order.toString()), e);
+            throw new DAOException(String.format("SQLException in save(Order order), params: %s", order.toString()), e);
         }
     }
 
@@ -303,6 +308,7 @@ public class OrderDAOImpl implements OrderDAO {
                 rs.getString("passport_serial"),
                 rs.getString("passport_number"),
                 rs.getString("passport_valid_date"),
+                rs.getInt("total_discount"),
                 rs.getInt("total_price")
         );
     }
@@ -314,6 +320,6 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> getPagination(Integer start, Integer numOfStrings) throws DAOException {
-        return  getPaginationNotProceeded(start, numOfStrings);
+        return getPaginationNotProceeded(start, numOfStrings);
     }
 }
