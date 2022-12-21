@@ -75,18 +75,21 @@ Implementation requirements:
 23. The application must respond correctly to errors and exceptional situations of various kinds (final
     the user should not see the stack trace on the client side).
 
+All tasks are completed.
+
 ---
 
-All tasks are completed, additionally added:
+Additionally added:
 -
 
 - OTP functionality via email for password recovery;
 - Support system;
 - Error/Warning alerts;
+- Password hashing;
 - Leader role.
 
 ---
 
 MySQL er-diagram:
 -
-![img.png](img.png)
+![er-diagram.png](er-diagram.png)

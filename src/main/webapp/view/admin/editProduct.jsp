@@ -113,10 +113,10 @@
                         <td>:</td>
                         <td>
                             <select name="hotelType">
-                                <option <c:if test="${requestScope.poduct.hotelType == 'Resort'}">selected</c:if> value="Resort">Resort</option>
-                                <option <c:if test="${requestScope.poduct.hotelType == 'Motel'}">selected</c:if> value="Motel">Motel</option>
-                                <option <c:if test="${requestScope.poduct.hotelType == 'Hostel'}">selected</c:if> value="Hostel">Hostel</option>
-                                <option <c:if test="${requestScope.poduct.hotelType == 'Timeshare'}">selected</c:if> value="Timeshare">Timeshare</option>
+                                <option <c:if test="${requestScope.product.hotelType == 'Resort'}">selected</c:if> value="Resort">Resort</option>
+                                <option <c:if test="${requestScope.product.hotelType == 'Motel'}">selected</c:if> value="Motel">Motel</option>
+                                <option <c:if test="${requestScope.product.hotelType == 'Hostel'}">selected</c:if> value="Hostel">Hostel</option>
+                                <option <c:if test="${requestScope.product.hotelType == 'Timeshare'}">selected</c:if> value="Timeshare">Timeshare</option>
                             </select>
                         </td>
                     </tr>

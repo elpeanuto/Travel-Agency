@@ -39,9 +39,9 @@
             <form action="allOrders?id=${order.id}" method="post">
                 <td>
                     <select class="input-style" name="status">
-                        <option <c:if test="${requestScope.order.status == 'Paid'}">selected</c:if> value="Paid">Paid</option>
-                        <option <c:if test="${requestScope.order.status == 'Canceled'}">selected</c:if> value="Canceled">Canceled</option>
-                        <option <c:if test="${requestScope.order.status == 'Succeed'}">selected</c:if> value="Succeed">Succeed</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Canceled">Canceled</option>
+                        <option value="Succeed">Succeed</option>
                     </select>
                     <button class="button">Save</button>
 

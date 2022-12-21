@@ -2,7 +2,6 @@ package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
-import edu.elpeanuto.tms.model.enums.ProductCategory;
 import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * Cancel order controller.
