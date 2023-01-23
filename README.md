@@ -1,11 +1,8 @@
 # TravelAgency
 
-MVC servlet app.
-
-Task:
--
-
----
+The final assignment of the EPAM Java online program.
+ 
+# Task:
 
 The travel agency has a catalog of tours. For the catalog to implement the possibility of
 selecting tours:
@@ -30,10 +27,7 @@ The system administrator has the same rights as the manager, and can additionall
 - add / delete tour, change tour information;
 - block / unblock user.
 
----
-
-Implementation requirements:
--
+# Implementation requirements:
 
 1. Based on the entities of the subject area, create classes that correspond to them.
 2. Classes and methods should have names that reflect their functionality, and should be
@@ -77,10 +71,7 @@ Implementation requirements:
 
 All tasks are completed.
 
----
-
-Additionally added:
--
+# Additionally added:
 
 - OTP functionality via email for password recovery;
 - Support system;
@@ -88,8 +79,5 @@ Additionally added:
 - Password hashing;
 - Leader role.
 
----
-
-MySQL er-diagram:
--
+# MySQL er-diagram:
 ![er-diagram.png](er-diagram.png)
