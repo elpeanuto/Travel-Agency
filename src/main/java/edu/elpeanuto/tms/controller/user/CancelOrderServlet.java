@@ -2,6 +2,7 @@ package edu.elpeanuto.tms.controller.user;
 
 import edu.elpeanuto.tms.model.Product;
 import edu.elpeanuto.tms.model.enums.OrderStatus;
+import edu.elpeanuto.tms.servies.alert.AlertType;
 import edu.elpeanuto.tms.servies.alert.SetAlertToRequest;
 import edu.elpeanuto.tms.servies.dao.OrderDAO;
 import edu.elpeanuto.tms.servies.dao.ProductDAO;
@@ -66,6 +67,9 @@ public class CancelOrderServlet extends HttpServlet {
         try {
             if (orderDAO.get(orderId).orElseThrow(NoEntityException::new).getStatus().equals(OrderStatus.Registered))
                 orderDAO.changeStatus(orderId, OrderStatus.Canceled);
+            else{
+                SetAlertToRequest.setCustomAlert(req, "Error", "You can not cancel paid or succeeded tour.", AlertType.ERROR);
+            }
         } catch (DAOException e) {
             logger.error(e.getMessage());
             SetAlertToRequest.setErrorAlert(req);

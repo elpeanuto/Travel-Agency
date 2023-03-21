@@ -50,18 +50,30 @@ public class DiscountServlet extends HttpServlet {
         String step = req.getParameter("step");
         String max = req.getParameter("max");
 
-        Discount discount = new Discount(1L, Integer.parseInt(step), Integer.parseInt(max));
+        Integer tmpStep = Math.abs(Integer.parseInt(step));
+        Integer tmpMax = Math.abs(Integer.parseInt(max));
+
+        if (tmpMax < tmpStep) {
+            SetAlertToRequest.setCustomAlert(req, "Error", "Max must be greater than step.", AlertType.ERROR);
+            resp.sendRedirect("discount");
+
+            return;
+        }
+
+        Discount discount = new Discount(1L, tmpStep, tmpMax);
 
         try {
-            if(!discountDAO.update(discount))
+            if (!discountDAO.update(discount))
                 throw new FailToUpdateDBException();
+
+            SetAlertToRequest.setSuccessAlert(req);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             SetAlertToRequest.setCustomAlert(req, "Error", e.getMessage(), AlertType.ERROR);
 
             resp.sendRedirect("adminHome");
             return;
-        }catch (FailToUpdateDBException e) {
+        } catch (FailToUpdateDBException e) {
             logger.warn(e.getMessage());
             SetAlertToRequest.setCustomAlert(req, "Warning", e.getMessage(), AlertType.WARNING);
         }

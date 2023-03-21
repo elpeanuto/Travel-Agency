@@ -26,7 +26,6 @@ public class ProductTag extends TagSupport {
             out.print(String.format("<td>%s</td>", product.getCountry()));
             out.print(String.format("<td>%s</td>", product.getCity()));
             out.print(String.format("<td>%s</td>", product.getPrice()));
-            out.print(String.format("<td>%s</td>", product.getNumberOfTourists()));
         } catch (IOException e) {
             throw new JspException(e);
         }

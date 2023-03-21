@@ -13,10 +13,11 @@ import java.util.Optional;
 
 /**
  * Base DAO interface which contains main CRUD functions
+ *
  * @param <K> generic for key
  * @param <T> generic for value
  */
-public interface BaseDAO<K, T extends Entity<T>>{
+public interface BaseDAO<K, T extends Entity<T>> {
     Logger logger = LoggerFactory.getLogger(BaseDAO.class);
 
     Connection getConnection() throws SQLException;
